@@ -1,29 +1,17 @@
-/* eslint-disable import/no-unresolved */
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-
 import Link from 'next/link';
-<<<<<<< HEAD
 import { useRouter } from 'next/navigation';
-=======
-import { useParams } from 'next/navigation';
-
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import TablePagination from '@mui/material/TablePagination';
 import Typography from '@mui/material/Typography';
-<<<<<<< HEAD
 import { createColumnHelper, flexRender, useReactTable, getCoreRowModel, getFilteredRowModel, FilterFn } from '@tanstack/react-table';
-=======
-import Button from '@mui/material/Button';
-import type { FilterFn } from '@tanstack/react-table';
-import { createColumnHelper, flexRender, useReactTable, getCoreRowModel, getFilteredRowModel } from '@tanstack/react-table';
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
 import { rankItem } from '@tanstack/match-sorter-utils';
-
+import { getQuizzes, deleteQuiz } from '@/libs/quiz/handlers';
+import type { Quiz } from '@/types/apps/quizTypes';
 import tableStyles from '@core/styles/table.module.css';
 import CustomAvatar from '@core/components/mui/Avatar';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -36,28 +24,13 @@ import OptionMenu from '@/@core/components/option-menu';
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import type { Mode } from '@core/types'
 
-import type { Quiz } from '@/types/apps/quizTypes';
-import { getQuizzes, deleteQuiz } from '@/libs/quiz/handlers';
-
 type QuizWithProgress = Quiz & {
   progressValue?: string;
 };
 
-<<<<<<< HEAD
 type Props = {
   mode: Mode
 }
-=======
-const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-  const itemRank = rankItem(row.getValue(columnId), value);
-
-  addMeta({
-    itemRank
-  });
-
-return itemRank.passed;
-};
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
 
 const columnHelper = createColumnHelper<QuizWithProgress>();
 
@@ -80,19 +53,13 @@ const QuizTable = (props:Props) => {
 
     const fetchData = async () => {
       const quizzes = getQuizzes();
-<<<<<<< HEAD
       // Ajuste para garantir que totalQuiz esteja definido
       const quizzesWithTotal = quizzes.map(quiz => ({
         ...quiz,
         totalQuiz: quiz.questions ? quiz.questions.length : 0,
       }));
       setData(quizzesWithTotal);
-=======
-
-      setData(quizzes);
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
     };
-
     fetchData();
   }, []);
 

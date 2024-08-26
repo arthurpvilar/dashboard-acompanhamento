@@ -1,39 +1,8 @@
-/* eslint-disable import/no-unresolved */
 'use client';
 
 import { useState } from 'react';
-
 import { useRouter } from 'next/navigation';
-
-import type {
-  SelectChangeEvent
-} from '@mui/material';
-import {
-  Button,
-  TextField,
-  Box,
-  Typography,
-  Card,
-  CardHeader,
-  CardContent,
-  Grid,
-  Divider,
-  List,
-  ListItem,
-  IconButton,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useDropzone } from 'react-dropzone';
-import CustomAvatar from '@core/components/mui/Avatar';
-import type { BoxProps } from '@mui/material/Box';
-import Link from '@components/Link';
-
 import { createQuiz } from '@/libs/quiz/handlers';
-<<<<<<< HEAD
 import {
   Button,
   TextField,
@@ -90,23 +59,6 @@ const CustomButton = styled(Button)(({ theme }) => ({
   color: '#FFFFFF', 
   '&:hover': {
     backgroundColor: '#5B4CC0', 
-=======
-import type { QuizType, Quiz, QuizSociologicalData, QuizQuestion } from '@/types/apps/quizTypes';
-import type { ThemeColor } from '@/@core/types';
-
-// Styled Dropzone Component
-const Dropzone = styled(Box)<BoxProps>(({ theme }) => ({
-  '& .dropzone': {
-    border: '2px dashed #6b6b6b',
-    minHeight: 'unset',
-    padding: theme.spacing(12),
-    [theme.breakpoints.down('sm')]: {
-      paddingInline: theme.spacing(5),
-    },
-    '&+.MuiList-root .MuiListItem-root .file-name': {
-      fontWeight: theme.typography.body1.fontWeight,
-    },
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
   },
 }));
 
@@ -142,23 +94,14 @@ const CreateQuiz = () => {
 
   const [sociologicalData, setSociologicalData] = useState<QuizSociologicalData[]>([]);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-<<<<<<< HEAD
   const [currentSociological, setCurrentSociological] = useState<Omit<QuizSociologicalData, 'id'>>({ name: '', value: 0, color: 'primary' as ThemeColor });
   const [currentQuestion, setCurrentQuestion] = useState<Omit<QuizQuestion, 'id'>>({ question: '', options: [''], answer: '', weight: 1, sociologicalId: 0 });
-=======
-  const [currentSociological, setCurrentSociological] = useState<Omit<QuizSociologicalData, 'id'>>({ name: '', value: 0, color: 'primary' });
-  const [currentQuestion, setCurrentQuestion] = useState<Omit<QuizQuestion, 'id' | 'sociologicalId'>>({ question: '', options: [''], answer: '', weight: 1 });
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
-<<<<<<< HEAD
   const [quizType, setQuizType] = useState<string>(''); 
-=======
-  const [quizType, setQuizType] = useState<string>(''); // Para armazenar o tipo de quiz selecionado
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
 
@@ -174,18 +117,14 @@ const CreateQuiz = () => {
     setCurrentSociological({ ...currentSociological, [e.target.name]: e.target.value });
   };
 
-<<<<<<< HEAD
   const handleColorChange = (event: SelectChangeEvent<ThemeColor>) => {
     setCurrentSociological({ ...currentSociological, color: event.target.value as ThemeColor });
   };
 
-=======
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentQuestion({ ...currentQuestion, [e.target.name]: e.target.value });
   };
 
-<<<<<<< HEAD
   const handleSociologicalSelectChange = (event: SelectChangeEvent<number>) => {
     setCurrentQuestion({ ...currentQuestion, sociologicalId: Number(event.target.value) });
   };
@@ -250,18 +189,6 @@ const CreateQuiz = () => {
   }
   
 
-=======
-  const addSociologicalData = () => {
-    setSociologicalData([...sociologicalData, { ...currentSociological, id: sociologicalData.length }]);
-    setCurrentSociological({ name: '', value: 0, color: 'primary' });
-  };
-
-  const addQuestion = () => {
-    setQuestions([...questions, { ...currentQuestion, id: questions.length + 1, sociologicalId: 0 }]);
-    setCurrentQuestion({ question: '', options: [''], answer: '', weight: 1 });
-  };
-
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
   const { getRootProps: getRootPropsImage, getInputProps: getInputPropsImage } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
@@ -293,57 +220,29 @@ const CreateQuiz = () => {
 
     if (imageFile) {
       const reader = new FileReader();
-<<<<<<< HEAD
       reader.onloadend = () => {
         imageBase64 = reader.result as string;
         if (logoFile) {
           const logoReader = new FileReader();
           logoReader.onloadend = () => {
             logoBase64 = logoReader.result as string;
-=======
-
-      reader.onloadend = () => {
-        imageBase64 = reader.result as string;
-
-        if (logoFile) {
-          const logoReader = new FileReader();
-
-          logoReader.onloadend = () => {
-            logoBase64 = logoReader.result as string;
-
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
             const newQuiz: Quiz = {
               ...quiz,
               id: Date.now(),
               image: imageBase64!,
               logo: logoBase64!,
-<<<<<<< HEAD
               sociologicalData, 
               questions,
             };
-=======
-              sociologicalData, // Inclui os dados sociológicos
-              questions, // Inclui as perguntas
-            };
-
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
             createQuiz(newQuiz);
             setMessage('Quiz criado com sucesso! Redirecionando...');
             setTimeout(() => {
               router.push('/quiz');
             }, 2000);
           };
-<<<<<<< HEAD
           logoReader.readAsDataURL(logoFile);
         }
       };
-=======
-
-          logoReader.readAsDataURL(logoFile);
-        }
-      };
-
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
       reader.readAsDataURL(imageFile);
     } else if (imageUrl && logoUrl) {
       const newQuiz: Quiz = {
@@ -354,7 +253,6 @@ const CreateQuiz = () => {
         sociologicalData,
         questions,
       };
-
       createQuiz(newQuiz);
       setMessage('Quiz criado com sucesso! Redirecionando...');
       setTimeout(() => {
@@ -367,7 +265,6 @@ const CreateQuiz = () => {
 
 
   return (
-<<<<<<< HEAD
     <Card sx={{ backgroundColor: '#28243D', color: '#FFFFFF' }}>
       <Typography variant='h4' className='mbe-1'>
         Add a new Quiz
@@ -712,245 +609,10 @@ const CreateQuiz = () => {
                   {sociologicalData.map((data, index) => (
                     <ListItem key={index}>
                       <Typography>{data.name} - {data.value} ({data.color})</Typography>
-=======
-    <Card>
-      <CardHeader title='Create New Quiz' />
-      <CardContent>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <Grid container spacing={5} className='mbe-5'>
-            <Grid item xs={12}>
-              <TextField name="title" label="Title" onChange={handleChange} required fullWidth />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField name="identifier" label="Identifier" onChange={handleChange} required fullWidth />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField name="time" label="Time (seconds)" onChange={handleChange} required fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography className='mbe-1'>Description</Typography>
-              <TextField
-                name="description"
-                onChange={handleChange}
-                required
-                fullWidth
-                multiline
-                rows={4}
-                placeholder='Write the quiz description here...'
-              />
-            </Grid>
-          </Grid>
-
-          <Divider />
-
-          <Typography variant="h6">Upload Image</Typography>
-          <Dropzone>
-            <div {...getRootPropsImage({ className: 'dropzone' })}>
-              <input {...getInputPropsImage()} />
-              <div className='flex items-center flex-col gap-2 text-center'>
-                <CustomAvatar variant='rounded' skin='light' color='secondary'>
-                  <i className='ri-upload-2-line' />
-                </CustomAvatar>
-                <Typography variant='h4'>Drag and Drop Your Image Here.</Typography>
-                <Typography color='text.disabled'>or</Typography>
-                <Button variant='outlined' size='small'>
-                  Browse Image
-                </Button>
-              </div>
-            </div>
-            {imageFile && (
-              <List>
-                <ListItem key={imageFile.name} className='pis-4 plb-3'>
-                  <div className='file-details'>
-                    <div className='file-preview'>{renderFilePreview(imageFile)}</div>
-                    <div>
-                      <Typography className='file-name font-medium' color='text.primary'>
-                        {imageFile.name}
-                      </Typography>
-                      <Typography className='file-size' variant='body2'>
-                        {Math.round(imageFile.size / 100) / 10 > 1000
-                          ? `${(Math.round(imageFile.size / 100) / 10000).toFixed(1)} mb`
-                          : `${(Math.round(imageFile.size / 100) / 10).toFixed(1)} kb`}
-                      </Typography>
-                    </div>
-                  </div>
-                  <IconButton onClick={() => setImageFile(null)}>
-                    <i className='ri-close-line text-xl' />
-                  </IconButton>
-                </ListItem>
-              </List>
-            )}
-            <CardHeader
-              title='Product Image'
-              action={
-                <Typography component={Link} color='primary' className='font-medium'>
-                  Add media from URL
-                </Typography>
-              }
-              sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
-            />
-            <CardContent>
-              <TextField
-                fullWidth
-                placeholder="Enter image URL"
-                value={imageUrl || ''}
-                onChange={(e) => setImageUrl(e.target.value)}
-              />
-            </CardContent>
-          </Dropzone>
-
-          <Typography variant="h6">Upload Logo</Typography>
-          <Dropzone>
-            <div {...getRootPropsLogo({ className: 'dropzone' })}>
-              <input {...getInputPropsLogo()} />
-              <div className='flex items-center flex-col gap-2 text-center'>
-                <CustomAvatar variant='rounded' skin='light' color='secondary'>
-                  <i className='ri-upload-2-line' />
-                </CustomAvatar>
-                <Typography variant='h4'>Drag and Drop Your Logo Here.</Typography>
-                <Typography color='text.disabled'>or</Typography>
-                <Button variant='outlined' size='small'>
-                  Browse Logo
-                </Button>
-              </div>
-            </div>
-            {logoFile && (
-              <List>
-                <ListItem key={logoFile.name} className='pis-4 plb-3'>
-                  <div className='file-details'>
-                    <div className='file-preview'>{renderFilePreview(logoFile)}</div>
-                    <div>
-                      <Typography className='file-name font-medium' color='text.primary'>
-                        {logoFile.name}
-                      </Typography>
-                      <Typography className='file-size' variant='body2'>
-                        {Math.round(logoFile.size / 100) / 10 > 1000
-                          ? `${(Math.round(logoFile.size / 100) / 10000).toFixed(1)} mb`
-                          : `${(Math.round(logoFile.size / 100) / 10).toFixed(1)} kb`}
-                      </Typography>
-                    </div>
-                  </div>
-                  <IconButton onClick={() => setLogoFile(null)}>
-                    <i className='ri-close-line text-xl' />
-                  </IconButton>
-                </ListItem>
-              </List>
-            )}
-            <CardHeader
-              title='Product Logo'
-              action={
-                <Typography component={Link} color='primary' className='font-medium'>
-                  Add media from URL
-                </Typography>
-              }
-              sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
-            />
-            <CardContent>
-              <TextField
-                fullWidth
-                placeholder="Enter logo URL"
-                value={logoUrl || ''}
-                onChange={(e) => setLogoUrl(e.target.value)}
-              />
-            </CardContent>
-          </Dropzone>
-
-          <Divider />
-
-          <Grid container spacing={5}>
-            <Grid item xs={12}>
-              <FormControl fullWidth>
-                <InputLabel id="quiz-type-label">Quiz Type</InputLabel>
-                <Select
-                  labelId="quiz-type-label"
-                  value={quizType}
-                  label="Quiz Type"
-                  onChange={handleQuizTypeChange}
-                  fullWidth
-                >
-                  <MenuItem value="laudos">Laudos</MenuItem>
-                  <MenuItem value="perguntas">Perguntas</MenuItem>
-                  <MenuItem value="dissertativo">Dissertativo</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-
-            {quizType === 'dissertativo' && (
-              <Grid item xs={12}>
-                <Typography variant="h6">Add a Question</Typography>
-                <TextField
-                  fullWidth
-                  label="Question"
-                  value={currentQuestion.question}
-                  name="question"
-                  onChange={handleQuestionChange}
-                />
-              </Grid>
-            )}
-
-            {(quizType === 'perguntas' || quizType === 'laudos') && (
-              <Grid item xs={12}>
-                <Typography variant="h6">Add a Question</Typography>
-                <TextField
-                  fullWidth
-                  label="Question"
-                  value={currentQuestion.question}
-                  name="question"
-                  onChange={handleQuestionChange}
-                />
-                {currentQuestion.options?.map((option: string, index: number) => (
-                  <TextField
-                    key={index}
-                    fullWidth
-                    label={`Option ${index + 1}`}
-                    value={option}
-                    name="options"
-                    onChange={(e) => {
-                      const newOptions = [...(currentQuestion.options || [])];
-
-                      newOptions[index] = e.target.value;
-                      setCurrentQuestion({ ...currentQuestion, options: newOptions });
-                    }}
-                    sx={{ marginTop: 2 }}
-                  />
-                ))}
-                <Button
-                  variant="outlined"
-                  sx={{ marginTop: 2 }}
-                  onClick={() => setCurrentQuestion({ ...currentQuestion, options: [...(currentQuestion.options || []), ''] })}
-                >
-                  Add Option
-                </Button>
-                <TextField
-                  fullWidth
-                  label="Correct Answer"
-                  value={currentQuestion.answer}
-                  name="answer"
-                  onChange={handleQuestionChange}
-                  sx={{ marginTop: 2 }}
-                />
-                <TextField
-                  fullWidth
-                  label="Weight"
-                  type="number"
-                  value={currentQuestion.weight}
-                  name="weight"
-                  onChange={handleQuestionChange}
-                  sx={{ marginTop: 2 }}
-                />
-                <Button variant="contained" sx={{ marginTop: 2 }} onClick={addQuestion}>
-                  Add Question
-                </Button>
-                <List>
-                  {questions.map((q, index) => (
-                    <ListItem key={index}>
-                      <Typography>{q.question}</Typography>
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
                     </ListItem>
                   ))}
                 </List>
               </Grid>
-<<<<<<< HEAD
             </Grid>
           </Section>
 
@@ -959,54 +621,6 @@ const CreateQuiz = () => {
           <CustomButton type="submit" variant="contained" color="primary">
             Create Quiz
           </CustomButton>
-=======
-            )}
-
-            <Grid item xs={12}>
-              <Typography variant="h6">Add Sociological Data</Typography>
-              <TextField
-                fullWidth
-                label="Name"
-                value={currentSociological.name}
-                name="name"
-                onChange={handleSociologicalChange}
-              />
-              <TextField
-                fullWidth
-                label="Value"
-                type="number"
-                value={currentSociological.value}
-                name="value"
-                onChange={handleSociologicalChange}
-                sx={{ marginTop: 2 }}
-              />
-              <TextField
-                fullWidth
-                label="Color"
-                value={currentSociological.color}
-                name="color"
-                onChange={handleSociologicalChange}
-                sx={{ marginTop: 2 }}
-              />
-              <Button variant="contained" sx={{ marginTop: 2 }} onClick={addSociologicalData}>
-                Add Sociological Data
-              </Button>
-              <List>
-                {sociologicalData.map((data, index) => (
-                  <ListItem key={index}>
-                    <Typography>{data.name} - {data.value} ({data.color})</Typography>
-                  </ListItem>
-                ))}
-              </List>
-            </Grid>
-          </Grid>
-
-          {message && <Typography color="success">{message}</Typography>}
-
-          <Button type="submit" variant="contained" color="primary">
-            Create Quiz
-          </Button>
->>>>>>> 57966cf0cc7594d85e43b4f731f8389860579e47
         </Box>
       </CardContent>
     </Card>

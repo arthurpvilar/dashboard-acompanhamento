@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import CreateQuiz from '@/views/quiz/CreateQuiz';
 
 const CreateQuizPage = () => {

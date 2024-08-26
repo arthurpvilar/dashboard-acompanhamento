@@ -1,23 +1,11 @@
-/* eslint-disable import/no-unresolved */
-// MUI Imports
-import Grid from '@mui/material/Grid'
+import QuizTable from '@/views/quiz/NewQuizTable';
 
-// Data Imports
-import { getQuizData } from '@/app/server/actions'
-import QuizTable from '@/views/apps/academy/dashboard/QuizTable'
-
-const AcademyDashboard = async () => {
-  // Vars
-  const data = await getQuizData()
-
+const QuizPage = () => {
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <QuizTable quizData={data?.quizzes} />
-      </Grid>
-    </Grid>
-  )
-}
+    <div>
+      <QuizTable />
+    </div>
+  );
+};
 
-export default AcademyDashboard;
-
+export default QuizPage;

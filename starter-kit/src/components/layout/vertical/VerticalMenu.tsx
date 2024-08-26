@@ -77,7 +77,7 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
           Usuários
         </MenuItem>
         <MenuItem href='/quiz' icon={<i className='ri-user-line' />}>
-          Quiz
+          Quizzes
         </MenuItem>
       </Menu>
       {/* <Menu
