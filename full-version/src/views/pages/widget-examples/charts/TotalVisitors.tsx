@@ -15,6 +15,9 @@ import type { ApexOptions } from 'apexcharts'
 // Components Imports
 import OptionsMenu from '@core/components/option-menu'
 
+// Util Imports
+import { rgbaToHex } from '@/utils/rgbaToHex'
+
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
@@ -31,8 +34,8 @@ const TotalVisitors = () => {
     },
     colors: [
       'var(--mui-palette-primary-main)',
-      'rgba(var(--mui-palette-primary-mainChannel) / 0.7)',
-      'rgba(var(--mui-palette-primary-mainChannel) / 0.5)',
+      rgbaToHex(`rgb(${theme.palette.primary.mainChannel} / 0.7)`),
+      rgbaToHex(`rgb(${theme.palette.primary.mainChannel} / 0.5)`),
       'var(--mui-palette-customColors-trackBg)'
     ],
     stroke: { width: 0 },

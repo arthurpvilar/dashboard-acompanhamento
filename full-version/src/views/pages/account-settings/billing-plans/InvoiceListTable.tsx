@@ -345,16 +345,16 @@ const InvoiceListTable = ({ invoiceData }: { invoiceData?: InvoiceType[] }) => {
           component={Link}
           startIcon={<i className='ri-add-line' />}
           href={getLocalizedUrl('apps/invoice/add', locale as Locale)}
-          className='max-sm:is-full'
+          className='is-full sm:is-auto'
         >
           Create Invoice
         </Button>
-        <div className='flex items-center flex-col sm:flex-row max-sm:is-full gap-4'>
+        <div className='flex items-center flex-col sm:flex-row is-full gap-4 sm:is-auto'>
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
             placeholder='Search Invoice'
-            className='max-sm:is-full min-is-[200px]'
+            className='is-full sm:is-auto min-is-[200px]'
           />
           <FormControl fullWidth size='small' className='min-is-[175px]'>
             <InputLabel id='status-select'>Invoice Status</InputLabel>

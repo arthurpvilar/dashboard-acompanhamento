@@ -41,27 +41,21 @@ import type { RankingInfo } from '@tanstack/match-sorter-utils'
 
 // Type Imports
 import type { ThemeColor } from '@core/types'
-
-import type { Locale } from '@configs/i18n'
-
-import OptionMenu from '@core/components/option-menu'
-
-import CustomAvatar from '@core/components/mui/Avatar'
-
-import tableStyles from '@core/styles/table.module.css'
-
 import type { UsersType } from '@/types/apps/userTypes'
+import type { Locale } from '@configs/i18n'
 
 // Component Imports
 import TableFilters from './TableFilters'
 import AddUserDrawer from './AddUserDrawer'
-
+import OptionMenu from '@core/components/option-menu'
+import CustomAvatar from '@core/components/mui/Avatar'
 
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
+import tableStyles from '@core/styles/table.module.css'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -96,16 +90,8 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     itemRank
   })
 
-  // Safe data
-  const safeValue = (() => {
-    const value = row.getValue(columnId);
-
-    return typeof value === 'number' ? String(value) : value;
-  })();
-
-
   // Return if the item should be filtered in/out
-  return typeof safeValue === 'string' && safeValue.includes(String(itemRank.passed));
+  return itemRank.passed
 }
 
 const DebouncedInput = ({
@@ -307,7 +293,7 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
     getPaginationRowModel: getPaginationRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-    getFacetedMinMaxValues: getFacetedMinMaxValues(),
+    getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
   const getAvatar = (params: Pick<UsersType, 'avatar' | 'fullName'>) => {
@@ -335,18 +321,18 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
             color='secondary'
             variant='outlined'
             startIcon={<i className='ri-upload-2-line text-xl' />}
-            className='max-sm:is-full'
+            className='is-full sm:is-auto'
           >
             Export
           </Button>
-          <div className='flex items-center gap-x-4 gap-4 flex-col max-sm:is-full sm:flex-row'>
+          <div className='flex items-center gap-x-4 is-full gap-4 flex-col sm:is-auto sm:flex-row'>
             <DebouncedInput
               value={globalFilter ?? ''}
               onChange={value => setGlobalFilter(String(value))}
               placeholder='Search User'
-              className='max-sm:is-full'
+              className='is-full sm:is-auto'
             />
-            <Button variant='contained' onClick={() => setAddUserOpen(!addUserOpen)} className='max-sm:is-full'>
+            <Button variant='contained' onClick={() => setAddUserOpen(!addUserOpen)} className='is-full sm:is-auto'>
               Add New User
             </Button>
           </div>

@@ -31,10 +31,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
           backgroundColor: 'var(--mui-palette-action-selected) !important'
         },
       [`&.${menuClasses.disabled} > .${menuClasses.button}`]: {
-        color: 'var(--mui-palette-text-disabled)',
-        '& *': {
-          color: 'inherit'
-        }
+        color: 'var(--mui-palette-text-disabled)'
       },
       [`&:not(.${menuClasses.subMenuRoot}) > .${menuClasses.button}.${menuClasses.active}`]: {
         ...(popoutCollapsed && level > 0
@@ -147,7 +144,7 @@ const menuItemStyles = (verticalNavOptions: VerticalNavState, theme: Theme): Men
         level === 0 && {
           paddingBlock: theme.spacing(2),
           boxShadow: 'var(--mui-customShadows-lg)',
-          '[data-skin="bordered"] ~ [data-floating-ui-portal] &': {
+          '[data-skin="bordered"] &': {
             boxShadow: 'none',
             border: '1px solid var(--mui-palette-divider)'
           },

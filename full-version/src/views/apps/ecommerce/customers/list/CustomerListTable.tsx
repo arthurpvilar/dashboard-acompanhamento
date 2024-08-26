@@ -261,26 +261,19 @@ const CustomerListTable = ({ customerData }: { customerData?: Customer[] }) => {
   return (
     <>
       <Card>
-        <CardContent className='flex justify-between flex-wrap max-sm:flex-col sm:items-center gap-4'>
+        <CardContent className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4'>
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
             placeholder='Search'
-            className='max-sm:is-full'
           />
-          <div className='flex gap-4 max-sm:flex-col max-sm:is-full'>
-            <Button
-              variant='outlined'
-              className='max-sm:is-full'
-              color='secondary'
-              startIcon={<i className='ri-upload-2-line' />}
-            >
+          <div className='flex gap-x-4'>
+            <Button variant='outlined' color='secondary' startIcon={<i className='ri-upload-2-line' />}>
               Export
             </Button>
             <Button
               variant='contained'
               color='primary'
-              className='max-sm:is-full'
               startIcon={<i className='ri-add-line' />}
               onClick={() => setCustomerUserOpen(!customerUserOpen)}
             >

@@ -32,19 +32,19 @@ const popularArticles: popularArticlesType[] = [
   {
     slug: 'getting-started',
     title: 'Getting Started',
-    svg: <Rocket color='var(--mui-palette-text-secondary)' />,
+    svg: <Rocket />,
     subtitle: "Whether you're new or you're a power user, this article will"
   },
   {
     slug: 'first-steps',
     title: 'First Steps',
-    svg: <Gift color='var(--mui-palette-text-secondary)' />,
+    svg: <Gift />,
     subtitle: 'Are you a new customer & wondering how to get started?'
   },
   {
     slug: 'external-content',
     title: 'Add External Content',
-    svg: <File color='var(--mui-palette-text-secondary)' />,
+    svg: <File />,
     subtitle: 'Article will show you how to expand the functionality of App'
   }
 ]
@@ -60,7 +60,7 @@ const Articles = () => {
           {popularArticles.map((article, index) => {
             return (
               <Grid item xs={12} lg={4} key={index}>
-                <Card variant='outlined'>
+                <Card className='shadow-none border'>
                   <CardContent className='flex flex-col items-center justify-center gap-3 text-center'>
                     {article.svg}
                     <Typography variant='h5'>{article.title}</Typography>

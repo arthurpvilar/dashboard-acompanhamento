@@ -6,7 +6,7 @@ import Avatar from '@mui/material/Avatar'
 
 const CardTwitter = () => {
   return (
-    <Card className='bg-twitter'>
+    <Card className='bg-[#1d9bf0]'>
       <CardContent>
         <div className='flex items-center gap-2 mbe-4'>
           <i className='ri-twitter-fill text-3xl text-white' />

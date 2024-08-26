@@ -1,8 +1,5 @@
 'use client'
 
-// React Imports
-import { useState } from 'react'
-
 // Next Imports
 import { useParams } from 'next/navigation'
 
@@ -11,11 +8,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-
-// Third-party Imports
-import { OTPInput } from 'input-otp'
-import type { SlotProps } from 'input-otp'
-import classnames from 'classnames'
+import TextField from '@mui/material/TextField'
 
 // Type Imports
 import type { Mode } from '@core/types'
@@ -33,30 +26,7 @@ import { useImageVariant } from '@core/hooks/useImageVariant'
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
 
-// Style Imports
-import styles from '@/libs/styles/inputOtp.module.css'
-
-const Slot = (props: SlotProps) => {
-  return (
-    <div className={classnames(styles.slot, { [styles.slotActive]: props.isActive })}>
-      {props.char !== null && <div>{props.char}</div>}
-      {props.hasFakeCaret && <FakeCaret />}
-    </div>
-  )
-}
-
-const FakeCaret = () => {
-  return (
-    <div className={styles.fakeCaret}>
-      <div className='w-px h-5 bg-textPrimary' />
-    </div>
-  )
-}
-
 const TwoStepsV1 = ({ mode }: { mode: Mode }) => {
-  // States
-  const [otp, setOtp] = useState<string | null>(null)
-
   // Vars
   const darkImg = '/images/pages/auth-v1-mask-dark.png'
   const lightImg = '/images/pages/auth-v1-mask-light.png'
@@ -85,19 +55,14 @@ const TwoStepsV1 = ({ mode }: { mode: Mode }) => {
             <Form noValidate autoComplete='off' className='flex flex-col gap-5'>
               <div className='flex flex-col gap-2'>
                 <Typography>Type your 6 digit security code</Typography>
-                <OTPInput
-                  onChange={setOtp}
-                  value={otp ?? ''}
-                  maxLength={6}
-                  containerClassName='flex items-center'
-                  render={({ slots }) => (
-                    <div className='flex items-center justify-between w-full gap-4'>
-                      {slots.slice(0, 6).map((slot, idx) => (
-                        <Slot key={idx} {...slot} />
-                      ))}
-                    </div>
-                  )}
-                />
+                <div className='flex items-center justify-between gap-4'>
+                  <TextField autoFocus className='[&_input]:text-center' />
+                  <TextField className='[&_input]:text-center' />
+                  <TextField className='[&_input]:text-center' />
+                  <TextField className='[&_input]:text-center' />
+                  <TextField className='[&_input]:text-center' />
+                  <TextField className='[&_input]:text-center' />
+                </div>
               </div>
               <Button fullWidth variant='contained' type='submit'>
                 Verify My Account

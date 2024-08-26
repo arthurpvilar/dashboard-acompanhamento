@@ -241,7 +241,7 @@ const ProductCategoryTable = () => {
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <img src={row.original.image} width={38} height={38} className='rounded bg-actionHover' />
-            <div className='flex flex-col items-start'>
+            <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
                 {row.original.categoryTitle}
               </Typography>
@@ -326,26 +326,18 @@ const ProductCategoryTable = () => {
   return (
     <>
       <Card>
-        <div className='flex items-start justify-between max-sm:flex-col sm:items-center gap-y-4 p-5'>
+        <div className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4 p-5'>
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
             placeholder='Search'
-            className='max-sm:is-full'
           />
-          <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            <Button
-              color='secondary'
-              fullWidth
-              variant='outlined'
-              className='max-sm:is-full is-auto'
-              startIcon={<i className='ri-upload-2-line' />}
-            >
+          <div className='flex items-center gap-x-4'>
+            <Button color='secondary' variant='outlined' startIcon={<i className='ri-upload-2-line' />}>
               Export
             </Button>
             <Button
               variant='contained'
-              className='max-sm:is-full is-auto'
               onClick={() => setAddCategoryOpen(!addCategoryOpen)}
               startIcon={<i className='ri-add-line' />}
             >

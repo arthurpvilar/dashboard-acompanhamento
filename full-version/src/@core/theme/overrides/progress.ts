@@ -4,13 +4,13 @@ import type { Theme } from '@mui/material/styles'
 const progress: Theme['components'] = {
   MuiLinearProgress: {
     styleOverrides: {
-      root: {
+      root: ({ theme }) => ({
         height: 6,
-        borderRadius: 'var(--mui-shape-borderRadius)',
+        borderRadius: theme.shape.borderRadius,
         '& .MuiLinearProgress-bar': {
-          borderRadius: 'var(--mui-shape-borderRadius)'
+          borderRadius: theme.shape.borderRadius
         }
-      }
+      })
     }
   }
 }

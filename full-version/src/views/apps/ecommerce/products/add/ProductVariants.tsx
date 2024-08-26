@@ -38,7 +38,7 @@ const ProductVariants = () => {
           {Array.from(Array(count).keys()).map((item, index) => (
             <Grid key={index} item xs={12} className='repeater-item'>
               <Grid container spacing={5}>
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} md={4}>
                   <FormControl fullWidth>
                     <InputLabel>Select Variant</InputLabel>
                     <Select label='Select Variant' defaultValue='Size'>
@@ -49,7 +49,7 @@ const ProductVariants = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={8}>
+                <Grid item xs={12} md={8}>
                   <div className='flex items-center gap-5'>
                     <TextField fullWidth label='Variant Value' placeholder='Enter Variant Value' />
                     <CustomIconButton onClick={deleteForm} className='min-is-fit'>

@@ -33,7 +33,7 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
     },
     '& .react-datepicker': {
       color: 'var(--mui-palette-text-primary)',
-      borderRadius: 'var(--mui-shape-borderRadius)',
+      borderRadius: theme.shape.borderRadius,
       fontFamily: theme.typography.fontFamily,
       backgroundColor: 'var(--mui-palette-background-paper)',
       boxShadow: 'var(--mui-customShadows-md)',
@@ -63,20 +63,11 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
           height: 24,
           border: 'none',
           top: 12,
-          left: 15,
-          ...(theme.direction === 'ltr'
-            ? {
-                backgroundImage: `${"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z' /%3E%3C/svg%3E\")".replace(
-                  'currentColor',
-                  theme.palette.mode === 'dark' ? 'rgb(231 227 252 / 0.7)' : 'rgb(46 38 61 / 0.7)'
-                )}`
-              }
-            : {
-                backgroundImage: `${"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z' /%3E%3C/svg%3E\")".replace(
-                  'currentColor',
-                  theme.palette.mode === 'dark' ? 'rgb(231 227 252 / 0.7)' : 'rgb(46 38 61 / 0.7)'
-                )}`
-              }),
+          ...(theme.direction === 'ltr' ? { left: 15 } : { right: 15 }),
+          backgroundImage: `${"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z' /%3E%3C/svg%3E\")".replace(
+            'currentColor',
+            'var(--mui-palette-text-secondary)'
+          )}`,
           '& .react-datepicker__navigation-icon': {
             display: 'none'
           }
@@ -86,21 +77,11 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
           height: 24,
           border: 'none',
           top: 12,
-          left: 'auto',
-          right: 15,
-          ...(theme.direction === 'ltr'
-            ? {
-                backgroundImage: `${"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z' /%3E%3C/svg%3E\")".replace(
-                  'currentColor',
-                  theme.palette.mode === 'dark' ? 'rgb(231 227 252 / 0.7)' : 'rgb(46 38 61 / 0.7)'
-                )}`
-              }
-            : {
-                backgroundImage: `${"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z' /%3E%3C/svg%3E\")".replace(
-                  'currentColor',
-                  theme.palette.mode === 'dark' ? 'rgb(231 227 252 / 0.7)' : 'rgb(46 38 61 / 0.7)'
-                )}`
-              }),
+          ...(theme.direction === 'ltr' ? { right: 15 } : { left: 15 }),
+          backgroundImage: `${"url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' style='width:24px;height:24px' viewBox='0 0 24 24'%3E%3Cpath fill='currentColor' d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z' /%3E%3C/svg%3E\")".replace(
+            'currentColor',
+            'var(--mui-palette-text-secondary)'
+          )}`,
           '& .react-datepicker__navigation-icon': {
             display: 'none'
           }
@@ -273,7 +254,7 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
           paddingTop: theme.spacing(2),
           paddingBottom: theme.spacing(2),
           border: 'none',
-          borderRadius: 'var(--mui-shape-borderRadius)',
+          borderRadius: theme.shape.borderRadius,
           backgroundColor: 'var(--mui-palette-background-paper)',
           boxShadow: 'var(--mui-customShadows-lg)',
           '[data-skin="bordered"] &': {
@@ -358,7 +339,7 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
         lineHeight: '2rem',
         display: 'inline-flex',
         justifyContent: 'center',
-        borderRadius: 'var(--mui-shape-borderRadius)',
+        borderRadius: theme.shape.borderRadius,
         '&:focus, &:active': {
           outline: 0
         }
@@ -426,7 +407,7 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
           marginRight: theme.spacing(2.2),
           ...theme.typography.body1,
           color: 'var(--mui-palette-text-primary)',
-          borderRadius: 'var(--mui-shape-borderRadius)',
+          borderRadius: theme.shape.borderRadius,
           '&:focus, &:active': {
             outline: 0
           },

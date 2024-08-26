@@ -7,6 +7,8 @@ import type { ThemeColor } from '@core/types'
 
 export type CalendarFiltersType = 'Personal' | 'Business' | 'Family' | 'Holiday' | 'ETC'
 
+export type EventDateType = Date | null | undefined
+
 export type CalendarColors = {
   ETC: ThemeColor
   Family: ThemeColor

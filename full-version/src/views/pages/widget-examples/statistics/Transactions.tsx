@@ -55,7 +55,7 @@ const Transactions = () => {
         action={<OptionMenu iconClassName='text-textPrimary' options={['Refresh', 'Share', 'Update']} />}
         subheader={
           <>
-            <span className='font-medium text-textPrimary'>Total 48.5% Growth 😎</span>{' '}
+            <span className='font-medium text-textPrimary'>Total 48.5% Growth 😎</span>
             <span className='text-textSecondary'>this month</span>
           </>
         }

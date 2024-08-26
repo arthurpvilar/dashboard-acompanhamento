@@ -20,7 +20,12 @@ const TranslationWrapper = (params: { headersList: ReturnType<typeof headers>; l
   // ℹ️ This doesn't mean MISSING, it means INVALID
   const isInvalidLang = invalidLangs.includes(params.lang)
 
-  return doesLangExist || isInvalidLang ? params.children : <LangRedirect />
+  const redirectPrefix = process.env.NEXT_PUBLIC_APP_URL!.replace(
+    'demo-1',
+    params.headersList.get('X-server-header') ?? 'demo-1'
+  )
+
+  return doesLangExist || isInvalidLang ? params.children : <LangRedirect redirectPrefix={redirectPrefix} />
 }
 
 export default TranslationWrapper

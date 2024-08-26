@@ -129,7 +129,7 @@ const Permissions = ({ permissionsData }: { permissionsData?: PermissionRowType[
     variant: 'contained',
     children: 'Add Permission',
     onClick: () => handleAddPermission(),
-    className: 'max-sm:is-full'
+    className: 'is-full sm:is-auto'
   }
 
   // Hooks
@@ -232,7 +232,7 @@ const Permissions = ({ permissionsData }: { permissionsData?: PermissionRowType[
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
             placeholder='Search Permissions'
-            className='max-sm:is-full'
+            className='is-full sm:is-auto'
           />
           <OpenDialogOnElementClick
             element={Button}

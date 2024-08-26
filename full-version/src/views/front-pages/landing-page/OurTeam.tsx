@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 // MUI Imports
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import MuiCard from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 import { styled } from '@mui/material/styles'
 
 // Type Imports
@@ -47,7 +49,7 @@ const team = [
   }
 ]
 
-const Card = styled('div')`
+const Card = styled(MuiCard)`
   &:hover {
     border-color: ${(props: { color: ThemeColor }) => props.color};
 
@@ -102,7 +104,7 @@ const OurTeam = () => {
               </Typography>
             </div>
           </div>
-          <div className='flex items-baseline flex-wrap gap-2 mbe-3 sm:mbe-1'>
+          <div className='flex items-center justify-center flex-wrap gap-2 mbe-3 sm:mbe-1'>
             <Typography variant='h4' className='font-bold'>
               Supported
             </Typography>
@@ -112,11 +114,11 @@ const OurTeam = () => {
             Who is behind these great-looking interfaces?
           </Typography>
         </div>
-        <Grid container rowSpacing={16} columnSpacing={6} className='pbs-[100px]'>
+        <Grid container rowSpacing={16} columnSpacing={6} className='mbe-8 pbs-[100px]'>
           {team.map((member, index) => (
             <Grid item xs={12} md={6} lg={3} key={index}>
-              <Card className='border rounded overflow-visible' color={member.color as ThemeColor}>
-                <div className='flex flex-col items-center justify-center p-0'>
+              <Card className='shadow-none border overflow-visible' color={member.color as ThemeColor}>
+                <CardContent className='flex flex-col items-center justify-center p-0'>
                   <div
                     className='flex justify-center is-full mli-auto text-center bs-[189px] relative overflow-visible rounded-ss-md rounded-se-md'
                     style={{ backgroundColor: member.color }}
@@ -134,7 +136,7 @@ const OurTeam = () => {
                       <i className='ri-linkedin-box-line text-[22px] text-textPrimary' />
                     </div>
                   </div>
-                </div>
+                </CardContent>
               </Card>
             </Grid>
           ))}

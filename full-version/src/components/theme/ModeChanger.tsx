@@ -7,17 +7,14 @@ import { useColorScheme } from '@mui/material/styles'
 // Third-party Imports
 import { useMedia } from 'react-use'
 
-// Type Imports
-import type { SystemMode } from '@core/types'
-
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
 
-const ModeChanger = ({ systemMode }: { systemMode: SystemMode }) => {
+const ModeChanger = () => {
   // Hooks
   const { setMode } = useColorScheme()
   const { settings } = useSettings()
-  const isDark = useMedia('(prefers-color-scheme: dark)', systemMode === 'dark')
+  const isDark = useMedia('(prefers-color-scheme: dark)', false)
 
   useEffect(() => {
     if (settings.mode) {

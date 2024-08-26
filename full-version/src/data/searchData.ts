@@ -758,8 +758,8 @@ const data: SearchData[] = [
   },
   {
     id: '107',
-    name: 'Date & Time Pickers',
-    url: `${process.env.NEXT_PUBLIC_DOCS_URL}/docs/user-interface/form-elements/pickers`,
+    name: 'Picker',
+    url: `${process.env.NEXT_PUBLIC_DOCS_URL}/docs/user-interface/form-elements/picker`,
     icon: 'ri-calendar-check-line',
     section: 'Forms & Tables'
   },

@@ -57,11 +57,10 @@ module.exports = plugin(function () {}, {
         backgroundDefault: 'var(--mui-palette-background-default)',
         track: 'var(--mui-palette-customColors-trackBg)',
         backdrop: 'var(--backdrop-color)',
-        facebook: '#4267B2',
-        twitter: '#1DA1F2',
-        linkedin: '#007BB6',
+        facebook: '#497ce2',
+        twitter: '#1da1f2',
         github: '#272727',
-        googlePlus: '#DB4437'
+        googlePlus: '#db4437'
       },
       zIndex: {
         header: 'var(--header-z-index)',

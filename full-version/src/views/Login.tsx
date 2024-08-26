@@ -23,13 +23,13 @@ import { signIn } from 'next-auth/react'
 import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, minLength, string, email, pipe, nonEmpty } from 'valibot'
-import classnames from 'classnames'
 import type { SubmitHandler } from 'react-hook-form'
 import type { InferInput } from 'valibot'
+import classnames from 'classnames'
 
 // Type Imports
 import type { Mode } from '@core/types'
-import type { Locale } from '@configs/i18n'
+import type { Locale } from '@/configs/i18n'
 
 // Component Imports
 import Logo from '@components/layout/shared/Logo'

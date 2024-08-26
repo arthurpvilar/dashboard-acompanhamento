@@ -7,8 +7,6 @@ import Link from 'next/link'
 // MUI Imports
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import type { Theme } from '@mui/material/styles'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -40,7 +38,6 @@ const HeroSection = ({ mode }: { mode: Mode }) => {
   const dashboardImage = useImageVariant(mode, dashboardImageLight, dashboardImageDark)
   const elementsImage = useImageVariant(mode, elementsImageLight, elementsImageDark)
   const heroSectionBg = useImageVariant(mode, heroSectionBgLight, heroSectionBgDark)
-  const isAboveLgScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'))
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -96,9 +93,7 @@ const HeroSection = ({ mode }: { mode: Mode }) => {
       </div>
       <div
         className={classnames('relative text-center', frontCommonStyles.layoutSpacing)}
-        style={{
-          transform: isAboveLgScreen ? `translate(${dashboardPosition.x}px, ${dashboardPosition.y}px)` : 'none'
-        }}
+        style={{ transform: `translate(${dashboardPosition.x}px, ${dashboardPosition.y}px)` }}
       >
         <Link href='/' target='_blank'>
           <img src={dashboardImage} alt='dashboard-image' className={classnames('mli-auto', styles.heroSecDashboard)} />
@@ -106,9 +101,7 @@ const HeroSection = ({ mode }: { mode: Mode }) => {
             <img
               src={elementsImage}
               alt='dashboard-elements'
-              style={{
-                transform: isAboveLgScreen ? `translate(${elementsPosition.x}px, ${elementsPosition.y}px)` : 'none'
-              }}
+              style={{ transform: `translate(${elementsPosition.x}px, ${elementsPosition.y}px)` }}
             />
           </div>
         </Link>

@@ -121,7 +121,7 @@ const ReferredUsersTable = ({ referralsData }: { referralsData?: ReferralsType[]
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
             <CustomAvatar src={row.original.avatar} size={34} />
-            <div className='flex flex-col items-start'>
+            <div>
               <Typography
                 component={Link}
                 href={getLocalizedUrl('/apps/ecommerce/customers/details/879861', locale as Locale)}

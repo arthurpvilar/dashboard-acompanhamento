@@ -10,7 +10,6 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 // Third-party Imports
-import classnames from 'classnames'
 import { useEditor, EditorContent } from '@tiptap/react'
 import { StarterKit } from '@tiptap/starter-kit'
 import { Underline } from '@tiptap/extension-underline'
@@ -37,7 +36,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleBold().run()}
       >
-        <i className={classnames('ri-bold', { 'text-textSecondary': !editor.isActive('bold') })} />
+        <i className='ri-bold text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('underline') && { color: 'primary' })}
@@ -45,7 +44,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleUnderline().run()}
       >
-        <i className={classnames('ri-underline', { 'text-textSecondary': !editor.isActive('underline') })} />
+        <i className='ri-underline text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('italic') && { color: 'primary' })}
@@ -53,7 +52,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleItalic().run()}
       >
-        <i className={classnames('ri-italic', { 'text-textSecondary': !editor.isActive('italic') })} />
+        <i className='ri-italic text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('strike') && { color: 'primary' })}
@@ -61,7 +60,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleStrike().run()}
       >
-        <i className={classnames('ri-strikethrough', { 'text-textSecondary': !editor.isActive('strike') })} />
+        <i className='ri-strikethrough text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
@@ -69,7 +68,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('left').run()}
       >
-        <i className={classnames('ri-align-left', { 'text-textSecondary': !editor.isActive({ textAlign: 'left' }) })} />
+        <i className='ri-align-left text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'center' }) && { color: 'primary' })}
@@ -77,11 +76,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('center').run()}
       >
-        <i
-          className={classnames('ri-align-center', {
-            'text-textSecondary': !editor.isActive({ textAlign: 'center' })
-          })}
-        />
+        <i className='ri-align-center text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'right' }) && { color: 'primary' })}
@@ -89,11 +84,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('right').run()}
       >
-        <i
-          className={classnames('ri-align-right', {
-            'text-textSecondary': !editor.isActive({ textAlign: 'right' })
-          })}
-        />
+        <i className='ri-align-right text-textSecondary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'justify' }) && { color: 'primary' })}
@@ -101,11 +92,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('justify').run()}
       >
-        <i
-          className={classnames('ri-align-justify', {
-            'text-textSecondary': !editor.isActive({ textAlign: 'justify' })
-          })}
-        />
+        <i className='ri-align-justify text-textSecondary' />
       </CustomIconButton>
     </div>
   )

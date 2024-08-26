@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography'
 
 // Type Imports
 import type { Mode } from '@core/types'
-import type { Locale } from '@configs/i18n'
+import type { Locale } from '@/configs/i18n'
 
 // Component Imports
 import Illustrations from '@components/Illustrations'

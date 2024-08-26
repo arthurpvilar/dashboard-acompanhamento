@@ -1,3 +1,6 @@
+// Next Imports
+import Link from 'next/link'
+
 // MUI Imports
 import Typography from '@mui/material/Typography'
 import Breadcrumbs from '@mui/material/Breadcrumbs'
@@ -11,7 +14,6 @@ import FormControl from '@mui/material/FormControl'
 import classnames from 'classnames'
 
 // Component Imports
-import Link from '@components/Link'
 import DirectionalIcon from '@components/DirectionalIcon'
 
 // Styles Imports
@@ -47,12 +49,12 @@ const Questions = () => {
             <div className='flex flex-col gap-6'>
               <div>
                 <Typography className='mbe-4'>
-                  If you&apos;re after only one item, simply choose the &apos;Buy Now&apos; option on the item page.
-                  This will take you directly to Checkout.
+                  If you’re after only one item, simply choose the ‘Buy Now’ option on the item page. This will take you
+                  directly to Checkout.
                 </Typography>
                 <Typography>
-                  If you want several items, use the &apos;Add to Cart&apos; button and then choose &apos;Keep
-                  Browsing&apos; to continue shopping or &apos;Checkout&apos; to finalize your purchase.
+                  If you want several items, use the ‘Add to Cart’ button and then choose ‘Keep Browsing’ to continue
+                  shopping or ‘Checkout’ to finalize your purchase.
                 </Typography>
               </div>
               <img src='/images/front-pages/product.png' alt='product image' className='rounded is-full max-is-auto' />
@@ -89,14 +91,14 @@ const Questions = () => {
               </div>
               <div className='flex flex-col gap-4'>
                 {articleList.map((article, index) => (
-                  <Typography key={index} component={Link} className='flex gap-2 justify-between hover:text-primary'>
-                    <Typography color='inherit'>{article}</Typography>
+                  <div key={index} className='flex gap-2 justify-between'>
+                    <Typography color='text.primary'>{article}</Typography>
                     <DirectionalIcon
                       className='text-textDisabled text-xl'
                       ltrIconClass='ri-arrow-right-s-line'
                       rtlIconClass='ri-arrow-left-s-line'
                     />
-                  </Typography>
+                  </div>
                 ))}
               </div>
             </div>

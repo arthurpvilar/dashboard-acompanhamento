@@ -1,8 +1,11 @@
+'use client'
+
 // Next Imports
 import dynamic from 'next/dynamic'
 
 // MUI Imports
 import Card from '@mui/material/Card'
+import { useTheme } from '@mui/material/styles'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
@@ -14,12 +17,18 @@ import type { ApexOptions } from 'apexcharts'
 import CustomAvatar from '@core/components/mui/Avatar'
 import OptionsMenu from '@core/components/option-menu'
 
+// Util Imports
+import { rgbaToHex } from '@/utils/rgbaToHex'
+
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
 const WeeklySales = () => {
+  // Hooks
+  const theme = useTheme()
+
   // Vars
-  const primaryColorWithOpacity = 'rgba(var(--mui-palette-primary-mainChannel) / 0.1)'
+  const primaryColorWithOpacity = rgbaToHex(`rgb(${theme.palette.primary.mainChannel} / 0.1)`)
 
   const options: ApexOptions = {
     chart: {
@@ -70,7 +79,7 @@ const WeeklySales = () => {
       labels: {
         style: {
           fontSize: '13px',
-          colors: 'var(--mui-palette-text-secondary)'
+          colors: rgbaToHex(`rgb(${theme.mainColorChannels.light} / 0.7)`)
         }
       }
     },

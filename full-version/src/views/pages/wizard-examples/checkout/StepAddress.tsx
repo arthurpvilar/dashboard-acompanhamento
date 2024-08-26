@@ -269,7 +269,7 @@ const StepAddress = ({ handleNext }: { handleNext: () => void }) => {
           </CardContent>
         </div>
         <div className='flex justify-end'>
-          <Button className='max-sm:is-full lg:is-full' variant='contained' onClick={handleNext}>
+          <Button className='is-full sm:is-auto lg:is-full' variant='contained' onClick={handleNext}>
             Place Order
           </Button>
         </div>

@@ -22,9 +22,6 @@ const alerts: Theme['components'] = {
         '&:not(:has(.MuiAlertTitle-root))': {
           '& .MuiAlert-icon + .MuiAlert-message': {
             alignSelf: 'center'
-          },
-          '&:has(.MuiAlert-action) .MuiAlert-icon': {
-            marginBlockStart: 2
           }
         }
       }),

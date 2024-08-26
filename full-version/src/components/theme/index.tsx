@@ -50,7 +50,7 @@ const ThemeProvider = (props: Props) => {
 
   // Hooks
   const { settings } = useSettings()
-  const isDark = useMedia('(prefers-color-scheme: dark)', systemMode === 'dark')
+  const isDark = useMedia('(prefers-color-scheme: dark)', false)
 
   if (isServer) {
     currentMode = systemMode
@@ -110,7 +110,7 @@ const ThemeProvider = (props: Props) => {
         modeStorageKey={`${themeConfig.templateName.toLowerCase().split(' ').join('-')}-mui-template-mode`}
       >
         <>
-          <ModeChanger systemMode={systemMode} />
+          <ModeChanger />
           <CssBaseline />
           {children}
         </>

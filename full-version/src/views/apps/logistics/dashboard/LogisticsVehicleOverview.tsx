@@ -118,7 +118,7 @@ const LogisticsVehicleOverview = () => {
                 {data.map((item, index) => (
                   <tr key={index}>
                     <td className='flex items-center gap-2 pis-0'>
-                      <i className={classnames(item.icon, 'text-textPrimary text-[1.5rem]')} />
+                      <i className={classnames(item.icon, 'text-textPrimary text-[1.5rem]')}></i>
                       <Typography color='text.primary'>{item.heading}</Typography>
                     </td>
                     <td className='text-end'>

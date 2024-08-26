@@ -73,7 +73,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
         }}
         className={classnames('block', { static: mdAbove, absolute: !mdAbove })}
         PaperProps={{
-          className: classnames('items-start is-[280px] shadow-none rounded rounded-se-none rounded-ee-none', {
+          className: classnames('items-start is-[280px] shadow-none rounded-s', {
             static: mdAbove,
             absolute: !mdAbove
           })
@@ -81,6 +81,8 @@ const SidebarLeft = (props: SidebarLeftProps) => {
         sx={{
           zIndex: 3,
           '& .MuiDrawer-paper': {
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
             zIndex: mdAbove ? 2 : 'drawer'
           },
           '& .MuiBackdrop-root': {

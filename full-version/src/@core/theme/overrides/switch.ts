@@ -60,7 +60,7 @@ const switchOverrides: Theme['components'] = {
         opacity: 1,
         borderRadius: 10,
         backgroundColor: 'var(--mui-palette-action-focus)',
-        boxShadow: '0 0 4px rgb(0 0 0 / 0.16) inset'
+        boxShadow: `0 0 4px rgb(0 0 0 / 0.16) inset`
       }
     }
   }

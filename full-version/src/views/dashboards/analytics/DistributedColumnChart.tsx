@@ -46,8 +46,8 @@ const DistributedColumnChart = () => {
       show: false,
       padding: {
         top: -10,
-        left: -3,
-        right: -2,
+        left: -7,
+        right: 0,
         bottom: 5
       }
     },

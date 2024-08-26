@@ -23,7 +23,7 @@ import { useForm, Controller } from 'react-hook-form'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 // Type Imports
-import type { AddEventSidebarType, AddEventType } from '@/types/apps/calendarTypes'
+import type { EventDateType, AddEventSidebarType, AddEventType } from '@/types/apps/calendarTypes'
 
 // Styled Component Imports
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
@@ -43,8 +43,8 @@ interface DefaultStateType {
   allDay: boolean
   calendar: string
   description: string
-  endDate: Date
-  startDate: Date
+  endDate: Date | string
+  startDate: Date | string
   guests: string[] | undefined
 }
 
@@ -162,8 +162,8 @@ const AddEventSidebar = (props: AddEventSidebarType) => {
     handleSidebarClose()
   }
 
-  const handleStartDate = (date: Date | null) => {
-    if (date && date > values.endDate) {
+  const handleStartDate = (date: Date) => {
+    if (date > values.endDate) {
       setValues({ ...values, startDate: new Date(date), endDate: new Date(date) })
     }
   }
@@ -275,13 +275,13 @@ const AddEventSidebar = (props: AddEventSidebarType) => {
               <AppReactDatepicker
                 selectsStart
                 id='event-start-date'
-                endDate={values.endDate}
-                selected={values.startDate}
-                startDate={values.startDate}
+                endDate={values.endDate as EventDateType}
+                selected={values.startDate as EventDateType}
+                startDate={values.startDate as EventDateType}
                 showTimeSelect={!values.allDay}
                 dateFormat={!values.allDay ? 'yyyy-MM-dd hh:mm' : 'yyyy-MM-dd'}
                 customInput={<PickersComponent label='Start Date' registername='startDate' />}
-                onChange={(date: Date | null) => date !== null && setValues({ ...values, startDate: new Date(date) })}
+                onChange={(date: Date) => setValues({ ...values, startDate: new Date(date) })}
                 onSelect={handleStartDate}
               />
             </div>
@@ -289,14 +289,14 @@ const AddEventSidebar = (props: AddEventSidebarType) => {
               <AppReactDatepicker
                 selectsEnd
                 id='event-end-date'
-                endDate={values.endDate}
-                selected={values.endDate}
-                minDate={values.startDate}
-                startDate={values.startDate}
+                endDate={values.endDate as EventDateType}
+                selected={values.endDate as EventDateType}
+                minDate={values.startDate as EventDateType}
+                startDate={values.startDate as EventDateType}
                 showTimeSelect={!values.allDay}
                 dateFormat={!values.allDay ? 'yyyy-MM-dd hh:mm' : 'yyyy-MM-dd'}
                 customInput={<PickersComponent label='End Date' registername='endDate' />}
-                onChange={(date: Date | null) => date !== null && setValues({ ...values, endDate: new Date(date) })}
+                onChange={(date: Date) => setValues({ ...values, endDate: new Date(date) })}
               />
             </div>
             <FormControl className='mbe-6'>

@@ -62,7 +62,6 @@ declare module '@tanstack/table-core' {
 type PayementStatusType = {
   text: string
   color: ThemeColor
-  colorClassName: string
 }
 
 type StatusChipColorType = {
@@ -70,10 +69,10 @@ type StatusChipColorType = {
 }
 
 export const paymentStatus: { [key: number]: PayementStatusType } = {
-  1: { text: 'Paid', color: 'success', colorClassName: 'text-success' },
-  2: { text: 'Pending', color: 'warning', colorClassName: 'text-warning' },
-  3: { text: 'Cancelled', color: 'secondary', colorClassName: 'text-secondary' },
-  4: { text: 'Failed', color: 'error', colorClassName: 'text-error' }
+  1: { text: 'Paid', color: 'success' },
+  2: { text: 'Pending', color: 'warning' },
+  3: { text: 'Cancelled', color: 'secondary' },
+  4: { text: 'Failed', color: 'error' }
 }
 
 export const statusChipColor: { [key: string]: StatusChipColorType } = {
@@ -209,7 +208,10 @@ const OrderListTable = ({ orderData }: { orderData?: OrderType[] }) => {
         cell: ({ row }) => (
           <div className='flex items-center gap-1'>
             <i
-              className={classnames('ri-circle-fill bs-2.5 is-2.5', paymentStatus[row.original.payment].colorClassName)}
+              className={classnames(
+                'ri-circle-fill bs-2.5 is-2.5',
+                `text-${paymentStatus[row.original.payment].color}`
+              )}
             />
             <Typography color={`${paymentStatus[row.original.payment].color}.main`} className='font-medium'>
               {paymentStatus[row.original.payment].text}
@@ -236,10 +238,11 @@ const OrderListTable = ({ orderData }: { orderData?: OrderType[] }) => {
               <img
                 src={row.original.method === 'mastercard' ? mastercard : paypal}
                 height={row.original.method === 'mastercard' ? 11 : 14}
+                className='rounded-xs'
               />
             </div>
             <Typography>
-              {`...${row.original.method === 'mastercard' ? row.original.methodNumber : '@gmail.com'}`}
+              ...{row.original.method === 'mastercard' ? row.original.methodNumber : '@gmail.com'}
             </Typography>
           </div>
         )
@@ -322,7 +325,7 @@ const OrderListTable = ({ orderData }: { orderData?: OrderType[] }) => {
 
   return (
     <Card>
-      <CardContent className='flex justify-between max-sm:flex-col sm:items-center gap-4'>
+      <CardContent className='flex justify-between items-center gap-4'>
         <DebouncedInput
           value={globalFilter ?? ''}
           onChange={value => setGlobalFilter(String(value))}

@@ -1,3 +1,5 @@
+'use client'
+
 // Next Imports
 import dynamic from 'next/dynamic'
 
@@ -5,16 +7,23 @@ import dynamic from 'next/dynamic'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 
 // Third-party Imports\
 import type { ApexOptions } from 'apexcharts'
+
+// Util Imports
+import { rgbaToHex } from '@/utils/rgbaToHex'
 
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
 const NewVisitors = () => {
+  // Hooks
+  const theme = useTheme()
+
   // Vars
-  const primaryColorWithOpacity = 'rgba(var(--mui-palette-primary-mainChannel) / 0.1)'
+  const primaryColorWithOpacity = rgbaToHex(`rgb(${theme.palette.primary.mainChannel} / 0.1)`)
 
   const options: ApexOptions = {
     chart: {

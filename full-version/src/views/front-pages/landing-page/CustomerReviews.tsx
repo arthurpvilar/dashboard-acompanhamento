@@ -209,7 +209,9 @@ const CustomerReviews = () => {
                       <Typography color='text.primary'>{item.desc}</Typography>
                       <Rating value={item.rating} readOnly />
                       <div>
-                        <Typography variant='h6'>{item.name}</Typography>
+                        <Typography color='text.primary' className='font-medium'>
+                          {item.name}
+                        </Typography>
                         <Typography variant='body2'>{item.position}</Typography>
                       </div>
                     </div>

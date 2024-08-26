@@ -20,7 +20,7 @@ import { frontLayoutClasses } from '@layouts/utils/layoutClasses'
 import styles from './styles.module.css'
 import frontCommonStyles from '@views/front-pages/styles.module.css'
 
-const Footer = () => {
+function Footer() {
   return (
     <footer className={frontLayoutClasses.footer}>
       <div className='relative'>
@@ -119,10 +119,10 @@ const Footer = () => {
                   <div className='flex items-center pli-5 plb-[7px] gap-6'>
                     <img src='/images/front-pages/apple-icon.png' alt='apple store' className='bs-[34px]' />
                     <div className='flex flex-col items-start'>
-                      <Typography variant='body2' color='white' className='opacity-[0.82]'>
+                      <Typography variant='body2' color='white' className='capitalize opacity-[0.82]'>
                         Download on the
                       </Typography>
-                      <Typography color='white' className='font-medium opacity-[0.92]'>
+                      <Typography color='white' className='font-medium capitalize opacity-[0.92]'>
                         App Store
                       </Typography>
                     </div>
@@ -153,15 +153,15 @@ const Footer = () => {
             frontCommonStyles.layoutSpacing
           )}
         >
-          <Typography className='text-white opacity-[0.92]' variant='body2'>
+          <p className='text-white text-[13px] opacity-[0.92]'>
             <span>{`© ${new Date().getFullYear()}, Made with `}</span>
             <span>{`❤️`}</span>
             <span>{` by `}</span>
             <Link href='https://themeselection.com' target='_blank' className='font-medium text-white'>
               ThemeSelection
             </Link>
-          </Typography>
-          <div className='flex gap-6 items-center'>
+          </p>
+          <div className='flex gap-6 items-center opacity-[0.78]'>
             <IconButton component={Link} size='small' href='https://github.com/themeselection' target='_blank'>
               <i className='ri-github-fill text-white text-lg' />
             </IconButton>

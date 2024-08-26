@@ -35,18 +35,18 @@ const series = [
 ]
 
 const data1: DataType[] = [
-  { title: 'UI Design', value: 35, colorClass: 'text-primary' },
-  { title: 'UX Design', value: 20, colorClass: 'text-info' },
-  { title: 'Music', value: 14, colorClass: 'text-success' }
+  { title: 'Interesse', value: 35, colorClass: 'text-primary' },
+  { title: 'Confiança', value: 20, colorClass: 'text-info' },
+  { title: 'Frustração', value: 14, colorClass: 'text-success' }
 ]
 
 const data2: DataType[] = [
-  { title: 'Animation', value: 12, colorClass: 'text-secondary' },
-  { title: 'React', value: 10, colorClass: 'text-error' },
-  { title: 'SEO', value: 9, colorClass: 'text-warning' }
+  { title: 'Ansiedade', value: 12, colorClass: 'text-secondary' },
+  { title: 'Curiosidade', value: 10, colorClass: 'text-error' },
+  { title: 'Satisfação', value: 9, colorClass: 'text-warning' }
 ]
 
-const labels = ['UI Design', 'UX Design', 'Music', 'Animation', 'React', 'SEO']
+const labels = ['Interesse', 'Confiança', 'Frustração', 'Ansiedade', 'Curiosidade', 'Satisfação']
 
 const InterestedTopics = () => {
   // Hooks
@@ -163,7 +163,7 @@ const InterestedTopics = () => {
               <div className='flex flex-col gap-y-12'>
                 {data1.map((item, i) => (
                   <div key={i} className='flex gap-2'>
-                    <i className={classnames('ri-circle-fill text-xs m-[5px]', item.colorClass)} />
+                    <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.colorClass }} />
                     <div>
                       <Typography>{item.title}</Typography>
                       <Typography variant='h5'>{`${item.value}%`}</Typography>
@@ -174,7 +174,7 @@ const InterestedTopics = () => {
               <div className='flex flex-col gap-y-12'>
                 {data2.map((item, i) => (
                   <div key={i} className='flex gap-2'>
-                    <i className={classnames('ri-circle-fill text-xs m-[5px]', item.colorClass)} />
+                    <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.colorClass }} />
                     <div>
                       <Typography>{item.title}</Typography>
                       <Typography variant='h5'>{`${item.value}%`}</Typography>

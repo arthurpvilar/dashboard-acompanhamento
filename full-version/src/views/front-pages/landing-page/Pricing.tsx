@@ -70,7 +70,7 @@ const pricingPlans = [
   }
 ]
 
-const PricingPlan = () => {
+function PricingPlan() {
   // States
   const [val, setVal] = useState<number>(458)
 
@@ -93,7 +93,7 @@ const PricingPlan = () => {
             </Typography>
           </div>
         </div>
-        <div className='flex items-baseline flex-wrap gap-2 mbe-3 sm:mbe-1'>
+        <div className='flex items-center flex-wrap justify-center gap-x-2 mbe-1'>
           <Typography variant='h4' className='font-bold'>
             Tailored pricing plans
           </Typography>
@@ -119,7 +119,7 @@ const PricingPlan = () => {
       <Grid container spacing={6}>
         {pricingPlans.map((plan, index) => (
           <Grid item key={index} xs={12} lg={4}>
-            <Card variant='outlined' {...(plan.current && { className: 'border-2 border-primary' })}>
+            <Card className={classnames('border shadow-none', ` ${plan.current && 'border-2 border-primary'}`)}>
               <CardContent className='flex flex-col gap-8 p-8'>
                 <div className='is-full flex flex-col gap-3'>
                   <Typography className='text-center' variant='h4'>
@@ -134,8 +134,10 @@ const PricingPlan = () => {
                         {plan.price}
                       </Typography>
                     </div>
-                    <div className='flex flex-col gap-0.5'>
-                      <Typography variant='h6'>Per month</Typography>
+                    <div className='flex flex-col gap-1'>
+                      <Typography color='text.primary' className='font-medium'>
+                        Per month
+                      </Typography>
                       <Typography variant='body2' color='text.secondary'>
                         10% off for yearly subscription
                       </Typography>

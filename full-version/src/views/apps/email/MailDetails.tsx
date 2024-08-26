@@ -96,7 +96,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleBold().run()}
       >
-        <i className={classnames('ri-bold', { 'text-textPrimary': !editor.isActive('bold') })} />
+        <i className='ri-bold text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('underline') && { color: 'primary' })}
@@ -104,7 +104,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleUnderline().run()}
       >
-        <i className={classnames('ri-underline', { 'text-textPrimary': !editor.isActive('underline') })} />
+        <i className='ri-underline text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('italic') && { color: 'primary' })}
@@ -112,7 +112,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleItalic().run()}
       >
-        <i className={classnames('ri-italic', { 'text-textPrimary': !editor.isActive('italic') })} />
+        <i className='ri-italic text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('strike') && { color: 'primary' })}
@@ -120,7 +120,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().toggleStrike().run()}
       >
-        <i className={classnames('ri-strikethrough', { 'text-textPrimary': !editor.isActive('strike') })} />
+        <i className='ri-strikethrough text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
@@ -128,7 +128,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('left').run()}
       >
-        <i className={classnames('ri-align-left', { 'text-textPrimary': !editor.isActive({ textAlign: 'left' }) })} />
+        <i className='ri-align-left text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'center' }) && { color: 'primary' })}
@@ -136,11 +136,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('center').run()}
       >
-        <i
-          className={classnames('ri-align-center', {
-            'text-textPrimary': !editor.isActive({ textAlign: 'center' })
-          })}
-        />
+        <i className='ri-align-center text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'right' }) && { color: 'primary' })}
@@ -148,11 +144,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('right').run()}
       >
-        <i
-          className={classnames('ri-align-right', {
-            'text-textPrimary': !editor.isActive({ textAlign: 'right' })
-          })}
-        />
+        <i className='ri-align-right text-textPrimary' />
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'justify' }) && { color: 'primary' })}
@@ -160,11 +152,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
         size='small'
         onClick={() => editor.chain().focus().setTextAlign('justify').run()}
       >
-        <i
-          className={classnames('ri-align-justify', {
-            'text-textPrimary': !editor.isActive({ textAlign: 'justify' })
-          })}
-        />
+        <i className='ri-align-justify text-textPrimary' />
       </CustomIconButton>
     </div>
   )
@@ -438,7 +426,7 @@ const MailDetails = (props: Props) => {
                       </CardContent>
                       <div>
                         <EditorToolbar editor={editor} />
-                        <EditorContent editor={editor} className='overflow-y-auto' />
+                        <EditorContent editor={editor} className='overflow-y-auto flex mbs-1' />
                       </div>
                       <CardActions className='pbs-0'>
                         <div className='flex items-center justify-end gap-4'>

@@ -20,7 +20,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 // Types Imports
 import type { Email, EmailState } from '@/types/apps/emailTypes'
 import type { ThemeColor } from '@core/types'
-import type { Locale } from '@configs/i18n'
+import type { Locale } from '@/configs/i18n'
 
 // Components Imports
 import ComposeMail from './ComposeMail'
@@ -135,7 +135,7 @@ const SidebarLeft = (props: Props) => {
                 href={getLocalizedUrl(`/apps/email/${key}`, locale as Locale)}
                 prefetch
                 className={classnames(
-                  'flex items-center justify-between plb-1 pli-5 gap-2.5 min-bs-8 bs-[32px] cursor-pointer',
+                  'flex items-center justify-between plb-1 pli-5 gap-2.5 bs-[32px] cursor-pointer',
                   {
                     [styles.activeSidebarListItem]: key === folder && !label
                   }

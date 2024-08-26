@@ -1,132 +1,152 @@
-'use client';
+'use client'
 
-import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import TablePagination from '@mui/material/TablePagination';
-import Typography from '@mui/material/Typography';
-import { createColumnHelper, flexRender, useReactTable, getCoreRowModel, getFilteredRowModel, FilterFn } from '@tanstack/react-table';
-import { rankItem } from '@tanstack/match-sorter-utils';
-import { getQuizzes, deleteQuiz } from '@/libs/quiz/handlers';
-import type { Quiz } from '@/types/apps/quizTypes';
-import tableStyles from '@core/styles/table.module.css';
-import CustomAvatar from '@core/components/mui/Avatar';
-import LinearProgress from '@mui/material/LinearProgress';
-import classNames from 'classnames';
-import CustomIconButton from '@core/components/mui/IconButton';
-import Button from '@mui/material/Button'; 
-import TextField from '@mui/material/TextField';
-import { useTheme } from '@mui/material/styles';
-import OptionMenu from '@/@core/components/option-menu';
+import { useState, useEffect, useMemo } from 'react'
+
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import TablePagination from '@mui/material/TablePagination'
+import Typography from '@mui/material/Typography'
+import {
+  createColumnHelper,
+  flexRender,
+  useReactTable,
+  getCoreRowModel,
+  getFilteredRowModel
+} from '@tanstack/react-table'
+import { rankItem } from '@tanstack/match-sorter-utils'
+
+import LinearProgress from '@mui/material/LinearProgress'
+
+import classNames from 'classnames'
+
+import Button from '@mui/material/Button'
+
+import TextField from '@mui/material/TextField'
+
+import { useTheme } from '@mui/material/styles'
+
+import { getQuizzes, deleteQuiz } from '@/libs/quiz/handlers'
+import type { Quiz } from '@/types/apps/quizTypes'
+import tableStyles from '@core/styles/table.module.css'
+import CustomAvatar from '@core/components/mui/Avatar'
+
+import CustomIconButton from '@core/components/mui/IconButton'
+
+import OptionMenu from '@/@core/components/option-menu'
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import type { Mode } from '@core/types'
 
 type QuizWithProgress = Quiz & {
-  progressValue?: string;
-};
+  progressValue?: string
+}
 
 type Props = {
   mode: Mode
 }
 
-const columnHelper = createColumnHelper<QuizWithProgress>();
+const columnHelper = createColumnHelper<QuizWithProgress>()
 
-
-const QuizTable = (props:Props) => {
-  const [data, setData] = useState<Quiz[]>([]);
-  const [quizCode, setQuizCode] = useState<string>('');
-  const [quizId, setQuizId] = useState<number>(0);
-  const [userRole, setUserRole] = useState<string>(''); 
-  const router = useRouter();
-  const { mode} = props
+const QuizTable = (props: Props) => {
+  const [data, setData] = useState<Quiz[]>([])
+  const [quizCode, setQuizCode] = useState<string>('')
+  const [quizId, setQuizId] = useState<number>(0)
+  const [userRole, setUserRole] = useState<string>('')
+  const router = useRouter()
+  const { mode } = props
 
   useEffect(() => {
     const fetchUserRole = () => {
-      const role = 'admin'; 
-      setUserRole(role);
-    };
+      const role = 'admin'
 
-    fetchUserRole();
+      setUserRole(role)
+    }
+
+    fetchUserRole()
 
     const fetchData = async () => {
-      const quizzes = getQuizzes();
+      const quizzes = getQuizzes()
+
       // Ajuste para garantir que totalQuiz esteja definido
       const quizzesWithTotal = quizzes.map(quiz => ({
         ...quiz,
-        totalQuiz: quiz.questions ? quiz.questions.length : 0,
-      }));
-      setData(quizzesWithTotal);
-    };
-    fetchData();
-  }, []);
+        totalQuiz: quiz.questions ? quiz.questions.length : 0
+      }))
 
-const calculateCompletionPercentage = (quiz: Quiz) => {
-  const totalQuestions = quiz.totalQuiz;
-  const answeredQuestions = quiz.questions.filter(q => q.answer !== undefined && q.answer !== null && q.answer !== '').length;
+      setData(quizzesWithTotal)
+    }
 
-  const completionPercentage = totalQuestions > 0 
-    ? (answeredQuestions / totalQuestions) * 100
-    : 0;
+    fetchData()
+  }, [])
 
-  return {
-    completionPercentage: Math.min(completionPercentage, 100),
-    completedQuestions: answeredQuestions,
-  };
-};
+  const calculateCompletionPercentage = (quiz: Quiz) => {
+    const totalQuestions = quiz.totalQuiz
+
+    const answeredQuestions = quiz.questions.filter(
+      q => q.answer !== undefined && q.answer !== null && q.answer !== ''
+    ).length
+
+    const completionPercentage = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0
+
+    return {
+      completionPercentage: Math.min(completionPercentage, 100),
+      completedQuestions: answeredQuestions
+    }
+  }
 
   const handleQuizData = (quizCode: string) => {
-    const quiz = data.find((q) => q.identifier === quizCode);
+    const quiz = data.find(q => q.identifier === quizCode)
 
-    setQuizCode(quizCode);
+    setQuizCode(quizCode)
 
     if (quiz) {
-      setQuizId(quiz.id);
+      setQuizId(quiz.id)
     } else {
-      setQuizId(0);
+      setQuizId(0)
     }
-  };
+  }
 
   const handleEdit = (id: number) => {
-    window.location.href = `/quiz/edit/${id}`;
-  };
+    window.location.href = `/quiz/edit/${id}`
+  }
 
   const handleDelete = (id: number) => {
-    deleteQuiz(id);
-    setData(getQuizzes());
-  };
+    deleteQuiz(id)
+    setData(getQuizzes())
+  }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleReportDownload = (id: number) => {
     // Implementação para download do relatório
-  };
+  }
 
   const columns = useMemo(
     () => [
       columnHelper.accessor('title', {
         header: 'Nome do Quiz',
         cell: ({ row }) => (
-          <div className="flex items-center gap-4">
-            <CustomAvatar variant="rounded" skin="light" color={row.original.color}>
+          <div className='flex items-center gap-4'>
+            <CustomAvatar variant='rounded' skin='light' color={row.original.color}>
               {row.original.logo ? (
-                <img src={row.original.logo} alt="Logo do Quiz" style={{ width: '100%', height: '100%' }} />
+                <img src={row.original.logo} alt='Logo do Quiz' style={{ width: '100%', height: '100%' }} />
               ) : (
-                <i className="text-[28px] ri-image-line" />
+                <i className='text-[28px] ri-image-line' />
               )}
             </CustomAvatar>
-            <div className="flex flex-col gap-0.5">
+            <div className='flex flex-col gap-0.5'>
               <Typography
                 component={Link}
                 href={`/quiz-details/${row.original.id}`}
-                className="font-medium hover:text-primary"
-                color="text.primary"
+                className='font-medium hover:text-primary'
+                color='text.primary'
               >
                 {row.original.title}
               </Typography>
-              <div className="flex items-center gap-2">
+              <div className='flex items-center gap-2'>
                 <CustomAvatar src={row.original.image} size={22} />
-                <Typography variant="body2">{row.original.owner.fullName}</Typography>
+                <Typography variant='body2'>{row.original.owner.fullName}</Typography>
               </div>
             </div>
           </div>
@@ -135,7 +155,7 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
       columnHelper.accessor('identifier', {
         header: 'Código',
         cell: ({ row }) => (
-          <Typography className="font-medium" color="text.primary">
+          <Typography className='font-medium' color='text.primary'>
             {row.original.identifier}
           </Typography>
         ),
@@ -144,27 +164,28 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
       columnHelper.accessor('progressValue', {
         header: 'Percentual Médio de Conclusão',
         sortingFn: (rowA, rowB) => {
-          const { completionPercentage: completionA } = calculateCompletionPercentage(rowA.original);
-          const { completionPercentage: completionB } = calculateCompletionPercentage(rowB.original);
+          const { completionPercentage: completionA } = calculateCompletionPercentage(rowA.original)
+          const { completionPercentage: completionB } = calculateCompletionPercentage(rowB.original)
 
-          return completionA - completionB;
+          return completionA - completionB
         },
         cell: ({ row }) => {
-          const { completionPercentage, completedQuestions } = calculateCompletionPercentage(row.original);
+          const { completionPercentage, completedQuestions } = calculateCompletionPercentage(row.original)
+
           return (
-            <div className="flex items-center gap-4 min-is-48">
-              <Typography className="font-medium" color="text.primary">
+            <div className='flex items-center gap-4 min-is-48'>
+              <Typography className='font-medium' color='text.primary'>
                 {`${Math.floor(completionPercentage)}%`}
               </Typography>
               <LinearProgress
                 color={row.original.color}
                 value={Math.floor(completionPercentage)}
-                variant="determinate"
-                className="is-full bs-2"
+                variant='determinate'
+                className='is-full bs-2'
               />
-              <Typography variant="body2">{`${completedQuestions}/${row.original.totalQuiz}`}</Typography>
+              <Typography variant='body2'>{`${completedQuestions}/${row.original.totalQuiz}`}</Typography>
             </div>
-          );
+          )
         }
       }),
       columnHelper.display({
@@ -211,28 +232,31 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
       })
     ],
     [userRole]
-  );
+  )
 
   const table = useReactTable({
     data,
     columns,
     filterFns: {
       fuzzy: (row, columnId, value, addMeta) => {
-        const itemRank = rankItem(row.getValue(columnId), value);
-        addMeta({ itemRank });
-        return itemRank.passed;
+        const itemRank = rankItem(row.getValue(columnId), value)
+
+        addMeta({ itemRank })
+
+        return itemRank.passed
       }
     },
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-  });
+    getFilteredRowModel: getFilteredRowModel()
+  })
 
   const lightIllustration = '/images/illustrations/hand-with-bulb-light.png'
   const darkIllustration = '/images/illustrations/hand-with-bulb-dark.png'
 
-  const theme = useTheme();
-  
+  const theme = useTheme()
+
   const leftIllustration = useImageVariant(mode, lightIllustration, darkIllustration)
+
   return (
     <>
       <Card className='relative flex justify-center'>
@@ -249,7 +273,7 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
             <TextField
               placeholder='Coloque o código de um Quiz para iniciar!'
               value={quizCode}
-              onChange={(e) => handleQuizData(e.target.value)}
+              onChange={e => handleQuizData(e.target.value)}
               size='small'
               className='sm:is-[350px] max-sm:flex-1'
             />
@@ -272,23 +296,25 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
 
       <Card>
         <CardHeader
-          title="Quizzes cadastrados no sistema"
+          title='Quizzes cadastrados no sistema'
           action={
             userRole === 'admin' && (
-              <Button variant="contained" color="primary" onClick={() => window.location.href = '/quiz/create'}>
+              <Button variant='contained' color='primary' onClick={() => (window.location.href = '/quiz/create')}>
                 Criar Quiz
               </Button>
             )
           }
-          className="flex-wrap gap-4"
+          className='flex-wrap gap-4'
         />
-        <div className="overflow-x-auto">
+        <div className='overflow-x-auto'>
           <table className={tableStyles.quizTable}>
             <thead>
               {table.getHeaderGroups().map(headerGroup => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map(header => (
-                    <th key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</th>
+                    <th key={header.id}>
+                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                    </th>
                   ))}
                 </tr>
               ))}
@@ -306,7 +332,7 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
         </div>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
-          component="div"
+          component='div'
           count={data.length}
           rowsPerPage={5}
           page={0}
@@ -314,7 +340,7 @@ const calculateCompletionPercentage = (quiz: Quiz) => {
         />
       </Card>
     </>
-  );
-};
+  )
+}
 
-export default QuizTable;
+export default QuizTable

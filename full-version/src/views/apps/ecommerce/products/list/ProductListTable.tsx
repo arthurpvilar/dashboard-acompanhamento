@@ -222,12 +222,14 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
-          <Chip
-            label={productStatusObj[row.original.status].title}
-            variant='tonal'
-            color={productStatusObj[row.original.status].color}
-            size='small'
-          />
+          <div className='flex items-center gap-3'>
+            <Chip
+              label={productStatusObj[row.original.status].title}
+              variant='tonal'
+              color={productStatusObj[row.original.status].color}
+              size='small'
+            />
+          </div>
         )
       }),
       columnHelper.accessor('actions', {
@@ -302,15 +304,9 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
             placeholder='Search Product'
-            className='max-sm:is-full'
           />
-          <div className='flex items-center max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-            <Button
-              color='secondary'
-              variant='outlined'
-              className='max-sm:is-full is-auto'
-              startIcon={<i className='ri-upload-2-line' />}
-            >
+          <div className='flex gap-x-4'>
+            <Button color='secondary' variant='outlined' startIcon={<i className='ri-upload-2-line' />}>
               Export
             </Button>
             <Button
@@ -318,7 +314,6 @@ const ProductListTable = ({ productData }: { productData?: ProductType[] }) => {
               component={Link}
               href={getLocalizedUrl('/apps/ecommerce/products/add', locale as Locale)}
               startIcon={<i className='ri-add-line' />}
-              className='max-sm:is-full is-auto'
             >
               Add Product
             </Button>

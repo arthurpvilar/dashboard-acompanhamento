@@ -44,6 +44,10 @@ const StyledHeader = styled.header<StyledHeaderProps>`
     .${verticalLayoutClasses.navbar} {
       max-inline-size: ${themeConfig.compactContentWidth}px;
     }
+
+    .${verticalLayoutClasses.navbar} {
+      max-inline-size: 1440px;
+    }
   }
 
   &.${verticalLayoutClasses.headerFixed} {
