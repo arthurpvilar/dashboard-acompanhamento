@@ -5,7 +5,7 @@ import type { UsersType } from './userTypes'
 export type Attempt = {
   userId: number;
   completion: number;
-  date: string; 
+  date: string;
 };
 
 // Blueprint for a quiz
@@ -38,10 +38,15 @@ export type QuizQuestion = {
   id: number // Unique identifier for the question
   sociologicalId?: number // Sociological data reference
   question?: string // The question text
-  options?: string[] // Array of possible answers
+  options?: QuizQuestionOption[] // Array of possible answers
   answer?: string // Correct answer
   weight?: number // Question's weight in scoring
   subQuestions?: QuizQuestion[] // Nested sub-questions
+}
+
+export type QuizQuestionOption = {
+  title: string
+  isChecked: boolean
 }
 
 // Sociological metadata for quizzes

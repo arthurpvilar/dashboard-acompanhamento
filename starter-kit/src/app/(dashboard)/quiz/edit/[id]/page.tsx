@@ -1,4 +1,4 @@
-import EditQuiz from '@/views/quiz/EditQuiz';
+import EditQuiz from '@/views/apps/quiz/EditQuiz';
 
 const EditQuizPage = () => {
   return (

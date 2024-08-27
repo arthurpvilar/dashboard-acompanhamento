@@ -1,12 +1,14 @@
+/* eslint-disable import/no-unresolved */
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
+import { getQuizData } from '@/app/server/actions'
+import WelcomeCard from '@/views/apps/academy/dashboard/WelcomeCard'
+import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
+
 // Component Imports
-import WelcomeCard from '@views/apps/academy/dashboard/WelcomeCard'
 
 // Data Imports
-import { getQuizData } from '@/app/server/actions'
-import QuizTable from '@/views/apps/academy/dashboard/QuizTable'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -36,7 +38,7 @@ const AcademyDashboard = async () => {
         <WelcomeCard />
       </Grid>
       <Grid item xs={12}>
-        <QuizTable quizData={data?.quizzes} />
+        <SimpleQuizListTable quizData={data?.quizzes} />
       </Grid>
     </Grid>
   )

@@ -1,7 +1,14 @@
+/* eslint-disable import/no-unresolved */
 'use client'
+
+// React Imports
 import { useEffect, useState, useMemo } from 'react'
+
+// Next Imports
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+
+// MUI Imports
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Divider from '@mui/material/Divider'
@@ -13,6 +20,8 @@ import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import TablePagination from '@mui/material/TablePagination'
 import type { TextFieldProps } from '@mui/material/TextField'
+
+// Third-party Imports
 import classnames from 'classnames'
 import { rankItem } from '@tanstack/match-sorter-utils'
 import {
@@ -29,25 +38,30 @@ import {
 } from '@tanstack/react-table'
 import type { ColumnDef, FilterFn } from '@tanstack/react-table'
 import type { RankingInfo } from '@tanstack/match-sorter-utils'
+
+// Type Imports
 import type { ThemeColor } from '@core/types'
+
 import type { Locale } from '@configs/i18n'
+
 import OptionMenu from '@core/components/option-menu'
+
 import CustomAvatar from '@core/components/mui/Avatar'
+
 import tableStyles from '@core/styles/table.module.css'
+
 import type { UsersType } from '@/types/apps/userTypes'
+
+// Component Imports
 import TableFilters from './TableFilters'
 import AddUserDrawer from './AddUserDrawer'
+
+
+// Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
 
-// Função para salvar o usuário no localStorage
-const saveUserToLocalStorage = (user: UsersType) => {
-  const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
-  if (!existingUsers.some((existingUser: UsersType) => existingUser.email === user.email)) {
-    existingUsers.push(user);
-    localStorage.setItem('users', JSON.stringify(existingUsers));
-  }
-};
+// Style Imports
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -67,8 +81,15 @@ type UserStatusType = {
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
+  // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
-  addMeta({ itemRank })
+
+  // Store the itemRank info
+  addMeta({
+    itemRank
+  })
+
+  // Return if the item should be filtered in/out
   return itemRank.passed
 }
 
@@ -82,6 +103,7 @@ const DebouncedInput = ({
   onChange: (value: string | number) => void
   debounce?: number
 } & Omit<TextFieldProps, 'onChange'>) => {
+  // States
   const [value, setValue] = useState(initialValue)
 
   useEffect(() => {
@@ -94,7 +116,8 @@ const DebouncedInput = ({
     }, debounce)
 
     return () => clearTimeout(timeout)
-  }, [value, onChange, debounce])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
 
   return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
@@ -105,39 +128,19 @@ const userStatusObj: UserStatusType = {
   Inativo: 'secondary'
 }
 
+// Column Definitions
 const columnHelper = createColumnHelper<UsersTypeWithAction>()
 
 const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
+  // States
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState<UsersType[]>(tableData || [])
+  const [data, setData] = useState(...[tableData])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
+  // Hooks
   const { lang: locale } = useParams()
-
-  useEffect(() => {
-    const owner: UsersType = {
-      id: 51,
-      fullName: 'John Doe',
-      company: 'Example Corp',
-      role: 'Admin',
-      username: 'johndoe',
-      country: 'USA',
-      contact: '+1234567890',
-      email: 'admin@example.com',
-      currentPlan: 'Enterprise',
-      status: 'Ativo',
-      avatar: 'https://example.com/avatar1.jpg',
-      avatarColor: 'primary' as ThemeColor
-    }
-
-    saveUserToLocalStorage(owner)
-
-    if (!data.some(user => user.email === owner.email)) {
-      setData(prevData => [...prevData, owner])
-    }
-  }, [data])
 
   const columns = useMemo<ColumnDef<UsersTypeWithAction, any>[]>(
     () => [
@@ -181,6 +184,40 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         header: 'Email',
         cell: ({ row }) => <Typography>{row.original.email}</Typography>
       }),
+
+      /*
+      columnHelper.accessor('role', {
+        header: 'Role',
+        cell: ({ row }) => (
+          <div className='flex items-center gap-2'>
+            <Icon
+              className={userRoleObj[row.original.role].icon}
+              sx={{ color: `var(--mui-palette-${userRoleObj[row.original.role].color}-main)`, fontSize: '1.375rem' }}
+            />
+            <Typography className='capitalize' color='text.primary'>
+              {row.original.role}
+            </Typography>
+          </div>
+        )
+      }),
+      columnHelper.accessor('currentPlan', {
+        header: 'Plan',
+        cell: ({ row }) => (
+          <Typography className='capitalize' color='text.primary'>
+            {row.original.currentPlan}
+          </Typography>
+        )
+      }),
+
+        cell: ({ row }) => (
+          <div className='flex items-center justify-between gap-5'>
+            <div className='flex items-center gap-1.5 ml-auto pr-4'>
+              <i className='ri-group-line text-primary' />
+              <Typography>{row.original.users.length}</Typography>
+            </div>
+          </div>
+        ),
+      */
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
@@ -204,11 +241,11 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         cell: ({ row }) => (
           <div className='flex items-center'>
             <div className='flex items-center gap-1.5 ml-auto pr-4'>
-              <IconButton onClick={() => setData(data?.filter(user => user.id !== row.original.id))}>
+              <IconButton onClick={() => setData(data?.filter(product => product.id !== row.original.id))}>
                 <i className='ri-delete-bin-7-line text-textSecondary' />
               </IconButton>
               <IconButton>
-                <Link href={`/history-by-user/${row.original.id}`} className='flex'>
+                <Link href={getLocalizedUrl('/apps/user/view', locale as Locale)} className='flex'>
                   <i className='ri-eye-line text-textSecondary' />
                 </Link>
               </IconButton>
@@ -234,16 +271,27 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         enableSorting: false
       })
     ],
-    [data, locale]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data, filteredData]
   )
 
   const table = useReactTable({
     data: filteredData as UsersType[],
     columns,
-    filterFns: { fuzzy: fuzzyFilter },
-    state: { rowSelection, globalFilter },
-    initialState: { pagination: { pageSize: 10 } },
-    enableRowSelection: true,
+    filterFns: {
+      fuzzy: fuzzyFilter
+    },
+    state: {
+      rowSelection,
+      globalFilter
+    },
+    initialState: {
+      pagination: {
+        pageSize: 10
+      }
+    },
+    enableRowSelection: true, //enable row selection for all rows
+    // enableRowSelection: row => row.original.age > 18, // or enable row selection conditionally per row
     globalFilterFn: fuzzyFilter,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
@@ -258,10 +306,15 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
 
   const getAvatar = (params: Pick<UsersType, 'avatar' | 'fullName'>) => {
     const { avatar, fullName } = params
+
     if (avatar) {
       return <CustomAvatar src={avatar} skin='light' size={34} />
     } else {
-      return <CustomAvatar skin='light' size={34}>{getInitials(fullName as string)}</CustomAvatar>
+      return (
+        <CustomAvatar skin='light' size={34}>
+          {getInitials(fullName as string)}
+        </CustomAvatar>
+      )
     }
   }
 
@@ -300,19 +353,21 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
                   {headerGroup.headers.map(header => (
                     <th key={header.id}>
                       {header.isPlaceholder ? null : (
-                        <div
-                          className={classnames({
-                            'flex items-center': header.column.getIsSorted(),
-                            'cursor-pointer select-none': header.column.getCanSort()
-                          })}
-                          onClick={header.column.getToggleSortingHandler()}
-                        >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {{
-                            asc: <i className='ri-arrow-up-s-line text-xl' />,
-                            desc: <i className='ri-arrow-down-s-line text-xl' />
-                          }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
-                        </div>
+                        <>
+                          <div
+                            className={classnames({
+                              'flex items-center': header.column.getIsSorted(),
+                              'cursor-pointer select-none': header.column.getCanSort()
+                            })}
+                            onClick={header.column.getToggleSortingHandler()}
+                          >
+                            {flexRender(header.column.columnDef.header, header.getContext())}
+                            {{
+                              asc: <i className='ri-arrow-up-s-line text-xl' />,
+                              desc: <i className='ri-arrow-down-s-line text-xl' />
+                            }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
+                          </div>
+                        </>
                       )}
                     </th>
                   ))}
@@ -329,13 +384,18 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
               </tbody>
             ) : (
               <tbody>
-                {table.getRowModel().rows.slice(0, table.getState().pagination.pageSize).map(row => (
-                  <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
-                    {row.getVisibleCells().map(cell => (
-                      <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-                    ))}
-                  </tr>
-                ))}
+                {table
+                  .getRowModel()
+                  .rows.slice(0, table.getState().pagination.pageSize)
+                  .map(row => {
+                    return (
+                      <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
+                        {row.getVisibleCells().map(cell => (
+                          <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                        ))}
+                      </tr>
+                    )
+                  })}
               </tbody>
             )}
           </table>
@@ -347,8 +407,12 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
           count={table.getFilteredRowModel().rows.length}
           rowsPerPage={table.getState().pagination.pageSize}
           page={table.getState().pagination.pageIndex}
-          SelectProps={{ inputProps: { 'aria-label': 'rows per page' } }}
-          onPageChange={(_, page) => table.setPageIndex(page)}
+          SelectProps={{
+            inputProps: { 'aria-label': 'rows per page' }
+          }}
+          onPageChange={(_, page) => {
+            table.setPageIndex(page)
+          }}
           onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
         />
       </Card>

@@ -1,4 +1,4 @@
-import CreateQuiz from '@/views/quiz/CreateQuiz';
+import CreateQuiz from '@/views/apps/quiz/CreateQuiz';
 
 const CreateQuizPage = () => {
   return (

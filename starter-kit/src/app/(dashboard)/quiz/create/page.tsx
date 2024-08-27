@@ -3,14 +3,15 @@
 import Grid from '@mui/material/Grid'
 
 // Component Imports
-import AddQuizHeader from '@/views/quiz/add/AddQuizHeader'
-import QuizDescription from '@/views/quiz/add/QuizDescription'
-import AddQuizImage from '@/views/quiz/add/AddQuizImage'
-import QuizTypesDropdown from '@/views/quiz/add/QuizTypesDropdown'
-import QuizSociologicalData from '@/views/quiz/add/QuizSociologicalData'
-import { SociologicalProvider } from '@/views/quiz/add/AddQuizContext'
+import AddQuizHeader from '@/views/apps/quiz/add/AddQuizHeader'
+import QuizDescription from '@/views/apps/quiz/add/QuizDescription'
+import AddQuizImage from '@/views/apps/quiz/add/AddQuizImage'
+import QuizTypesDropdown from '@/views/apps/quiz/add/QuizTypesDropdown'
+import QuizSociologicalData from '@/views/apps/quiz/add/QuizSociologicalData'
+import { SociologicalProvider } from '@/views/apps/quiz/add/AddQuizContext'
+import AddQuizQuestions from '@/views/apps/quiz/add/AddQuizQuestions'
 
-const QuizAdd = () => {
+const QuizAdd = async () => {
   return (
     <SociologicalProvider>
       <Grid container spacing={6}>
@@ -30,6 +31,9 @@ const QuizAdd = () => {
             </Grid>
             <Grid item xs={12}>
               <QuizSociologicalData />
+            </Grid>
+            <Grid item xs={12}>
+              <AddQuizQuestions />
             </Grid>
           </Grid>
         </Grid>

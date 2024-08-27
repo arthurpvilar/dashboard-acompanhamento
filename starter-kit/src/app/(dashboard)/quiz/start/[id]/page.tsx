@@ -1,4 +1,4 @@
-import QuestionsViews from '@/views/quiz/QuestionsView';
+import QuestionsViews from '@/views/apps/quiz/QuestionsView';
 
 const QuestionsPage = () => {
   return (
