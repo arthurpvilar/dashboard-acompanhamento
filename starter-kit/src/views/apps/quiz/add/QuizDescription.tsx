@@ -128,6 +128,8 @@ const QuizDescription = () => {
     onUpdate: ({ editor }) => {
       setQuizDescription(editor.getHTML()); // Atualizar o estado global com a descrição
     },
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   return (
