@@ -46,7 +46,8 @@ return primaryColorConfig.filter(color => !usedColors.includes(color.main) || co
     if (sociologicalData.length < MAX_ITEMS) {
       const randomValue = Math.floor(Math.random() * (100 - 15 + 1)) + 15;
 
-      addSociologicalData({ color: '', name: '', value: randomValue });
+      // addSociologicalData({ id: 0, color: '', name: '', value: randomValue });
+      addSociologicalData({ id: 0, name: `Dado sociológico ${sociologicalData.length + 1}`, value: randomValue, color: '' });
     }
   };
 

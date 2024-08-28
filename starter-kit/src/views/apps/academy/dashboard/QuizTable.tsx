@@ -236,7 +236,7 @@ const QuizTable = ({ quizData }: { quizData?: Quiz[] }) => {
           <DebouncedInput
             value={globalFilter ?? ''}
             onChange={value => setGlobalFilter(String(value))}
-            placeholder='Search Quiz'
+            placeholder='Pesquisar Quiz'
           />
         }
         className='flex-wrap gap-4'

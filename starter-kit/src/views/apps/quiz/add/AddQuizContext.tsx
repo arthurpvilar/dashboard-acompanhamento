@@ -1,11 +1,12 @@
 'use client'
 
 import type { ReactNode } from 'react';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import type { QuizQuestion } from '@/types/apps/quizTypes';
 
-interface SociologicalDataType {
+export type SociologicalDataType = {
+  id: number;
   name: string;
   value: number;
   color: string;
@@ -63,6 +64,13 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
   const [quizDescription, setQuizDescription] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
   const [imageFile, setImageFile] = useState<File | null>(null);
+
+  // Efeito para adicionar o primeiro dado sociológico
+  useEffect(() => {
+    if (sociologicalData.length === 0) {
+      addSociologicalData({ id: 1, name: 'Dado sociológico 01', value: 50, color: '' });
+    }
+  }, []);
 
   const addQuizQuestion = (newQuestion: QuizQuestion) => {
     setQuizQuestions([...quizQuestions, newQuestion]);

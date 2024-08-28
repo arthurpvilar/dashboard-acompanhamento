@@ -38,6 +38,9 @@ import Divider from '@mui/material/Divider'
 // eslint-disable-next-line import/no-unresolved
 import CustomIconButton from '@core/components/mui/IconButton'
 
+import { Box, InputLabel, Menu, MenuItem, Select } from '@mui/material'
+
+import type { SociologicalDataType } from './AddQuizContext';
 import { useSociologicalData } from './AddQuizContext'
 
 // Type Imports
@@ -90,13 +93,90 @@ export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }))
 
 // Custom Toolbar for the Editor
-const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
+const EditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (id: number) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void }) => {
+  const { sociologicalData } = useSociologicalData()
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   if (!editor) {
     return null
   }
 
   return (
     <div className="flex flex-wrap gap-x-3 gap-y-1 pbs-5 pbe-4 pli-5">
+      {/* Dropdown CustomIconButton */}
+      <CustomIconButton onClick={handleClick} size="small" variant="outlined">
+        {selectedSociological ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box
+              sx={{
+                width: 20,
+                height: 20,
+                backgroundColor: selectedSociological.color,
+                border: '1px solid var(--border-color)',
+                borderRadius: 'var(--border-radius)',
+              }}
+            />
+            <span style={{ fontSize: '0.875rem' }}>{selectedSociological.name}</span>
+          </Box>
+        ) : (
+          <span style={{ fontSize: '0.875rem' }}>Selecionar Propriedade Sociológica</span>
+        )}
+      </CustomIconButton>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        {sociologicalData.map((data, index) => (
+          <MenuItem key={index} onClick={() => {
+            onSociologicalSelect(index)
+            handleClose()
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box
+                sx={{
+                  width: 25,
+                  height: 25,
+                  backgroundColor: data.color,
+                  border: '1px solid var(--border-color)',
+                  borderRadius: 'var(--border-radius)',
+                }}
+              />
+              <span style={{ fontSize: '0.875rem' }}>{data.name}</span>
+            </Box>
+          </MenuItem>
+        ))}
+      </Menu>
+      {/* Right section - Weight selection */}
+      <div>
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 100 }}>
+          <InputLabel style={{ fontSize: '0.875rem' }}>Peso</InputLabel>
+          <Select
+            label='Peso'
+            value={selectedWeight}
+            onChange={(e) => setSelectedWeight(Number(e.target.value))}
+            displayEmpty
+            inputProps={{ 'aria-label': 'Selecione o peso' }}
+          >
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <Divider orientation={'vertical'} flexItem />
+      {/* Restante dos botões do Editor */}
       <CustomIconButton
         {...(editor.isActive('bold') && { color: 'primary' })}
         variant="outlined"
@@ -161,15 +241,17 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
       >
         <i className="ri-align-justify text-textSecondary" />
       </CustomIconButton>
+
     </div>
   )
 }
 
 const AddQuizQuestions = () => {
-  const { quizQuestions, addQuizQuestion, updateQuizQuestion, setQuizQuestions } = useSociologicalData()
+  const { quizQuestions, addQuizQuestion, updateQuizQuestion, setQuizQuestions, sociologicalData  } = useSociologicalData()
   const [expanded, setExpanded] = useState<number | false>(0)
   const [newAnswer, setNewAnswer] = useState<string>('')
-  const [newWeight, setNewWeight] = useState<number>(1)
+  const [newWeight, setNewWeight] = useState<number | null>(null) // Initially null to ensure validation
+  const [selectedSociological, setSelectedSociological] = useState<SociologicalDataType | null>(null) // Ensure this is null by default
 
   const [newOptions, setNewOptions] = useState<QuizQuestionOption[]>([
     { title: '', isChecked: false },
@@ -234,6 +316,7 @@ const AddQuizQuestions = () => {
   const handleSaveQuestion = () => {
     const newQuizQuestion = {
       id: quizQuestions.length + 1,
+      sociologicalId: selectedSociological?.id,
       question: editor?.getHTML() || '', // Save the formatted question from TipTap editor
       options: newOptions,
       answer: newAnswer,
@@ -243,8 +326,9 @@ const AddQuizQuestions = () => {
     addQuizQuestion(newQuizQuestion)
     editor?.commands.clearContent() // Clear the editor after saving the question
     setNewAnswer('')
-    setNewWeight(1)
+    setNewWeight(null)
     setNewOptions([{ title: '', isChecked: false }, { title: '', isChecked: false }]) // Reset to two options
+    setSelectedSociological(null)
   }
 
   return (
@@ -260,7 +344,13 @@ const AddQuizQuestions = () => {
               </Typography>
               <Card className="p-0 border shadow-none">
                 <CardContent className="p-0">
-                  <EditorToolbar editor={editor} />
+                <EditorToolbar
+                  editor={editor}
+                  selectedWeight={newWeight}
+                  setSelectedWeight={setNewWeight}
+                  selectedSociological={selectedSociological}
+                  onSociologicalSelect={(index) => setSelectedSociological(sociologicalData[index])}
+                />
                   <Divider className="mli-5" />
                   <EditorContent editor={editor} className="bs-[135px] overflow-y-auto flex" />
                 </CardContent>
@@ -303,7 +393,7 @@ const AddQuizQuestions = () => {
                 onClick={handleSaveQuestion}
                 variant="contained"
                 color="primary"
-                disabled={newOptions.length < 2} // Disable if fewer than 2 options
+                disabled={!selectedSociological || newWeight === null || newOptions.length < 2} // Disable if SociologicalDataType or Weight isn't selected
               >
                 Salvar Questão
               </Button>
