@@ -36,17 +36,17 @@ export type QuizData = {
 // Represents an individual question in a quiz
 export type QuizQuestion = {
   id: number // Unique identifier for the question
-  sociologicalId?: number // Sociological data reference
   question?: string // The question text
   options?: QuizQuestionOption[] // Array of possible answers
   answer?: string // Correct answer
-  weight?: number // Question's weight in scoring
   subQuestions?: QuizQuestion[] // Nested sub-questions
 }
 
 export type QuizQuestionOption = {
   title: string
   isChecked: boolean
+  weight?: number // Question's weight in scoring
+  sociologicalId?: number // Sociological data reference
 }
 
 // Sociological metadata for quizzes

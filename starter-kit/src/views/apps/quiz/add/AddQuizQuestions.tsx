@@ -9,7 +9,6 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import { styled } from '@mui/material/styles'
 import MuiAccordion from '@mui/material/Accordion'
@@ -92,8 +91,87 @@ export const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   width: '100%'
 }))
 
-// Custom Toolbar for the Editor
-const EditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (id: number) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void }) => {
+// Custom Toolbar for the Editor (Simple for questions)
+const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
+  if (!editor) {
+    return null
+  }
+
+  return (
+    <div className="flex flex-wrap gap-x-3 gap-y-1 pbs-5 pbe-4 pli-5">
+      <Divider orientation={'vertical'} flexItem />
+      {/* Restante dos botões do Editor */}
+      <CustomIconButton
+        {...(editor.isActive('bold') && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().toggleBold().run()}
+      >
+        <i className="ri-bold text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive('underline') && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+      >
+        <i className="ri-underline text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive('italic') && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().toggleItalic().run()}
+      >
+        <i className="ri-italic text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive('strike') && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().toggleStrike().run()}
+      >
+        <i className="ri-strikethrough text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+      >
+        <i className="ri-align-left text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive({ textAlign: 'center' }) && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().setTextAlign('center').run()}
+      >
+        <i className="ri-align-center text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive({ textAlign: 'right' }) && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().setTextAlign('right').run()}
+      >
+        <i className="ri-align-right text-textSecondary" />
+      </CustomIconButton>
+      <CustomIconButton
+        {...(editor.isActive({ textAlign: 'justify' }) && { color: 'primary' })}
+        variant="outlined"
+        size="small"
+        onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+      >
+        <i className="ri-align-justify text-textSecondary" />
+      </CustomIconButton>
+
+    </div>
+  )
+}
+
+// Custom Toolbar for the Options Editor (with Sociological Data and Weight)
+const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (id: number) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void }) => {
   const { sociologicalData } = useSociologicalData()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -273,6 +351,93 @@ const AddQuizQuestions = () => {
     content: '',
   })
 
+  const optionEditor1 = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Digite a opção...',
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Underline,
+    ],
+    content: '',
+  });
+
+  const optionEditor2 = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Digite a opção...',
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Underline,
+    ],
+    content: '',
+  });
+
+  const optionEditor3 = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Digite a opção...',
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Underline,
+    ],
+    content: '',
+  });
+
+  const optionEditor4 = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Digite a opção...',
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Underline,
+    ],
+    content: '',
+  });
+
+  const optionEditor5 = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Digite a opção...',
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Underline,
+    ],
+    content: '',
+  });
+
+  const optionEditor6 = useEditor({
+    extensions: [
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Digite a opção...',
+      }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
+      Underline,
+    ],
+    content: '',
+  });
+
+  // Array para armazenar as instâncias dos editores
+  const optionEditors = [optionEditor1, optionEditor2, optionEditor3, optionEditor4, optionEditor5, optionEditor6];
+
   const handleChange = (panel: number) => (event: SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false)
   }
@@ -316,12 +481,13 @@ const AddQuizQuestions = () => {
   const handleSaveQuestion = () => {
     const newQuizQuestion = {
       id: quizQuestions.length + 1,
-      sociologicalId: selectedSociological?.id,
       question: editor?.getHTML() || '', // Save the formatted question from TipTap editor
       options: newOptions,
       answer: newAnswer,
-      weight: newWeight
+      weight: newWeight !== null ? newWeight : 0,
     }
+
+    console.log('New Quiz Question:', newQuizQuestion);
 
     addQuizQuestion(newQuizQuestion)
     editor?.commands.clearContent() // Clear the editor after saving the question
@@ -332,59 +498,78 @@ const AddQuizQuestions = () => {
   }
 
   return (
-    <Card>
-      <CardHeader title="Sessão de questões" />
-      <CardContent>
+    <div>
+      <Card className="mb-6">
+        <CardHeader title="Sessão de questões" />
+        <CardContent>
+          <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
+            <FormControl fullWidth>
+              <div className="flex flex-col gap-4 mb-5">
+                <Typography>Escreva no campo abaixo a pergunta que deseja adicionar.</Typography>
+                <Card className="p-0 border shadow-none">
+                  <CardContent className="p-0">
+                    <EditorToolbar editor={editor} />
+                    <Divider className="mli-5" />
+                    <EditorContent editor={editor} className="bs-[135px] overflow-y-auto flex" />
+                  </CardContent>
+                </Card>
+              </div>
+            </FormControl>
+          </form>
+        </CardContent>
+
+        <CardContent>
+          <CardHeader title="Opções criadas para a questão" className="flex flex-col gap-5" />
+        </CardContent>
+
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
           <FormControl fullWidth>
-            {/* Input para criar nova questão */}
             <div className="flex flex-col gap-4 mb-5">
-              <Typography>
-                Escreva no campo abaixo a pergunta que deseja adicionar, seguido das opções de resposta.
-              </Typography>
-              <Card className="p-0 border shadow-none">
-                <CardContent className="p-0">
-                <EditorToolbar
-                  editor={editor}
-                  selectedWeight={newWeight}
-                  setSelectedWeight={setNewWeight}
-                  selectedSociological={selectedSociological}
-                  onSociologicalSelect={(index) => setSelectedSociological(sociologicalData[index])}
-                />
-                  <Divider className="mli-5" />
-                  <EditorContent editor={editor} className="bs-[135px] overflow-y-auto flex" />
-                </CardContent>
-              </Card>
+              <CardContent>
+                {newOptions.map((option, index) => (
+                  <div key={index} className="flex gap-3 mb-4">
+                    <div className="flex-grow">
+                      <span className="flex gap-3 mb-4">{`Opção ${index + 1}`}</span>
+                      <Card className="p-0 border shadow-none">
+                        <CardContent className="p-0">
+                          <OptionEditorToolbar
+                            editor={optionEditors[index]}
+                            selectedWeight={newWeight !== null ? newWeight : 0}
+                            setSelectedWeight={setNewWeight}
+                            selectedSociological={selectedSociological}
+                            onSociologicalSelect={(i) => setSelectedSociological(sociologicalData[i])}
+                          />
+                          <Divider className="mli-5" />
+                          <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
+                        </CardContent>
+                      </Card>
+                    </div>
 
-              {newOptions.map((option, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <TextField
-                    fullWidth
-                    label={`Opção ${index + 1}`}
-                    value={option.title}
-                    onChange={(e) => {
-                      const updatedOptions = [...newOptions]
+                    <div className="flex justify-center items-start" style={{ marginTop: '30px' }}>
+                      <IconButton
+                        aria-label="remover opção"
+                        onClick={() => handleRemoveOption(index)}
+                        disabled={newOptions.length <= 2}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </div>
+          </FormControl>
+        </form>
 
-                      updatedOptions[index].title = e.target.value
-                      setNewOptions(updatedOptions)
-                    }}
-                    placeholder={`Digite a opção ${index + 1}`}
-                  />
-                  <IconButton
-                    aria-label="remover opção"
-                    onClick={() => handleRemoveOption(index)}
-                    disabled={newOptions.length <= 2}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </div>
-              ))}
-
+        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
+          <FormControl fullWidth>
+            <div className="flex justify-between mb-5" style={{ padding: '0 16px' }}> {/* Adiciona padding nas laterais */}
               <Button
                 onClick={handleAddOption}
                 variant="outlined"
                 color="primary"
                 disabled={newOptions.length >= 6} // Disable if already 6 options
+                style={{ width: '25%', padding: '6px 12px' }} // Largura de 48% para evitar overflow e padding interno
               >
                 Adicionar Nova Opção
               </Button>
@@ -393,106 +578,98 @@ const AddQuizQuestions = () => {
                 onClick={handleSaveQuestion}
                 variant="contained"
                 color="primary"
-                disabled={!selectedSociological || newWeight === null || newOptions.length < 2} // Disable if SociologicalDataType or Weight isn't selected
+                disabled={newOptions.length < 2} // Disable if fewer than 2 options
+                style={{ width: '25%', padding: '6px 12px' }} // Largura de 48% para evitar overflow e padding interno
               >
                 Salvar Questão
               </Button>
             </div>
           </FormControl>
         </form>
-      </CardContent>
-      <CardHeader title="Questões criadas para ao Quiz" />
-      <CardContent>
-        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
-          <FormControl fullWidth>
-            <Typography className="mb-4">
-              Estas são as questões criadas para o quiz, não é possível fazer alterações nas mesmas.
-            </Typography>
-            <Divider />
-          </FormControl>
-        </form>
-      </CardContent>
-      <CardContent>
-        <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
-          <FormControl fullWidth>
-            {quizQuestions.map((item, index) => {
-              return (
-                <div key={index} className="mb-4">
-                  <Accordion expanded={expanded === index} onChange={handleChange(index)}>
-                    <AccordionSummary
-                      id={`panel-header-${index}`}
-                      expandIcon={<i className='ri-arrow-right-s-line text-2xl text-textSecondary' />}
-                      aria-controls={`panel-content-${index}`}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        paddingRight: 2,
-                      }}
-                    >
-                      <div style={{ flexGrow: 1 }}>
-                        <Typography
-                          variant='h5'
-                          sx={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            display: expanded === index ? 'block' : '-webkit-box',
-                            WebkitLineClamp: expanded === index ? 'none' : 1,
-                            WebkitBoxOrient: 'vertical',
-                            wordBreak: 'break-word',
-                            width: '100%',
-                            marginRight: '16px',
-                          }}
-                          dangerouslySetInnerHTML={{ __html: item.question || '' }}
-                        />
-                        <Typography
-                          variant='body2'
-                          sx={{
-                            color: 'textSecondary',
-                            marginTop: '4px',
-                          }}
-                        >
-                          {`Peso: ${item.weight}`}
-                        </Typography>
-                      </div>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <List role='list' component='div' className='flex flex-col gap-4 plb-0'>
-                        {item.options?.map((option, i) => (
-                          <ListItem key={i} role='listitem' className='gap-3 p-0'>
-                            <ListItemIcon>
-                              <Checkbox
-                                tabIndex={-1}
-                                checked={option.isChecked}
-                                onChange={e => handleCheckboxChange(e, index, i)}
-                              />
-                            </ListItemIcon>
-                            <Typography className='font-medium !text-textPrimary'>
-                              {`${i + 1}. ${option.title}`}
-                            </Typography>
-                          </ListItem>
-                        ))}
-                      </List>
-                      {/* Botão para remover pergunta */}
-                      <div className="flex justify-end mt-5">
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          startIcon={<DeleteIcon />}
-                          onClick={() => handleRemoveQuestion(item.id)}
-                        >
-                          Remover Pergunta
-                        </Button>
-                      </div>
-                    </AccordionDetails>
-                  </Accordion>
-                </div>
-              )
-            })}
-          </FormControl>
-        </form>
-      </CardContent>
-    </Card>
+      </Card>
+
+      <Card>
+        <CardHeader title="Questões criadas para ao Quiz" />
+        <CardContent>
+          <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
+            <FormControl fullWidth>
+              <Typography className="mb-4">
+                Estas são as questões criadas para o quiz, não é possível fazer alterações nas mesmas.
+              </Typography>
+              <Divider />
+            </FormControl>
+          </form>
+        </CardContent>
+        <CardContent>
+          <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
+            <FormControl fullWidth>
+              {quizQuestions.map((item, index) => {
+                return (
+                  <div key={index} className="mb-4">
+                    <Accordion expanded={expanded === index} onChange={handleChange(index)}>
+                      <AccordionSummary
+                        id={`panel-header-${index}`}
+                        expandIcon={<i className="ri-arrow-right-s-line text-2xl text-textSecondary" />}
+                        aria-controls={`panel-content-${index}`}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          paddingRight: 2,
+                        }}
+                      >
+                        <div style={{ flexGrow: 1 }}>
+                          <Typography
+                            variant="h5"
+                            sx={{
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              display: expanded === index ? 'block' : '-webkit-box',
+                              WebkitLineClamp: expanded === index ? 'none' : 1,
+                              WebkitBoxOrient: 'vertical',
+                              wordBreak: 'break-word',
+                              width: '100%',
+                              marginRight: '16px',
+                            }}
+                            dangerouslySetInnerHTML={{ __html: item.question || '' }}
+                          />
+                        </div>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <List role="list" component="div" className="flex flex-col gap-4 plb-0">
+                          {item.options?.map((option, i) => (
+                            <ListItem key={i} role="listitem" className="gap-3 p-0">
+                              <ListItemIcon>
+                                <Checkbox
+                                  tabIndex={-1}
+                                  checked={option.isChecked}
+                                  onChange={(e) => handleCheckboxChange(e, index, i)}
+                                />
+                              </ListItemIcon>
+                              <Typography className="font-medium !text-textPrimary">{`${i + 1}. ${option.title}`}</Typography>
+                            </ListItem>
+                          ))}
+                        </List>
+                        <div className="flex justify-end mt-5">
+                          <Button
+                            variant="outlined"
+                            color="secondary"
+                            startIcon={<DeleteIcon />}
+                            onClick={() => handleRemoveQuestion(item.id)}
+                          >
+                            Remover Pergunta
+                          </Button>
+                        </div>
+                      </AccordionDetails>
+                    </Accordion>
+                  </div>
+                );
+              })}
+            </FormControl>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   )
 }
 
