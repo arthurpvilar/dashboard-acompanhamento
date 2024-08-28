@@ -21,7 +21,7 @@ import QuizSociologicalTopics from './QuizSociologicalTopics';
 
 
 // Primary color config object
-const primaryColorConfig = [
+export const primaryColorConfig = [
   { name: 'Roxo', main: '#8C57FF' },
   { name: 'Verde', main: '#0D9394' },
   { name: 'Vermelho', main: '#EB3D63' },
@@ -46,8 +46,17 @@ return primaryColorConfig.filter(color => !usedColors.includes(color.main) || co
     if (sociologicalData.length < MAX_ITEMS) {
       const randomValue = Math.floor(Math.random() * (100 - 15 + 1)) + 15;
 
-      // addSociologicalData({ id: 0, color: '', name: '', value: randomValue });
-      addSociologicalData({ id: 0, name: `Dado sociológico ${sociologicalData.length + 1}`, value: randomValue, color: '' });
+      // Obter a primeira cor disponível da lista
+      const availableColors = getAvailableColors();
+      const firstAvailableColor = availableColors.length > 0 ? availableColors[0].main : '';
+
+      // Adicionar novo dado sociológico com a primeira cor disponível
+      addSociologicalData({
+        id: 0,
+        name: `Dado sociológico ${sociologicalData.length + 1}`,
+        value: randomValue,
+        color: firstAvailableColor,
+      });
     }
   };
 

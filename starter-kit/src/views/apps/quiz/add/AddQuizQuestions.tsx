@@ -99,8 +99,6 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
 
   return (
     <div className="flex flex-wrap gap-x-3 gap-y-1 pbs-5 pbe-4 pli-5">
-      <Divider orientation={'vertical'} flexItem />
-      {/* Restante dos botões do Editor */}
       <CustomIconButton
         {...(editor.isActive('bold') && { color: 'primary' })}
         variant="outlined"
@@ -171,7 +169,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
 }
 
 // Custom Toolbar for the Options Editor (with Sociological Data and Weight)
-const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (id: number) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void }) => {
+const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (data: SociologicalDataType) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void }) => {
   const { sociologicalData } = useSociologicalData()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 
@@ -188,15 +186,15 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
   }
 
   return (
-    <div className="flex flex-wrap gap-x-3 gap-y-1 pbs-5 pbe-4 pli-5">
+    <div className="flex flex-wrap gap-x-2 gap-y-1 pbs-3 pbe-3 pli-3">
       {/* Dropdown CustomIconButton */}
       <CustomIconButton onClick={handleClick} size="small" variant="outlined">
         {selectedSociological ? (
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Box
               sx={{
-                width: 20,
-                height: 20,
+                width: 16,
+                height: 16,
                 backgroundColor: selectedSociological.color,
                 border: '1px solid var(--border-color)',
                 borderRadius: 'var(--border-radius)',
@@ -216,14 +214,16 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
       >
         {sociologicalData.map((data, index) => (
           <MenuItem key={index} onClick={() => {
-            onSociologicalSelect(index)
-            handleClose()
+            const selectedData = sociologicalData[index]; // Recupera o dado sociológico correspondente
+
+            onSociologicalSelect(selectedData); // Passa o objeto correto
+            handleClose();
           }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <Box
                 sx={{
-                  width: 25,
-                  height: 25,
+                  width: 20,
+                  height: 20,
                   backgroundColor: data.color,
                   border: '1px solid var(--border-color)',
                   borderRadius: 'var(--border-radius)',
@@ -236,20 +236,21 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
       </Menu>
       {/* Right section - Weight selection */}
       <div>
-        <FormControl variant="outlined" size="small" sx={{ minWidth: 100 }}>
-          <InputLabel style={{ fontSize: '0.875rem' }}>Peso</InputLabel>
+        <FormControl variant="outlined" size="small" sx={{ minWidth: 80 }}>
+          <InputLabel style={{ fontSize: '0.75rem' }}>Peso</InputLabel>
           <Select
             label='Peso'
             value={selectedWeight}
             onChange={(e) => setSelectedWeight(Number(e.target.value))}
             displayEmpty
             inputProps={{ 'aria-label': 'Selecione o peso' }}
+            sx={{ fontSize: '0.75rem' }}
           >
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={1} sx={{ fontSize: '0.75rem' }}>1</MenuItem>
+            <MenuItem value={2} sx={{ fontSize: '0.75rem' }}>2</MenuItem>
+            <MenuItem value={3} sx={{ fontSize: '0.75rem' }}>3</MenuItem>
+            <MenuItem value={4} sx={{ fontSize: '0.75rem' }}>4</MenuItem>
+            <MenuItem value={5} sx={{ fontSize: '0.75rem' }}>5</MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -259,65 +260,73 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
         {...(editor.isActive('bold') && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().toggleBold().run()}
       >
-        <i className="ri-bold text-textSecondary" />
+        <i className="ri-bold text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('underline') && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().toggleUnderline().run()}
       >
-        <i className="ri-underline text-textSecondary" />
+        <i className="ri-underline text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('italic') && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().toggleItalic().run()}
       >
-        <i className="ri-italic text-textSecondary" />
+        <i className="ri-italic text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive('strike') && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().toggleStrike().run()}
       >
-        <i className="ri-strikethrough text-textSecondary" />
+        <i className="ri-strikethrough text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'left' }) && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().setTextAlign('left').run()}
       >
-        <i className="ri-align-left text-textSecondary" />
+        <i className="ri-align-left text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'center' }) && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().setTextAlign('center').run()}
       >
-        <i className="ri-align-center text-textSecondary" />
+        <i className="ri-align-center text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'right' }) && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().setTextAlign('right').run()}
       >
-        <i className="ri-align-right text-textSecondary" />
+        <i className="ri-align-right text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
       <CustomIconButton
         {...(editor.isActive({ textAlign: 'justify' }) && { color: 'primary' })}
         variant="outlined"
         size="small"
+        sx={{ fontSize: '0.75rem', padding: '4px' }}
         onClick={() => editor.chain().focus().setTextAlign('justify').run()}
       >
-        <i className="ri-align-justify text-textSecondary" />
+        <i className="ri-align-justify text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
 
     </div>
@@ -325,11 +334,12 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
 }
 
 const AddQuizQuestions = () => {
-  const { quizQuestions, addQuizQuestion, updateQuizQuestion, setQuizQuestions, sociologicalData  } = useSociologicalData()
+  const { quizQuestions, addQuizQuestion, updateQuizQuestion, setQuizQuestions  } = useSociologicalData()
   const [expanded, setExpanded] = useState<number | false>(0)
   const [newAnswer, setNewAnswer] = useState<string>('')
-  const [newWeight, setNewWeight] = useState<number | null>(null) // Initially null to ensure validation
-  const [selectedSociological, setSelectedSociological] = useState<SociologicalDataType | null>(null) // Ensure this is null by default
+
+  const [selectedSociologicals, setSelectedSociologicals] = useState<(SociologicalDataType | null)[]>([null, null]);
+  const [weights, setWeights] = useState<number[]>([1, 1]);
 
   const [newOptions, setNewOptions] = useState<QuizQuestionOption[]>([
     { title: '', isChecked: false },
@@ -358,7 +368,7 @@ const AddQuizQuestions = () => {
         placeholder: 'Digite a opção...',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['paragraph'],
       }),
       Underline,
     ],
@@ -372,7 +382,7 @@ const AddQuizQuestions = () => {
         placeholder: 'Digite a opção...',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['paragraph'],
       }),
       Underline,
     ],
@@ -386,7 +396,7 @@ const AddQuizQuestions = () => {
         placeholder: 'Digite a opção...',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['paragraph'],
       }),
       Underline,
     ],
@@ -400,7 +410,7 @@ const AddQuizQuestions = () => {
         placeholder: 'Digite a opção...',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['paragraph'],
       }),
       Underline,
     ],
@@ -414,7 +424,7 @@ const AddQuizQuestions = () => {
         placeholder: 'Digite a opção...',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['paragraph'],
       }),
       Underline,
     ],
@@ -428,7 +438,7 @@ const AddQuizQuestions = () => {
         placeholder: 'Digite a opção...',
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ['paragraph'],
       }),
       Underline,
     ],
@@ -460,6 +470,8 @@ const AddQuizQuestions = () => {
   const handleAddOption = () => {
     if (newOptions.length < 6) {
       setNewOptions([...newOptions, { title: '', isChecked: false }])
+      setSelectedSociologicals([...selectedSociologicals, null])
+      setWeights([...weights, 1])
     }
   }
 
@@ -469,6 +481,16 @@ const AddQuizQuestions = () => {
 
       updatedOptions.splice(index, 1)
       setNewOptions(updatedOptions)
+
+      const updatedSociologicals = [...selectedSociologicals]
+
+      updatedSociologicals.splice(index, 1)
+      setSelectedSociologicals(updatedSociologicals)
+
+      const updatedWeights = [...weights]
+
+      updatedWeights.splice(index, 1)
+      setWeights(updatedWeights)
     }
   }
 
@@ -478,13 +500,41 @@ const AddQuizQuestions = () => {
     setQuizQuestions(updatedQuestions)
   }
 
+  const handleSociologicalSelect = (data: SociologicalDataType, index: number) => {
+    const updatedSociologicals = [...selectedSociologicals]
+
+    updatedSociologicals[index] = data
+    setSelectedSociologicals(updatedSociologicals)
+  }
+
+  const handleWeightChange = (weight: number, index: number) => {
+    const updatedWeights = [...weights]
+
+    updatedWeights[index] = weight
+    setWeights(updatedWeights)
+  }
+
+  // Função para verificar se todas as opções estão preenchidas corretamente
+  const isSaveDisabled = () => {
+    return newOptions.some((option, index) => !selectedSociologicals[index] || weights[index] === null);
+  }
+
   const handleSaveQuestion = () => {
+    // Captura o conteúdo de cada editor de opção
+    const updatedOptions = newOptions.map((option, index) => {
+      return {
+        ...option,
+        title: optionEditors[index]?.getHTML() || '', // Pegue o conteúdo do editor de opção correspondente
+        weight: weights[index],
+        sociological: selectedSociologicals[index]
+      }
+    });
+
     const newQuizQuestion = {
       id: quizQuestions.length + 1,
       question: editor?.getHTML() || '', // Save the formatted question from TipTap editor
-      options: newOptions,
+      options: updatedOptions,
       answer: newAnswer,
-      weight: newWeight !== null ? newWeight : 0,
     }
 
     console.log('New Quiz Question:', newQuizQuestion);
@@ -492,9 +542,10 @@ const AddQuizQuestions = () => {
     addQuizQuestion(newQuizQuestion)
     editor?.commands.clearContent() // Clear the editor after saving the question
     setNewAnswer('')
-    setNewWeight(null)
+    optionEditors.forEach(editorInstance => editorInstance?.commands.clearContent()); // Limpa todos os editores de opções
     setNewOptions([{ title: '', isChecked: false }, { title: '', isChecked: false }]) // Reset to two options
-    setSelectedSociological(null)
+    setSelectedSociologicals([null, null])
+    setWeights([1, 1])
   }
 
   return (
@@ -534,10 +585,10 @@ const AddQuizQuestions = () => {
                         <CardContent className="p-0">
                           <OptionEditorToolbar
                             editor={optionEditors[index]}
-                            selectedWeight={newWeight !== null ? newWeight : 0}
-                            setSelectedWeight={setNewWeight}
-                            selectedSociological={selectedSociological}
-                            onSociologicalSelect={(i) => setSelectedSociological(sociologicalData[i])}
+                            selectedWeight={weights[index]}
+                            setSelectedWeight={(weight) => handleWeightChange(weight, index)}
+                            selectedSociological={selectedSociologicals[index]}
+                            onSociologicalSelect={(data) => handleSociologicalSelect(data, index)}
                           />
                           <Divider className="mli-5" />
                           <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
@@ -563,13 +614,13 @@ const AddQuizQuestions = () => {
 
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
           <FormControl fullWidth>
-            <div className="flex justify-between mb-5" style={{ padding: '0 16px' }}> {/* Adiciona padding nas laterais */}
+            <div className="flex justify-between mb-5" style={{ padding: '0 20px' }}> {/* Adiciona padding nas laterais */}
               <Button
                 onClick={handleAddOption}
                 variant="outlined"
                 color="primary"
                 disabled={newOptions.length >= 6} // Disable if already 6 options
-                style={{ width: '25%', padding: '6px 12px' }} // Largura de 48% para evitar overflow e padding interno
+                style={{ width: '25%', padding: '6px 20px' }} // Largura de 48% para evitar overflow e padding interno
               >
                 Adicionar Nova Opção
               </Button>
@@ -578,8 +629,8 @@ const AddQuizQuestions = () => {
                 onClick={handleSaveQuestion}
                 variant="contained"
                 color="primary"
-                disabled={newOptions.length < 2} // Disable if fewer than 2 options
-                style={{ width: '25%', padding: '6px 12px' }} // Largura de 48% para evitar overflow e padding interno
+                disabled={newOptions.length < 2 || isSaveDisabled()} // Disable if fewer than 2 options
+                style={{ width: '25%', padding: '6px 20px' }} // Largura de 48% para evitar overflow e padding interno
               >
                 Salvar Questão
               </Button>
@@ -638,15 +689,25 @@ const AddQuizQuestions = () => {
                       <AccordionDetails>
                         <List role="list" component="div" className="flex flex-col gap-4 plb-0">
                           {item.options?.map((option, i) => (
-                            <ListItem key={i} role="listitem" className="gap-3 p-0">
+                            <ListItem key={i} role="listitem" className="gap-0 p-0">
+                              <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '3px' }}>
+                                {/* Número da opção separado */}
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                                  {i + 1}.
+                                </Typography>
+                              </Box>
                               <ListItemIcon>
                                 <Checkbox
                                   tabIndex={-1}
+                                  className="p-5"
                                   checked={option.isChecked}
                                   onChange={(e) => handleCheckboxChange(e, index, i)}
                                 />
                               </ListItemIcon>
-                              <Typography className="font-medium !text-textPrimary">{`${i + 1}. ${option.title}`}</Typography>
+                              <Typography
+                                className="font-medium !text-textPrimary"
+                                dangerouslySetInnerHTML={{ __html: option.title }}
+                              />
                             </ListItem>
                           ))}
                         </List>

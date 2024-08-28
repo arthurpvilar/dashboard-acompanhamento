@@ -28,8 +28,8 @@ const QuizTypesDropdown = () => {
               value={quizType} // O valor é retirado do contexto
               onChange={(e) => setQuizType(e.target.value)} // Atualizar o tipo de quiz no contexto
             >
-              <MenuItem value={`Pergunta com Texto`}>Pergunta com Texto</MenuItem>
-              <MenuItem value={`Pergunta com Áudio`}>Pergunta com Áudio</MenuItem>
+              <MenuItem value={`Pergunta e Resposta Dissertativa`}>Pergunta e Resposta Dissertativa</MenuItem>
+              <MenuItem value={`Pergunta Auditiva e Resposta Dissertativa`}>Pergunta Auditiva e Resposta Dissertativa</MenuItem>
             </Select>
           </FormControl>
         </form>

@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import type { QuizQuestion } from '@/types/apps/quizTypes';
+import { primaryColorConfig } from './QuizSociologicalData';
 
 export type SociologicalDataType = {
   id: number;
@@ -68,9 +69,17 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
   // Efeito para adicionar o primeiro dado sociológico
   useEffect(() => {
     if (sociologicalData.length === 0) {
-      addSociologicalData({ id: 1, name: 'Dado sociológico 01', value: 50, color: '' });
+      // Obter a primeira cor disponível da lista
+      const firstAvailableColor = primaryColorConfig.length > 0 ? primaryColorConfig[0].main : '';
+
+      addSociologicalData({
+        id: 1,
+        name: 'Dado sociológico 01',
+        value: 50,
+        color: firstAvailableColor, // Atribuir a primeira cor disponível
+      });
     }
-  }, []);
+  });
 
   const addQuizQuestion = (newQuestion: QuizQuestion) => {
     setQuizQuestions([...quizQuestions, newQuestion]);
