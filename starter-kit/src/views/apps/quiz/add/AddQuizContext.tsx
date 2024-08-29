@@ -35,6 +35,10 @@ interface SociologicalContextProps {
   setImageUrl: (url: string) => void;
   imageFile: File | null;
   setImageFile: (file: File | null) => void;
+  audioUrl: string;
+  setAudioUrl: (url: string) => void;
+  audioFile: File | null;
+  setAudioFile: (file: File | null) => void;
 }
 
 // Tipo para o provider
@@ -65,6 +69,8 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
   const [quizDescription, setQuizDescription] = useState<string>('');
   const [imageUrl, setImageUrl] = useState<string>('');
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [audioUrl, setAudioUrl] = useState<string>('');
+  const [audioFile, setAudioFile] = useState<File | null>(null);
 
   // Efeito para adicionar o primeiro dado sociológico
   useEffect(() => {
@@ -79,7 +85,7 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
         color: firstAvailableColor, // Atribuir a primeira cor disponível
       });
     }
-  });
+  }, [sociologicalData]);
 
   const addQuizQuestion = (newQuestion: QuizQuestion) => {
     setQuizQuestions([...quizQuestions, newQuestion]);
@@ -132,6 +138,10 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
         setImageUrl,
         imageFile,
         setImageFile,
+        audioUrl,
+        setAudioUrl,
+        audioFile,
+        setAudioFile,
       }}
     >
       {children}

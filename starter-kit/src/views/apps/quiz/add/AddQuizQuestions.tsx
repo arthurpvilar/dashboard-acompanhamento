@@ -359,6 +359,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   })
 
   const optionEditor1 = useEditor({
@@ -373,6 +375,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   const optionEditor2 = useEditor({
@@ -387,6 +391,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   const optionEditor3 = useEditor({
@@ -401,6 +407,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   const optionEditor4 = useEditor({
@@ -415,6 +423,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   const optionEditor5 = useEditor({
@@ -429,6 +439,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   const optionEditor6 = useEditor({
@@ -443,6 +455,8 @@ const AddQuizQuestions = () => {
       Underline,
     ],
     content: '',
+    immediatelyRender: true,
+    shouldRerenderOnTransaction: false,
   });
 
   // Array para armazenar as instâncias dos editores
