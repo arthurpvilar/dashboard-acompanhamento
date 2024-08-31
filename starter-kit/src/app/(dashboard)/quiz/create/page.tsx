@@ -9,8 +9,7 @@ import AddQuizImage from '@/views/apps/quiz/add/AddQuizImage'
 import QuizTypesDropdown from '@/views/apps/quiz/add/QuizTypesDropdown'
 import QuizSociologicalData from '@/views/apps/quiz/add/QuizSociologicalData'
 import { SociologicalProvider } from '@/views/apps/quiz/add/AddQuizContext'
-import AddQuizQuestions from '@/views/apps/quiz/add/AddQuizQuestions'
-import AddQuizAudio from '@/views/apps/quiz/add/AddQuizAudio'
+import QuizQuestions from '@/views/apps/quiz/add/QuizQuestions'
 
 const QuizAdd = async () => {
   return (
@@ -28,16 +27,13 @@ const QuizAdd = async () => {
               <AddQuizImage />
             </Grid>
             <Grid item xs={12}>
-              <QuizTypesDropdown />
-            </Grid>
-            <Grid item xs={12}>
-              <AddQuizAudio/>
-            </Grid>
-            <Grid item xs={12}>
               <QuizSociologicalData />
             </Grid>
             <Grid item xs={12}>
-              <AddQuizQuestions />
+              <QuizTypesDropdown />
+            </Grid>
+            <Grid item xs={12}>
+              <QuizQuestions />
             </Grid>
           </Grid>
         </Grid>

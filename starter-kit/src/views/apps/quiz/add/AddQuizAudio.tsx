@@ -51,6 +51,7 @@ const Dropzone = styled('div')(({ theme }) => ({
   },
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const PulseCircle = styled('div')(({ theme }) => ({
   position: 'absolute',
   width: 100,
@@ -69,6 +70,7 @@ const IconContainer = styled('div')({
   zIndex: 1,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const CustomSlider = styled(Slider)(({ theme }) => ({
   height: 4,
   '& .MuiSlider-thumb': {
