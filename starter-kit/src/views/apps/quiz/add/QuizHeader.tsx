@@ -7,57 +7,71 @@ import Typography from '@mui/material/Typography';
 // Importar o contexto
 import { useSociologicalData } from './AddQuizContext';
 
-const QuizAddHeader = () => {
+const QuizHeader = () => {
   const {
-    setQuizName,
-    setQuizIdentifier,
-    setQuizDescription,
-    setImageUrl,
-    setImageFile,
     quizName,
+    setQuizName,
     quizIdentifier,
+    setQuizIdentifier,
     quizDescription,
-    imageUrl,
+    setQuizDescription,
     imageFile,
+    setImageFile,
+    quizType,
+    quizQuestions,
+    setQuizQuestions,
+    optionImages,
+    setOptionImage,
+    audioFile,
+    setAudioFile,
   } = useSociologicalData(); // Acessar o contexto
 
-  const handleDiscard = () => {
-    // Limpar os dados do quiz
+  // Função para limpar todos os dados
+  const clearAllData = () => {
     setQuizName('');
     setQuizIdentifier('');
     setQuizDescription('');
-    setImageUrl('');
     setImageFile(null);
+    setQuizQuestions([]);
+    setAudioFile(null);
+    Object.keys(optionImages).forEach((key) => {
+      setOptionImage(key, { imageUrl: '', imageFile: null });
+    });
   };
 
+  // Função para salvar o rascunho no localStorage
   const handleSaveDraft = () => {
-    // Exemplo: Salvar no localStorage (ou poderia ser no backend)
-    const quizData = {
+    const quizDraft = {
       name: quizName,
       identifier: quizIdentifier,
       description: quizDescription,
-      imageUrl: imageUrl,
-      imageFile: imageFile ? imageFile.name : null, // Se quiser salvar apenas o nome do arquivo
+      imageFile,
+      quizType,
+      questions: quizQuestions,
+      audioFile,
     };
 
-    localStorage.setItem('quizDraft', JSON.stringify(quizData));
+    localStorage.setItem('quizDraft', JSON.stringify(quizDraft));
     alert('Rascunho salvo!');
   };
 
+  // Função para publicar o quiz (simulando envio para uma API)
   const handlePublish = () => {
-    // Exemplo: Publicar (enviar para o backend)
     const quizData = {
       name: quizName,
       identifier: quizIdentifier,
       description: quizDescription,
-      imageUrl: imageUrl,
-      imageFile: imageFile ? imageFile.name : null, // Se quiser enviar apenas o nome do arquivo
+      imageFile,
+      quizType,
+      questions: quizQuestions,
+      audioFile,
     };
 
-
-    // Lógica para publicar (exemplo: enviar para uma API)
     console.log('Publicando quiz...', quizData);
+
+    // Aqui você pode adicionar a lógica para enviar os dados para uma API
     alert('Quiz publicado com sucesso!');
+    clearAllData(); // Limpar os dados após a publicação
   };
 
   return (
@@ -71,7 +85,7 @@ const QuizAddHeader = () => {
         </Typography>
       </div>
       <div className="flex flex-wrap gap-4">
-        <Button variant="outlined" color="secondary" onClick={handleDiscard}>
+        <Button variant="outlined" color="secondary" onClick={clearAllData}>
           Descartar
         </Button>
         <Button variant="outlined" onClick={handleSaveDraft}>
@@ -85,4 +99,4 @@ const QuizAddHeader = () => {
   );
 };
 
-export default QuizAddHeader;
+export default QuizHeader;

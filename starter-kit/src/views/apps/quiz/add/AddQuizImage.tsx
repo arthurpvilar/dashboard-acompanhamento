@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 
-import Link from 'next/link';
-
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -12,15 +10,15 @@ import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { Box, TextField } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
+
+
 // eslint-disable-next-line import/no-unresolved
 import CustomAvatar from '@core/components/mui/Avatar';
 
-// eslint-disable-next-line import/no-unresolved
-import AppReactDropzone from '@/libs/styles/AppReactDropzone';
 import { useSociologicalData } from './AddQuizContext'; // Importar o contexto
 
 // Styled Dropzone Component
-const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
+const DropzoneContainer = styled('div')(({ theme }) => ({
   '& .dropzone': {
     border: '2px dashed #cccccc',
     borderRadius: '12px',
@@ -44,58 +42,80 @@ const Dropzone = styled(AppReactDropzone)(({ theme }) => ({
   },
 }));
 
-const AddQuizImage = () => {
-  const { imageFile, setImageFile, imageUrl, setImageUrl } = useSociologicalData(); // Usando o contexto
+interface AddQuizImageProps {
+  optionKey: string;
+}
+
+const AddQuizImage = ({ optionKey }: AddQuizImageProps) => {
+  const { setOptionImage, optionImages } = useSociologicalData(); // Utilizar setOptionImage
   const [showUrlInput, setShowUrlInput] = useState(false);
+
+  // Obter a imagem atual para a optionKey
+  const currentImage = optionImages[optionKey];
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
+    accept: {
+      'image/*': [],
+    },
     onDrop: (acceptedFiles: File[]) => {
-      setImageFile(acceptedFiles[0]); // Atualiza o arquivo de imagem no contexto
-      setImageUrl(''); // Limpa a URL ao selecionar um arquivo
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
+
+        setOptionImage(optionKey, {
+          imageFile: file,
+          imageUrl: '',
+        });
+      }
     },
   });
 
   const renderFilePreview = () => {
-    if (imageFile) {
-      return <img alt={imageFile.name} src={URL.createObjectURL(imageFile)} />;
-    } else if (imageUrl) {
-      return <img alt="Preview from URL" src={imageUrl} />;
+    if (currentImage?.imageFile) {
+      return <img alt={currentImage.imageFile.name} src={URL.createObjectURL(currentImage.imageFile)} />;
+    } else if (currentImage?.imageUrl) {
+      return <img alt="Preview from URL" src={currentImage.imageUrl} />;
     }
 
-
-return null;
+    return null;
   };
 
   const handleRemoveFile = () => {
-    setImageFile(null); // Limpa o arquivo do contexto
-    setImageUrl(''); // Limpa a URL do contexto
+    setOptionImage(optionKey, {
+      imageFile: null,
+      imageUrl: '',
+    });
   };
 
   const toggleUrlInput = () => {
-    setShowUrlInput(!showUrlInput);
+    setShowUrlInput((prev) => !prev);
   };
 
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setImageUrl(event.target.value); // Atualiza a URL no contexto
-    setImageFile(null); // Limpa o arquivo ao inserir uma URL
+    const url = event.target.value;
+
+    setOptionImage(optionKey, {
+      imageFile: null,
+      imageUrl: url,
+    });
   };
 
   return (
-    <Dropzone>
+    <DropzoneContainer>
       <Card>
         <CardHeader
           title="Imagem do Quiz"
           action={
             <Typography
-              component={Link}
-              href="/"
+              component="a"
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 toggleUrlInput();
               }}
               color="primary"
               className="font-medium"
+              sx={{ cursor: 'pointer' }}
             >
               {showUrlInput ? 'Fechar campo de URL' : 'Adicionar a partir de URL'}
             </Typography>
@@ -106,7 +126,7 @@ return null;
           <Box mb={4}>
             <div {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
-              {!imageFile && !imageUrl && (
+              {!currentImage && (
                 <div className="flex items-center flex-col gap-2 text-center">
                   <CustomAvatar variant="rounded" skin="light" color="secondary">
                     <i className="ri-upload-2-line" />
@@ -127,14 +147,14 @@ return null;
                 <TextField
                   fullWidth
                   label="URL da Imagem"
-                  value={imageUrl}
+                  value={currentImage?.imageUrl || ''}
                   onChange={handleUrlChange}
                   placeholder="Cole o link da imagem aqui"
                 />
               </div>
             </Box>
           )}
-          {(imageFile || imageUrl) && (
+          {(currentImage?.imageFile || currentImage?.imageUrl) && (
             <div className="buttons">
               <Button color="error" variant="outlined" onClick={handleRemoveFile}>
                 Remover Imagem
@@ -143,7 +163,7 @@ return null;
           )}
         </CardContent>
       </Card>
-    </Dropzone>
+    </DropzoneContainer>
   );
 };
 

@@ -49,10 +49,11 @@ import { useDropzone } from 'react-dropzone'
 import { useSociologicalData, type SociologicalDataType } from './AddQuizContext';
 
 // Type Imports
-import type { QuizQuestionOption } from '@/types/apps/quizTypes'
+import type { QuizQuestion, QuizQuestionOption } from '@/types/apps/quizTypes'
 
 // eslint-disable-next-line import/no-unresolved
 import CustomAvatar from '@/@core/components/mui/Avatar'
+import AddQuizImage from './AddQuizImage'
 
 // Custom Styled Components
 // Keyframes for pulsing effect
@@ -240,13 +241,30 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
 }
 
 // Custom Toolbar for the Options Editor (with Sociological Data and Weight)
-const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (data: SociologicalDataType) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void }) => {
-  const { sociologicalData } = useSociologicalData()
+const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelect, selectedWeight, setSelectedWeight, optionKey }: { editor: Editor | null, selectedSociological: any, onSociologicalSelect: (data: SociologicalDataType) => void, selectedWeight: number, setSelectedWeight: (weight: number) => void, optionKey: string }) => {
+  const { sociologicalData, showOptionImage, setShowOptionImage } = useSociologicalData()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  // console.log(editor);
+  // console.log(selectedSociological);
+  // console.log(onSociologicalSelect);
+  // console.log(selectedWeight);
+  // console.log(setSelectedWeight);
+  // console.log(setSelectedWeight);
+  // console.log(optionKey);
+  // console.log(optionImages);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
+
+  const handleOpenImageDialog = () => {
+    if (showOptionImage[optionKey] === undefined) {
+      setShowOptionImage(optionKey, true);
+    } else {
+      setShowOptionImage(optionKey, !showOptionImage[optionKey]);
+    }
+  };
 
   const handleClose = () => {
     setAnchorEl(null)
@@ -399,19 +417,21 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
       >
         <i className="ri-align-justify text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
-
+      <CustomIconButton onClick={handleOpenImageDialog} size="small" variant="outlined">
+        <i className="ri-image-add-line text-textSecondary" />
+      </CustomIconButton>
     </div>
   )
 }
 
 const QuizQuestions: React.FC = () => {
   // Variáveis das questões
-  const { quizQuestions, addQuizQuestion, updateQuizQuestion, setQuizQuestions, quizType } = useSociologicalData()
+  const { quizQuestions, addQuizQuestion, updateQuizQuestion, setQuizQuestions, quizType, showOptionImage, setShowOptionImage, optionImages, setOptionImage, imageFile } = useSociologicalData()
   const [expanded, setExpanded] = useState<number | false>(0)
   const [newAnswer, setNewAnswer] = useState<string>('')
 
   // Variáveis do áudio
-  const { audioFile, setAudioFile, audioUrl, setAudioUrl } = useSociologicalData();
+  const { audioFile, setAudioFile } = useSociologicalData();
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -437,8 +457,10 @@ const QuizQuestions: React.FC = () => {
       const file = acceptedFiles[0];
       const fileUrl = URL.createObjectURL(file);
 
-      setAudioUrl(fileUrl);
-      setAudioFile(file);
+      setAudioFile({
+        audioFile: file,
+        audioUrl: fileUrl,
+      });
 
       if (audioRef.current) {
         audioRef.current.src = fileUrl;
@@ -478,7 +500,6 @@ const QuizQuestions: React.FC = () => {
 
   const handleRemoveFile = () => {
     setAudioFile(null);
-    setAudioUrl('');
     setProgress(0);
     setIsPlaying(false);
 
@@ -496,7 +517,6 @@ const QuizQuestions: React.FC = () => {
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
 
-    setAudioUrl(url);
     setAudioFile(null);
 
     if (audioRef.current) {
@@ -697,6 +717,8 @@ const QuizQuestions: React.FC = () => {
 
       updatedWeights.splice(index, 1)
       setWeights(updatedWeights)
+
+      setShowOptionImage(`$option-${index}`, true);
     }
   }
 
@@ -727,20 +749,23 @@ const QuizQuestions: React.FC = () => {
 
   const handleSaveQuestion = () => {
     // Captura o conteúdo de cada editor de opção
-    const updatedOptions = newOptions.map((option, index) => {
+    const updatedOptions = newOptions.map((option: QuizQuestionOption, index) => {
       return {
         ...option,
         title: optionEditors[index]?.getHTML() || '', // Pegue o conteúdo do editor de opção correspondente
         weight: weights[index],
-        sociological: selectedSociologicals[index]
+        sociological: selectedSociologicals[index],
+        image: optionImages[`option-${index}`],
       }
     });
 
-    const newQuizQuestion = {
+    const newQuizQuestion: QuizQuestion = {
       id: quizQuestions.length + 1,
       question: editor?.getHTML() || '', // Save the formatted question from TipTap editor
       options: updatedOptions,
       answer: newAnswer,
+      image: imageFile,
+      audio: audioFile,
     }
 
     console.log('New Quiz Question:', newQuizQuestion);
@@ -752,6 +777,12 @@ const QuizQuestions: React.FC = () => {
     setNewOptions([{ title: '', isChecked: false }, { title: '', isChecked: false }]) // Reset to two options
     setSelectedSociologicals([null, null])
     setWeights([1, 1])
+
+    // Limpa os dados das imagens das opções
+    Object.keys(optionImages).forEach(key => {
+      setShowOptionImage(key, false);
+      setOptionImage(key, { imageUrl: '', imageFile: null });
+    });
   }
 
   return (
@@ -804,7 +835,7 @@ const QuizQuestions: React.FC = () => {
                 <Box mb={4}>
                   <div {...getRootProps({ className: 'dropzone' })}>
                     <input {...getInputProps()} />
-                    {(audioFile || audioUrl) ? (
+                    {(audioFile?.audioFile || audioFile?.audioUrl) ? (
                       <IconContainer>
                         {isPlaying && <PulseCircle />}
                         <VolumeUpIcon sx={{ paddingBottom: '59px', marginTop: '58px', fontSize: 100, color: 'rgba(0, 0, 0, 0.54)' }} />
@@ -837,7 +868,7 @@ const QuizQuestions: React.FC = () => {
                 )}
                 <Box mb={4}>
                   <audio ref={audioRef} controls={false} />
-                  {(audioFile || audioUrl) && (
+                  {(audioFile?.audioFile || audioFile?.audioUrl) && (
                     <Box display="flex" alignItems="center" paddingTop={1}>
                       <IconButton onClick={handlePlayPause} size="large" sx={{ paddingTop: '5px' }}>
                         {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
@@ -879,9 +910,16 @@ const QuizQuestions: React.FC = () => {
                             setSelectedWeight={(weight) => handleWeightChange(weight, index)}
                             selectedSociological={selectedSociologicals[index]}
                             onSociologicalSelect={(data) => handleSociologicalSelect(data, index)}
+                            optionKey={`option-${index}`}
                           />
                           <Divider className="mli-5" />
                           <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
+                          {showOptionImage[`option-${index}`] &&
+                          (
+                            <AddQuizImage
+                            optionKey={`option-${index}`}
+                            />
+                          )}
                         </CardContent>
                       </Card>
                     </div>

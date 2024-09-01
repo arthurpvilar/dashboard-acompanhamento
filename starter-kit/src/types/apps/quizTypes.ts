@@ -39,6 +39,8 @@ export type QuizQuestion = {
   question?: string // The question text
   options?: QuizQuestionOption[] // Array of possible answers
   answer?: string // Correct answer
+  image: QuizImageData | null // Adiciona o campo de imagem
+  audio: QuizAudioData | null // Adiciona o campo de áudio
   subQuestions?: QuizQuestion[] // Nested sub-questions
 }
 
@@ -47,6 +49,19 @@ export type QuizQuestionOption = {
   isChecked: boolean
   weight?: number // Question's weight in scoring
   sociologicalId?: number // Sociological data reference
+  image?: QuizImageData // Adiciona o campo de imagem à opção
+}
+
+// Nova interface para armazenar dados de imagem
+export type QuizImageData = {
+  imageUrl: string;
+  imageFile: File | null;
+}
+
+// Nova interface para armazenar dados do áudio
+export type QuizAudioData = {
+  audioUrl: string;
+  audioFile: File | null;
 }
 
 // Sociological metadata for quizzes

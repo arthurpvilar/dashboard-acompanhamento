@@ -83,7 +83,7 @@ const CustomSlider = styled(Slider)(({ theme }) => ({
 }));
 
 const AddQuizAudio: React.FC = () => {
-  const { audioFile, setAudioFile, audioUrl, setAudioUrl } = useSociologicalData();
+  const { audioFile, setAudioFile } = useSociologicalData();
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -99,8 +99,10 @@ const AddQuizAudio: React.FC = () => {
       const file = acceptedFiles[0];
       const fileUrl = URL.createObjectURL(file);
 
-      setAudioUrl(fileUrl);
-      setAudioFile(file);
+      setAudioFile({
+        audioFile: file,
+        audioUrl: fileUrl,
+      });
 
       if (audioRef.current) {
         audioRef.current.src = fileUrl;
@@ -140,7 +142,6 @@ const AddQuizAudio: React.FC = () => {
 
   const handleRemoveFile = () => {
     setAudioFile(null);
-    setAudioUrl('');
     setProgress(0);
     setIsPlaying(false);
 
@@ -158,8 +159,10 @@ const AddQuizAudio: React.FC = () => {
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
 
-    setAudioUrl(url);
-    setAudioFile(null);
+    setAudioFile({
+      audioFile: null,
+      audioUrl: url,
+    });
 
     if (audioRef.current) {
       audioRef.current.src = url;
@@ -225,7 +228,7 @@ const AddQuizAudio: React.FC = () => {
         <Box mb={4}>
             <div {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
-              {(audioFile || audioUrl) ? (
+              {(audioFile?.audioFile || audioFile?.audioUrl) ? (
                 <IconContainer>
                   {isPlaying && <PulseCircle />}
                   <VolumeUpIcon sx={{ paddingBottom: '59px', marginTop: '58px', fontSize: 100, color: 'rgba(0, 0, 0, 0.54)' }} />
@@ -261,7 +264,7 @@ const AddQuizAudio: React.FC = () => {
               ref={audioRef}
               controls={false}
             />
-            {(audioFile || audioUrl) && (
+            {(audioFile?.audioFile || audioFile?.audioUrl) && (
               <Box display="flex" alignItems="center" paddingTop={1}>
                 <IconButton onClick={handlePlayPause} size="large" sx={{ paddingTop: '5px'}}>
                   {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}

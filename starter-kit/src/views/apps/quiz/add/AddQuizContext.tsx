@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import type { QuizQuestion } from '@/types/apps/quizTypes';
+import type { QuizAudioData, QuizImageData, QuizQuestion } from '@/types/apps/quizTypes';
 import { primaryColorConfig } from './QuizSociologicalData';
 
 export type SociologicalDataType = {
@@ -31,14 +31,14 @@ interface SociologicalContextProps {
   setQuizIdentifier: (identifier: string) => void;
   quizDescription: string;
   setQuizDescription: (description: string) => void;
-  imageUrl: string;
-  setImageUrl: (url: string) => void;
-  imageFile: File | null;
-  setImageFile: (file: File | null) => void;
-  audioUrl: string;
-  setAudioUrl: (url: string) => void;
-  audioFile: File | null;
-  setAudioFile: (file: File | null) => void;
+  imageFile: QuizImageData | null;
+  setImageFile: (image: QuizImageData | null) => void;
+  audioFile: QuizAudioData | null;
+  setAudioFile: (audio: QuizAudioData | null) => void;
+  optionImages: Record<string, QuizImageData>;
+  setOptionImage: (key: string, image: QuizImageData) => void;
+  showOptionImage: Record<string, boolean>;
+  setShowOptionImage: (key: string, enabled: boolean) => void;
 }
 
 // Tipo para o provider
@@ -67,10 +67,10 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
   const [quizType, setQuizType] = useState<string>('Pergunta e Resposta Dissertativa');
   const [quizIdentifier, setQuizIdentifier] = useState<string>('');
   const [quizDescription, setQuizDescription] = useState<string>('');
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [audioUrl, setAudioUrl] = useState<string>('');
-  const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<QuizImageData | null>(null);
+  const [audioFile, setAudioFile] = useState<QuizAudioData | null>(null);
+  const [optionImages, setOptionImages] = useState<Record<string, QuizImageData>>({});
+  const [showOptionImage, setShowOptionImages] = useState<Record<string, boolean>>({});
 
   // Efeito para adicionar o primeiro dado sociológico
   useEffect(() => {
@@ -86,6 +86,10 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
       });
     }
   }, [sociologicalData]);
+
+  const setOptionImage = (key: string, image: QuizImageData) => {
+    setOptionImages(prevImages => ({ ...prevImages, [key]: image }));
+  };
 
   const addQuizQuestion = (newQuestion: QuizQuestion) => {
     setQuizQuestions([...quizQuestions, newQuestion]);
@@ -115,17 +119,13 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
     setSociologicalData(updatedData);
   };
 
+  const setShowOptionImage = (key: string, enabled: boolean) => {
+    setShowOptionImages(prevState => ({ ...prevState, [key]: enabled }));
+  };
+
   return (
     <SociologicalContext.Provider
       value={{
-        quizQuestions,
-        addQuizQuestion,
-        updateQuizQuestion,
-        deleteQuizQuestion,
-        setQuizQuestions,
-        sociologicalData,
-        addSociologicalData,
-        removeSociologicalData,
         quizName,
         setQuizName,
         quizType,
@@ -134,14 +134,22 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
         setQuizIdentifier,
         quizDescription,
         setQuizDescription,
-        imageUrl,
-        setImageUrl,
         imageFile,
         setImageFile,
-        audioUrl,
-        setAudioUrl,
+        quizQuestions,
+        addQuizQuestion,
+        updateQuizQuestion,
+        deleteQuizQuestion,
+        setQuizQuestions,
+        sociologicalData,
+        addSociologicalData,
+        removeSociologicalData,
         audioFile,
         setAudioFile,
+        optionImages,
+        setOptionImage,
+        showOptionImage,
+        setShowOptionImage,
       }}
     >
       {children}
