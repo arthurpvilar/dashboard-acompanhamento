@@ -53,7 +53,7 @@ import type { QuizQuestion, QuizQuestionOption } from '@/types/apps/quizTypes'
 
 // eslint-disable-next-line import/no-unresolved
 import CustomAvatar from '@/@core/components/mui/Avatar'
-import AddQuizImage from './AddQuizImage'
+import QuizOptionImage from './QuizOptionImage'
 
 // Custom Styled Components
 // Keyframes for pulsing effect
@@ -916,7 +916,7 @@ const QuizQuestions: React.FC = () => {
                           <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
                           {showOptionImage[`option-${index}`] &&
                           (
-                            <AddQuizImage
+                            <QuizOptionImage
                             optionKey={`option-${index}`}
                             />
                           )}

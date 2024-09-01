@@ -4,12 +4,12 @@ import Grid from '@mui/material/Grid'
 
 // Component Imports
 import QuizDescription from '@/views/apps/quiz/add/QuizDescription'
-import AddQuizImage from '@/views/apps/quiz/add/AddQuizImage'
 import QuizTypesDropdown from '@/views/apps/quiz/add/QuizTypesDropdown'
 import QuizSociologicalData from '@/views/apps/quiz/add/QuizSociologicalData'
 import { SociologicalProvider } from '@/views/apps/quiz/add/AddQuizContext'
 import QuizQuestions from '@/views/apps/quiz/add/QuizQuestions'
 import QuizHeader from '@/views/apps/quiz/add/QuizHeader'
+import QuizMainImage from '@/views/apps/quiz/add/QuizMainImage'
 
 const QuizAdd = async () => {
   return (
@@ -24,9 +24,7 @@ const QuizAdd = async () => {
               <QuizDescription />
             </Grid>
             <Grid item xs={12}>
-              <AddQuizImage
-                optionKey={`question`}
-              />
+              <QuizMainImage/>
             </Grid>
             <Grid item xs={12}>
               <QuizSociologicalData />

@@ -42,16 +42,12 @@ const DropzoneContainer = styled('div')(({ theme }) => ({
   },
 }));
 
-interface AddQuizImageProps {
-  optionKey: string;
-}
-
-const AddQuizImage = ({ optionKey }: AddQuizImageProps) => {
-  const { setOptionImage, optionImages } = useSociologicalData(); // Utilizar setOptionImage
+const QuizMainImage = () => {
+  const { imageFile, setImageFile } = useSociologicalData(); // Utilizar setOptionImage
   const [showUrlInput, setShowUrlInput] = useState(false);
 
-  // Obter a imagem atual para a optionKey
-  const currentImage = optionImages[optionKey];
+  // Obter a imagem atual
+  const currentImage = imageFile;
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -62,7 +58,7 @@ const AddQuizImage = ({ optionKey }: AddQuizImageProps) => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
 
-        setOptionImage(optionKey, {
+        setImageFile({
           imageFile: file,
           imageUrl: '',
         });
@@ -81,7 +77,7 @@ const AddQuizImage = ({ optionKey }: AddQuizImageProps) => {
   };
 
   const handleRemoveFile = () => {
-    setOptionImage(optionKey, {
+    setImageFile({
       imageFile: null,
       imageUrl: '',
     });
@@ -94,7 +90,7 @@ const AddQuizImage = ({ optionKey }: AddQuizImageProps) => {
   const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
 
-    setOptionImage(optionKey, {
+    setImageFile({
       imageFile: null,
       imageUrl: url,
     });
@@ -167,4 +163,4 @@ const AddQuizImage = ({ optionKey }: AddQuizImageProps) => {
   );
 };
 
-export default AddQuizImage;
+export default QuizMainImage;
