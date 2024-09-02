@@ -54,14 +54,16 @@ export type QuizQuestionOption = {
 
 // Nova interface para armazenar dados de imagem
 export type QuizImageData = {
-  imageUrl: string;
+  imageUrl: string | null;
   imageFile: File | null;
+  blobData?: Blob | null;
 }
 
 // Nova interface para armazenar dados do áudio
 export type QuizAudioData = {
   audioUrl: string;
   audioFile: File | null;
+  blobData: Blob | null;
 }
 
 // Sociological metadata for quizzes

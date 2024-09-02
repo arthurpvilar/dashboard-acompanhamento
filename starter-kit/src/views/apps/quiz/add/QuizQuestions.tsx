@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react'
 import type { ChangeEvent, SyntheticEvent } from 'react'
 
 // MUI Imports
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
@@ -17,12 +19,11 @@ import Checkbox from '@mui/material/Checkbox'
 import ListItem from '@mui/material/ListItem'
 import List from '@mui/material/List'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 // Others
 import { styled, keyframes } from '@mui/material/styles';
-import { Box, TextField, Slider, Link, Button , InputLabel, Menu, MenuItem, Select } from '@mui/material';
+import { Box, TextField, Slider, Link, Button , InputLabel, Menu, MenuItem, Select, IconButton } from '@mui/material';
 
 // Tiptap Imports
 import type { Editor } from '@tiptap/react'
@@ -36,6 +37,7 @@ import { Placeholder } from '@tiptap/extension-placeholder'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import CloseIcon from '@mui/icons-material/Close';
 
 // Context Imports
 import Divider from '@mui/material/Divider'
@@ -417,7 +419,7 @@ const OptionEditorToolbar = ({ editor, selectedSociological, onSociologicalSelec
       >
         <i className="ri-align-justify text-textSecondary" style={{ fontSize: '1rem' }}/>
       </CustomIconButton>
-      <CustomIconButton onClick={handleOpenImageDialog} size="small" variant="outlined">
+      <CustomIconButton onClick={handleOpenImageDialog} size="small" variant="outlined" className="ml-auto">
         <i className="ri-image-add-line text-textSecondary" />
       </CustomIconButton>
     </div>
@@ -447,6 +449,44 @@ const QuizQuestions: React.FC = () => {
     { title: '', isChecked: false }
   ]) // Start with two options
 
+  // Variáveis da visualização das imagens das options
+  const [openImageDialog, setOpenImageDialog] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleOpenImageDialog = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+    setOpenImageDialog(true);
+  };
+
+  const handleCloseImageDialog = () => {
+    setOpenImageDialog(false);
+    setSelectedImage(null);
+  };
+
+  // Função para converter um File em Blob
+  const fileToBlob = (file: File): Blob => {
+    return file;
+  };
+
+  // Função para converter uma URL em Blob
+  const urlToBlob = async (url: string): Promise<Blob | null> => {
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Erro ao buscar a URL: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+
+      return blob;
+    } catch (error) {
+      console.error('Erro ao converter URL em Blob:', error);
+
+      return null;
+    }
+  };
+
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     maxFiles: 1,
@@ -457,9 +497,12 @@ const QuizQuestions: React.FC = () => {
       const file = acceptedFiles[0];
       const fileUrl = URL.createObjectURL(file);
 
+      const audioBlob = fileToBlob(file);
+
       setAudioFile({
         audioFile: file,
         audioUrl: fileUrl,
+        blobData: audioBlob
       });
 
       if (audioRef.current) {
@@ -514,10 +557,16 @@ const QuizQuestions: React.FC = () => {
     setShowUrlInput(!showUrlInput);
   };
 
-  const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUrlChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
 
-    setAudioFile(null);
+    const fileBlobData = await urlToBlob(url); // Converte a URL em Blob
+
+    setAudioFile({
+      audioFile: null,
+      audioUrl: url,
+      blobData: fileBlobData // Armazena o Blob no estado
+    });
 
     if (audioRef.current) {
       audioRef.current.src = url;
@@ -748,6 +797,15 @@ const QuizQuestions: React.FC = () => {
   }
 
   const handleSaveQuestion = () => {
+    const selectedOption = newOptions.find(option => option.isChecked);
+
+    if (!selectedOption) {
+      // Caso nenhuma opção esteja marcada, você pode exibir uma mensagem de erro ou retornar sem salvar
+      console.error('Pelo menos uma opção deve ser marcada como resposta correta.');
+
+      return;
+    }
+
     // Captura o conteúdo de cada editor de opção
     const updatedOptions = newOptions.map((option: QuizQuestionOption, index) => {
       return {
@@ -781,7 +839,7 @@ const QuizQuestions: React.FC = () => {
     // Limpa os dados das imagens das opções
     Object.keys(optionImages).forEach(key => {
       setShowOptionImage(key, false);
-      setOptionImage(key, { imageUrl: '', imageFile: null });
+      setOptionImage(key, { imageUrl: null, imageFile: null });
     });
   }
 
@@ -900,40 +958,61 @@ const QuizQuestions: React.FC = () => {
               <CardContent>
                 {newOptions.map((option, index) => (
                   <div key={index} className="flex gap-3 mb-4">
-                    <div className="flex-grow">
-                      <span className="flex gap-3 mb-4">{`Opção ${index + 1}`}</span>
-                      <Card className="p-0 border shadow-none">
-                        <CardContent className="p-0">
-                          <OptionEditorToolbar
-                            editor={optionEditors[index]}
-                            selectedWeight={weights[index]}
-                            setSelectedWeight={(weight) => handleWeightChange(weight, index)}
-                            selectedSociological={selectedSociologicals[index]}
-                            onSociologicalSelect={(data) => handleSociologicalSelect(data, index)}
-                            optionKey={`option-${index}`}
-                          />
-                          <Divider className="mli-5" />
-                          <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
-                          {showOptionImage[`option-${index}`] &&
-                          (
-                            <QuizOptionImage
-                            optionKey={`option-${index}`}
-                            />
-                          )}
-                        </CardContent>
-                      </Card>
-                    </div>
+                  <div className="flex-grow">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Checkbox
+                      style={{ paddingBottom: '10px' }}
+                      checked={option.isChecked}
+                      onChange={(e) => {
+                        const updatedOptions = [...newOptions];
 
-                    <div className="flex justify-center items-start" style={{ marginTop: '30px' }}>
-                      <IconButton
-                        aria-label="remover opção"
-                        onClick={() => handleRemoveOption(index)}
-                        disabled={newOptions.length <= 2}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </div>
+                        updatedOptions[index].isChecked = e.target.checked;
+
+                        // Definir todas as outras opções como não selecionadas, se uma nova for marcada
+                        if (e.target.checked) {
+                          updatedOptions.forEach((opt, i) => {
+                            if (i !== index) {
+                              opt.isChecked = false;
+                            }
+                          });
+                        }
+
+                        setNewOptions(updatedOptions);
+                      }}
+                    />
+                    <span>
+                      {`Opção ${index + 1} ${option.isChecked === true ? ' - [Resposta mais adequada]' : ''} `}
+                    </span>
                   </div>
+                    <Card className="p-0 border shadow-none">
+                      <CardContent className="p-0">
+                        <OptionEditorToolbar
+                          editor={optionEditors[index]}
+                          selectedWeight={weights[index]}
+                          setSelectedWeight={(weight) => handleWeightChange(weight, index)}
+                          selectedSociological={selectedSociologicals[index]}
+                          onSociologicalSelect={(data) => handleSociologicalSelect(data, index)}
+                          optionKey={`option-${index}`}
+                        />
+                        <Divider className="mli-5" />
+                        <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
+                        {showOptionImage[`option-${index}`] && (
+                          <QuizOptionImage optionKey={`option-${index}`} />
+                        )}
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="flex justify-center items-start" style={{ marginTop: '30px' }}>
+                    <IconButton
+                      aria-label="remover opção"
+                      onClick={() => handleRemoveOption(index)}
+                      disabled={newOptions.length <= 2}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
+                </div>
                 ))}
               </CardContent>
             </div>
@@ -957,7 +1036,7 @@ const QuizQuestions: React.FC = () => {
                 onClick={handleSaveQuestion}
                 variant="contained"
                 color="primary"
-                disabled={newOptions.length < 2 || isSaveDisabled()} // Disable if fewer than 2 options
+                disabled={newOptions.length < 2 || !newOptions.some(option => option.isChecked) || isSaveDisabled()} // Verifica se alguma opção está marcada
                 style={{ width: '25%', padding: '6px 20px' }} // Largura de 48% para evitar overflow e padding interno
               >
                 Salvar Questão
@@ -1036,6 +1115,23 @@ const QuizQuestions: React.FC = () => {
                                 className="font-medium !text-textPrimary"
                                 dangerouslySetInnerHTML={{ __html: option.title }}
                               />
+                              {/* Botão de visualização da imagem */}
+                              {option.image !== undefined && (option.image.imageFile !== null || option.image.imageUrl !== null) && (
+                                <IconButton
+                                  aria-label="Visualizar Imagem"
+                                  onClick={() => {
+                                    const imageUrl = option.image?.imageFile
+                                    ? URL.createObjectURL(option.image.imageFile) // Gerar URL temporária se for um arquivo
+                                    : option.image?.imageUrl; // Usar URL diretamente se não for um arquivo
+
+                                    if (imageUrl !== undefined && imageUrl !== null)
+                                      handleOpenImageDialog(imageUrl);
+                                  }}
+                                  sx={{ marginLeft: 'auto' }}
+                                >
+                                  <i className="ri-image-line" />
+                                </IconButton>
+                              )}
                             </ListItem>
                           ))}
                         </List>
@@ -1058,6 +1154,24 @@ const QuizQuestions: React.FC = () => {
           </form>
         </CardContent>
       </Card>
+      <Dialog
+        open={openImageDialog}
+        onClose={handleCloseImageDialog}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          <Box display="flex" justifyContent="space-between" alignItems="center">
+            Visualização da Imagem
+            <IconButton onClick={handleCloseImageDialog}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
+        <Box display="flex" justifyContent="center" alignItems="center" p={2}>
+          {selectedImage && <img src={selectedImage} alt="Imagem da Alternativa" style={{ maxWidth: '100%', maxHeight: '80vh' }} />}
+        </Box>
+      </Dialog>
     </div>
   )
 }

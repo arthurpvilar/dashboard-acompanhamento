@@ -126,7 +126,7 @@ const QuizOptionImage = ({ optionKey }: QuizOptionImageProps) => {
           <Box mb={4}>
             <div {...getRootProps({ className: 'dropzone' })}>
               <input {...getInputProps()} />
-              {!currentImage && (
+              {(currentImage == null || (currentImage?.imageFile === null || currentImage?.imageUrl === '')) && (
                 <div className="flex items-center flex-col gap-2 text-center">
                   <CustomAvatar variant="rounded" skin="light" color="secondary">
                     <i className="ri-upload-2-line" />
