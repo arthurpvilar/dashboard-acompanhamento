@@ -56,6 +56,7 @@ import type { QuizQuestion, QuizQuestionOption } from '@/types/apps/quizTypes'
 // eslint-disable-next-line import/no-unresolved
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import QuizOptionImage from './QuizOptionImage'
+import AudioPlayer from './QuizOptionAudioPlayer';
 
 // Custom Styled Components
 // Keyframes for pulsing effect
@@ -819,6 +820,7 @@ const QuizQuestions: React.FC = () => {
 
     const newQuizQuestion: QuizQuestion = {
       id: quizQuestions.length + 1,
+      type: quizType,
       question: editor?.getHTML() || '', // Save the formatted question from TipTap editor
       options: updatedOptions,
       answer: newAnswer,
@@ -846,7 +848,7 @@ const QuizQuestions: React.FC = () => {
   return (
     <div>
       <Card className="mb-6">
-      <CardContent>
+        <CardContent>
           {quizType === 'Pergunta e Resposta Dissertativa' && (
             <>
               <CardHeader title="Sessão de questões" />
@@ -958,61 +960,60 @@ const QuizQuestions: React.FC = () => {
               <CardContent>
                 {newOptions.map((option, index) => (
                   <div key={index} className="flex gap-3 mb-4">
-                  <div className="flex-grow">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Checkbox
-                      style={{ paddingBottom: '10px' }}
-                      checked={option.isChecked}
-                      onChange={(e) => {
-                        const updatedOptions = [...newOptions];
+                    <div className="flex-grow">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Checkbox
+                          style={{ paddingBottom: '10px' }}
+                          checked={option.isChecked}
+                          onChange={(e) => {
+                            const updatedOptions = [...newOptions];
 
-                        updatedOptions[index].isChecked = e.target.checked;
+                            updatedOptions[index].isChecked = e.target.checked;
 
-                        // Definir todas as outras opções como não selecionadas, se uma nova for marcada
-                        if (e.target.checked) {
-                          updatedOptions.forEach((opt, i) => {
-                            if (i !== index) {
-                              opt.isChecked = false;
+                            if (e.target.checked) {
+                              updatedOptions.forEach((opt, i) => {
+                                if (i !== index) {
+                                  opt.isChecked = false;
+                                }
+                              });
                             }
-                          });
-                        }
 
-                        setNewOptions(updatedOptions);
-                      }}
-                    />
-                    <span>
-                      {`Opção ${index + 1} ${option.isChecked === true ? ' - [Resposta mais adequada]' : ''} `}
-                    </span>
-                  </div>
-                    <Card className="p-0 border shadow-none">
-                      <CardContent className="p-0">
-                        <OptionEditorToolbar
-                          editor={optionEditors[index]}
-                          selectedWeight={weights[index]}
-                          setSelectedWeight={(weight) => handleWeightChange(weight, index)}
-                          selectedSociological={selectedSociologicals[index]}
-                          onSociologicalSelect={(data) => handleSociologicalSelect(data, index)}
-                          optionKey={`option-${index}`}
+                            setNewOptions(updatedOptions);
+                          }}
                         />
-                        <Divider className="mli-5" />
-                        <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
-                        {showOptionImage[`option-${index}`] && (
-                          <QuizOptionImage optionKey={`option-${index}`} />
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
+                        <span>
+                          {`Opção ${index + 1} ${option.isChecked === true ? ' - [Resposta mais adequada]' : ''} `}
+                        </span>
+                      </div>
+                      <Card className="p-0 border shadow-none">
+                        <CardContent className="p-0">
+                          <OptionEditorToolbar
+                            editor={optionEditors[index]}
+                            selectedWeight={weights[index]}
+                            setSelectedWeight={(weight) => handleWeightChange(weight, index)}
+                            selectedSociological={selectedSociologicals[index]}
+                            onSociologicalSelect={(data) => handleSociologicalSelect(data, index)}
+                            optionKey={`option-${index}`}
+                          />
+                          <Divider className="mli-5" />
+                          <EditorContent editor={optionEditors[index]} className="bs-[135px] overflow-y-auto flex" />
+                          {showOptionImage[`option-${index}`] && (
+                            <QuizOptionImage optionKey={`option-${index}`} />
+                          )}
+                        </CardContent>
+                      </Card>
+                    </div>
 
-                  <div className="flex justify-center items-start" style={{ marginTop: '30px' }}>
-                    <IconButton
-                      aria-label="remover opção"
-                      onClick={() => handleRemoveOption(index)}
-                      disabled={newOptions.length <= 2}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
+                    <div className="flex justify-center items-start" style={{ marginTop: '30px' }}>
+                      <IconButton
+                        aria-label="remover opção"
+                        onClick={() => handleRemoveOption(index)}
+                        disabled={newOptions.length <= 2}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </div>
                   </div>
-                </div>
                 ))}
               </CardContent>
             </div>
@@ -1021,13 +1022,13 @@ const QuizQuestions: React.FC = () => {
 
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
           <FormControl fullWidth>
-            <div className="flex justify-between mb-5" style={{ padding: '0 20px' }}> {/* Adiciona padding nas laterais */}
+            <div className="flex justify-between mb-5" style={{ padding: '0 20px' }}>
               <Button
                 onClick={handleAddOption}
                 variant="outlined"
                 color="primary"
-                disabled={newOptions.length >= 6} // Disable if already 6 options
-                style={{ width: '25%', padding: '6px 20px' }} // Largura de 48% para evitar overflow e padding interno
+                disabled={newOptions.length >= 6}
+                style={{ width: '25%', padding: '6px 20px' }}
               >
                 Adicionar Nova Opção
               </Button>
@@ -1036,8 +1037,8 @@ const QuizQuestions: React.FC = () => {
                 onClick={handleSaveQuestion}
                 variant="contained"
                 color="primary"
-                disabled={newOptions.length < 2 || !newOptions.some(option => option.isChecked) || isSaveDisabled()} // Verifica se alguma opção está marcada
-                style={{ width: '25%', padding: '6px 20px' }} // Largura de 48% para evitar overflow e padding interno
+                disabled={newOptions.length < 2 || !newOptions.some(option => option.isChecked) || isSaveDisabled()}
+                style={{ width: '25%', padding: '6px 20px' }}
               >
                 Salvar Questão
               </Button>
@@ -1062,6 +1063,8 @@ const QuizQuestions: React.FC = () => {
           <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
             <FormControl fullWidth>
               {quizQuestions.map((item, index) => {
+                const isAudioQuestion = item.type === 'Pergunta Auditiva e Resposta Dissertativa';
+
                 return (
                   <div key={index} className="mb-4">
                     <Accordion expanded={expanded === index} onChange={handleChange(index)}>
@@ -1075,22 +1078,30 @@ const QuizQuestions: React.FC = () => {
                           justifyContent: 'space-between',
                           paddingRight: 2,
                         }}
+                        onClick={isAudioQuestion ? (e) => e.stopPropagation() : undefined} // Previne expansão ao clicar fora da seta para perguntas auditivas
                       >
-                        <div style={{ flexGrow: 1 }}>
-                          <Typography
-                            variant="h5"
-                            sx={{
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              display: expanded === index ? 'block' : '-webkit-box',
-                              WebkitLineClamp: expanded === index ? 'none' : 1,
-                              WebkitBoxOrient: 'vertical',
-                              wordBreak: 'break-word',
-                              width: '100%',
-                              marginRight: '16px',
-                            }}
-                            dangerouslySetInnerHTML={{ __html: item.question || '' }}
-                          />
+                        <div
+                          style={{ flexGrow: 1 }}
+                          onClick={isAudioQuestion ? (e) => e.stopPropagation() : undefined} // Previne expansão ao clicar fora da seta para perguntas auditivas
+                        >
+                          {isAudioQuestion ? (
+                            <AudioPlayer audioUrl={item.audio?.audioUrl || ''} />
+                          ) : (
+                            <Typography
+                              variant="h5"
+                              sx={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                display: expanded === index ? 'block' : '-webkit-box',
+                                WebkitLineClamp: expanded === index ? 'none' : 1,
+                                WebkitBoxOrient: 'vertical',
+                                wordBreak: 'break-word',
+                                width: '100%',
+                                marginRight: '16px',
+                              }}
+                              dangerouslySetInnerHTML={{ __html: item.question || '' }}
+                            />
+                          )}
                         </div>
                       </AccordionSummary>
                       <AccordionDetails>
@@ -1098,7 +1109,6 @@ const QuizQuestions: React.FC = () => {
                           {item.options?.map((option, i) => (
                             <ListItem key={i} role="listitem" className="gap-0 p-0">
                               <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '3px' }}>
-                                {/* Número da opção separado */}
                                 <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                                   {i + 1}.
                                 </Typography>
@@ -1115,14 +1125,13 @@ const QuizQuestions: React.FC = () => {
                                 className="font-medium !text-textPrimary"
                                 dangerouslySetInnerHTML={{ __html: option.title }}
                               />
-                              {/* Botão de visualização da imagem */}
                               {option.image !== undefined && (option.image.imageFile !== null || option.image.imageUrl !== null) && (
                                 <IconButton
                                   aria-label="Visualizar Imagem"
                                   onClick={() => {
                                     const imageUrl = option.image?.imageFile
-                                    ? URL.createObjectURL(option.image.imageFile) // Gerar URL temporária se for um arquivo
-                                    : option.image?.imageUrl; // Usar URL diretamente se não for um arquivo
+                                      ? URL.createObjectURL(option.image.imageFile)
+                                      : option.image?.imageUrl;
 
                                     if (imageUrl !== undefined && imageUrl !== null)
                                       handleOpenImageDialog(imageUrl);
@@ -1154,6 +1163,7 @@ const QuizQuestions: React.FC = () => {
           </form>
         </CardContent>
       </Card>
+
       <Dialog
         open={openImageDialog}
         onClose={handleCloseImageDialog}
@@ -1173,7 +1183,7 @@ const QuizQuestions: React.FC = () => {
         </Box>
       </Dialog>
     </div>
-  )
+  );
 }
 
 export default QuizQuestions

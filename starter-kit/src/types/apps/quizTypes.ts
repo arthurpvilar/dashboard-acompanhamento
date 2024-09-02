@@ -36,6 +36,7 @@ export type QuizData = {
 // Represents an individual question in a quiz
 export type QuizQuestion = {
   id: number // Unique identifier for the question
+  type: string // The question type
   question?: string // The question text
   options?: QuizQuestionOption[] // Array of possible answers
   answer?: string // Correct answer

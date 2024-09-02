@@ -35,7 +35,7 @@ const QuizHeader = () => {
     setQuizQuestions([]);
     setAudioFile(null);
     Object.keys(optionImages).forEach((key) => {
-      setOptionImage(key, { imageUrl: '', imageFile: null, blobData: null });
+      setOptionImage(key, { imageUrl: '', imageFile: null });
     });
   };
 
