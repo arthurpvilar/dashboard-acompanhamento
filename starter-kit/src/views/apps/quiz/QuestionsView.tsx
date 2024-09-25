@@ -2,7 +2,9 @@
 
 // React Imports
 import { useEffect, useState } from 'react';
+
 import { useParams, useRouter } from 'next/navigation';
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import List from '@mui/material/List';
@@ -28,6 +30,7 @@ const QuizStart = () => {
   // Função para salvar o resultado do quiz no histórico
   const saveQuizResult = (userId: number, quizResult: any) => {
     const quizHistory = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+
     quizHistory.push({ userId, ...quizResult });
     localStorage.setItem('quizHistory', JSON.stringify(quizHistory));
   };
@@ -35,6 +38,7 @@ const QuizStart = () => {
   useEffect(() => {
     if (id) {
       const fetchedQuiz = getQuizById(Number(id));
+
       if (fetchedQuiz) {
         setQuizData(fetchedQuiz);
       }
@@ -54,21 +58,25 @@ const QuizStart = () => {
 
     // Cálculo do percentual de conclusão baseado em questões respondidas
     const completionPercentage = Math.floor((questionsAnswered / totalQuestions) * 100);
+
     quizData.progressValue = `${completionPercentage}%`;
 
     // Calcular as estatísticas sociológicas (sem alteração)
     let totalWeight = 0;
-    let sociologicalWeights: { [key: number]: number } = {};
+    const sociologicalWeights: { [key: number]: number } = {};
 
     quizData.questions.forEach((question) => {
       const userAnswer = answers[question.id];
+
       if (userAnswer) {
         totalWeight += question.weight || 0;
         const sociologicalId = question.sociologicalId;
+
         if (sociologicalId !== undefined) {
           if (!sociologicalWeights[sociologicalId]) {
             sociologicalWeights[sociologicalId] = 0;
           }
+
           sociologicalWeights[sociologicalId] += question.weight || 0;
         }
       }
@@ -76,10 +84,13 @@ const QuizStart = () => {
 
     // Calculando o impacto percentual de cada categoria sociológica
     const totalCategoryWeight = Object.values(sociologicalWeights).reduce((sum, weight) => sum + weight, 0);
+
     const sociologicalData = quizData.sociologicalData.map((data) => {
       const weight = sociologicalWeights[data.id] || 0;
       const impactPercentage = totalCategoryWeight > 0 ? (weight / totalCategoryWeight) * 100 : 0;
-      return {
+
+
+return {
         ...data,
         value: parseFloat(impactPercentage.toFixed(2)),  // Garantindo duas casas decimais
       };
@@ -95,7 +106,9 @@ const QuizStart = () => {
       date: new Date().toLocaleDateString(),
       answers: Object.values(answers),
     };
+
     const userId = 51; // Use o ID correto do usuário
+
     saveQuizResult(userId, quizResult);
 
     // Atualizar o quiz no localStorage

@@ -85,6 +85,7 @@ export const SociologicalProvider = ({ children }: SociologicalProviderProps): J
         color: firstAvailableColor, // Atribuir a primeira cor disponível
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sociologicalData]);
 
   const setOptionImage = (key: string, image: QuizImageData) => {

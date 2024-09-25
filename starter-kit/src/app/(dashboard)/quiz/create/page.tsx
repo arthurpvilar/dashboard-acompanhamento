@@ -6,10 +6,10 @@ import Grid from '@mui/material/Grid'
 import QuizDescription from '@/views/apps/quiz/add/QuizDescription'
 import QuizTypesDropdown from '@/views/apps/quiz/add/QuizTypesDropdown'
 import QuizSociologicalData from '@/views/apps/quiz/add/QuizSociologicalData'
-import { SociologicalProvider } from '@/views/apps/quiz/add/AddQuizContext'
 import QuizQuestions from '@/views/apps/quiz/add/QuizQuestions'
 import QuizHeader from '@/views/apps/quiz/add/QuizHeader'
 import QuizMainImage from '@/views/apps/quiz/add/QuizMainImage'
+import { SociologicalProvider } from '@/views/apps/quiz/add/QuizContext'
 
 const QuizAdd = async () => {
   return (

@@ -15,7 +15,7 @@ import { useDropzone } from 'react-dropzone';
 // eslint-disable-next-line import/no-unresolved
 import CustomAvatar from '@core/components/mui/Avatar';
 
-import { useSociologicalData } from './AddQuizContext'; // Importar o contexto
+import { useSociologicalData } from './QuizContext';
 
 // Styled Dropzone Component
 const DropzoneContainer = styled('div')(({ theme }) => ({

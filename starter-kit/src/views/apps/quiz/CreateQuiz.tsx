@@ -1,8 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
-import { createQuiz } from '@/libs/quiz/handlers';
+
+import type {
+  SelectChangeEvent} from '@mui/material';
 import {
   Button,
   TextField,
@@ -18,8 +21,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
-  SelectChangeEvent,
+  Select
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useDropzone } from 'react-dropzone';
@@ -27,8 +29,11 @@ import CustomAvatar from '@core/components/mui/Avatar';
 import DeleteIcon from '@mui/icons-material/Delete';
 import type { BoxProps } from '@mui/material/Box';
 import Link from '@components/Link';
-import type { Quiz, QuizSociologicalData, QuizQuestion } from '@/types/apps/quizTypes'; 
+
 import type { ThemeColor } from '@core/types';
+
+import type { Quiz, QuizSociologicalData, QuizQuestion } from '@/types/apps/quizTypes';
+import { createQuiz } from '@/libs/quiz/handlers';
 
 type SociologicalImpact = {
   sociologicalId: number;
@@ -39,26 +44,26 @@ type SociologicalImpact = {
 
 const Dropzone = styled(Box)<BoxProps>(({ theme }) => ({
   '& .dropzone': {
-    border: '2px dashed #474361',  
+    border: '2px dashed #474361',
     padding: theme.spacing(12),
-    backgroundColor: '#312D4B', 
-    borderRadius: '8px', 
+    backgroundColor: '#312D4B',
+    borderRadius: '8px',
   },
 }));
 
 const Section = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(4),
-  backgroundColor: '#312D4B', 
+  backgroundColor: '#312D4B',
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(4),
-  color: '#FFFFFF', 
+  color: '#FFFFFF',
 }));
 
 const CustomButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#6C5DD3', 
-  color: '#FFFFFF', 
+  backgroundColor: '#6C5DD3',
+  color: '#FFFFFF',
   '&:hover': {
-    backgroundColor: '#5B4CC0', 
+    backgroundColor: '#5B4CC0',
   },
 }));
 
@@ -101,7 +106,7 @@ const CreateQuiz = () => {
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [quizType, setQuizType] = useState<string>(''); 
+  const [quizType, setQuizType] = useState<string>('');
   const [message, setMessage] = useState<string | null>(null);
   const router = useRouter();
 
@@ -139,18 +144,19 @@ const CreateQuiz = () => {
       ...currentQuestion,
       id: questions.length + 1,
     };
-  
+
     // Verifica se o tipo de quiz é dissertativo e remove as opções
     if (quizType === 'dissertativo') {
       delete newQuestion.options;
     }
-  
+
     setQuestions([...questions, newQuestion]);
     setCurrentQuestion({ question: '', options: quizType === 'dissertativo' ? [] : [''], answer: '', weight: 1, sociologicalId: 0 });
   };
 
   const removeQuestion = (index: number) => {
     const newQuestions = [...questions];
+
     newQuestions.splice(index, 1);
     setQuestions(newQuestions);
   };
@@ -159,24 +165,28 @@ const CreateQuiz = () => {
     // Somar o peso total de todas as perguntas respondidas pelo usuário
     const totalWeight = quiz.questions.reduce((sum, question) => {
       const userAnswer = userResponses[question.id];
-      return sum + (userAnswer ? question.weight || 0 : 0);
+
+
+return sum + (userAnswer ? question.weight || 0 : 0);
     }, 0);
-  
+
     if (totalWeight === 0) {
       return []; // Retorna vazio se não houver respostas ainda
     }
-  
+
     // Agrupar perguntas por SociologicalId e calcular o impacto percentual
     const sociologicalGroups = quiz.sociologicalData.map((data) => {
       const totalWeightForCategory = quiz.questions
         .filter((question) => question.sociologicalId === data.id)
         .reduce((sum, question) => {
           const userAnswer = userResponses[question.id];
-          return sum + (userAnswer ? question.weight || 0 : 0);
+
+
+return sum + (userAnswer ? question.weight || 0 : 0);
         }, 0);
-  
+
       const impactPercentage = totalWeight > 0 ? (totalWeightForCategory / totalWeight) * 100 : 0;
-  
+
       return {
         sociologicalId: data.id,
         name: data.name,
@@ -184,10 +194,10 @@ const CreateQuiz = () => {
         impactPercentage: impactPercentage,
       };
     });
-  
+
     return sociologicalGroups;
   }
-  
+
 
   const { getRootProps: getRootPropsImage, getInputProps: getInputPropsImage } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
@@ -220,29 +230,36 @@ const CreateQuiz = () => {
 
     if (imageFile) {
       const reader = new FileReader();
+
       reader.onloadend = () => {
         imageBase64 = reader.result as string;
+
         if (logoFile) {
           const logoReader = new FileReader();
+
           logoReader.onloadend = () => {
             logoBase64 = logoReader.result as string;
+
             const newQuiz: Quiz = {
               ...quiz,
               id: Date.now(),
               image: imageBase64!,
               logo: logoBase64!,
-              sociologicalData, 
+              sociologicalData,
               questions,
             };
+
             createQuiz(newQuiz);
             setMessage('Quiz criado com sucesso! Redirecionando...');
             setTimeout(() => {
               router.push('/quiz');
             }, 2000);
           };
+
           logoReader.readAsDataURL(logoFile);
         }
       };
+
       reader.readAsDataURL(imageFile);
     } else if (imageUrl && logoUrl) {
       const newQuiz: Quiz = {
@@ -253,6 +270,7 @@ const CreateQuiz = () => {
         sociologicalData,
         questions,
       };
+
       createQuiz(newQuiz);
       setMessage('Quiz criado com sucesso! Redirecionando...');
       setTimeout(() => {
@@ -286,20 +304,20 @@ const CreateQuiz = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography className='mbe-1'>Description</Typography>
-                <TextField 
-                  name="description" 
-                  onChange={handleChange} 
-                  required 
-                  fullWidth 
-                  multiline 
-                  rows={4} 
+                <TextField
+                  name="description"
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  multiline
+                  rows={4}
                   placeholder='Write the quiz description here...'
                   sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
               </Grid>
             </Grid>
           </Section>
-          
+
           {/* Seção 2: Importar Imagens */}
           <Section>
             <Typography variant="h6">Upload Image</Typography>
@@ -349,11 +367,11 @@ const CreateQuiz = () => {
                 sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
               />
               <CardContent>
-                <TextField 
-                  fullWidth 
-                  placeholder="Enter image URL" 
-                  value={imageUrl || ''} 
-                  onChange={(e) => setImageUrl(e.target.value)} 
+                <TextField
+                  fullWidth
+                  placeholder="Enter image URL"
+                  value={imageUrl || ''}
+                  onChange={(e) => setImageUrl(e.target.value)}
                   sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
               </CardContent>
@@ -406,10 +424,10 @@ const CreateQuiz = () => {
                 sx={{ '& .MuiCardHeader-action': { alignSelf: 'center' } }}
               />
               <CardContent>
-                <TextField 
-                  fullWidth 
-                  placeholder="Enter logo URL" 
-                  value={logoUrl || ''} 
+                <TextField
+                  fullWidth
+                  placeholder="Enter logo URL"
+                  value={logoUrl || ''}
                   onChange={(e) => setLogoUrl(e.target.value)}
                   sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
@@ -474,6 +492,7 @@ const CreateQuiz = () => {
                         name="options"
                         onChange={(e) => {
                           const newOptions = [...(currentQuestion.options || [])];
+
                           newOptions[index] = e.target.value;
                           setCurrentQuestion({ ...currentQuestion, options: newOptions });
                         }}
@@ -482,6 +501,7 @@ const CreateQuiz = () => {
                       <IconButton
                         onClick={() => {
                           const newOptions = [...(currentQuestion.options || [])];
+
                           newOptions.splice(index, 1);
                           setCurrentQuestion({ ...currentQuestion, options: newOptions });
                         }}

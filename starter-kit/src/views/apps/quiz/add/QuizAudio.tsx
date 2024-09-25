@@ -18,7 +18,7 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 // eslint-disable-next-line import/no-unresolved
 import CustomAvatar from '@core/components/mui/Avatar';
 
-import { useSociologicalData } from './AddQuizContext';
+import { useSociologicalData } from './QuizContext';
 
 // Keyframes for pulsing effect
 const pulse = keyframes`
@@ -82,7 +82,7 @@ const CustomSlider = styled(Slider)(({ theme }) => ({
   },
 }));
 
-const AddQuizAudio: React.FC = () => {
+const QuizAudio: React.FC = () => {
   const { audioFile, setAudioFile } = useSociologicalData();
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -98,10 +98,12 @@ const AddQuizAudio: React.FC = () => {
     onDrop: (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
       const fileUrl = URL.createObjectURL(file);
+      const audioBlob = fileToBlob(file);
 
       setAudioFile({
         audioFile: file,
         audioUrl: fileUrl,
+        blobData: audioBlob,
       });
 
       if (audioRef.current) {
@@ -156,12 +158,14 @@ const AddQuizAudio: React.FC = () => {
     setShowUrlInput(!showUrlInput);
   };
 
-  const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUrlChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
+    const audioBlob = await urlToBlob(url);
 
     setAudioFile({
       audioFile: null,
       audioUrl: url,
+      blobData: audioBlob
     });
 
     if (audioRef.current) {
@@ -201,6 +205,30 @@ const AddQuizAudio: React.FC = () => {
     const seconds = Math.floor(time % 60);
 
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
+  // Função para converter um File em Blob
+  const fileToBlob = (file: File): Blob => {
+    return file;
+  };
+
+  // Função para converter uma URL em Blob
+  const urlToBlob = async (url: string): Promise<Blob | null> => {
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Erro ao buscar a URL: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+
+      return blob;
+    } catch (error) {
+      console.error('Erro ao converter URL em Blob:', error);
+
+      return null;
+    }
   };
 
   return (
@@ -287,4 +315,4 @@ const AddQuizAudio: React.FC = () => {
   );
 };
 
-export default AddQuizAudio;
+export default QuizAudio;

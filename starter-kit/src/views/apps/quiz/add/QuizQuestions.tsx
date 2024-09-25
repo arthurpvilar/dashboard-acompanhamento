@@ -48,8 +48,6 @@ import CustomIconButton from '@core/components/mui/IconButton'
 
 import { useDropzone } from 'react-dropzone'
 
-import { useSociologicalData, type SociologicalDataType } from './AddQuizContext';
-
 // Type Imports
 import type { QuizQuestion, QuizQuestionOption } from '@/types/apps/quizTypes'
 
@@ -57,6 +55,9 @@ import type { QuizQuestion, QuizQuestionOption } from '@/types/apps/quizTypes'
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import QuizOptionImage from './QuizOptionImage'
 import AudioPlayer from './QuizOptionAudioPlayer';
+
+import type { SociologicalDataType} from './QuizContext';
+import { useSociologicalData } from './QuizContext';
 
 // Custom Styled Components
 // Keyframes for pulsing effect

@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 // Context Imports
-import { useSociologicalData } from './AddQuizContext';
+import { useSociologicalData } from './QuizContext';
 
 const QuizTypesDropdown = () => {
   // Acessar o contexto

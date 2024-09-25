@@ -16,9 +16,9 @@ import { Box, CardHeader } from '@mui/material';
 // eslint-disable-next-line import/no-unresolved
 import CustomIconButton from '@core/components/mui/IconButton';
 
-import { useSociologicalData } from './AddQuizContext';
 import QuizSociologicalTopics from './QuizSociologicalTopics';
 
+import { useSociologicalData } from './QuizContext';
 
 // Primary color config object
 export const primaryColorConfig = [

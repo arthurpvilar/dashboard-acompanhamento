@@ -1,6 +1,4 @@
 import type { ThemeColor } from '@/@core/types'
-import type { UsersType } from './userTypes'
-
 
 export type Attempt = {
   userId: number;
@@ -11,26 +9,23 @@ export type Attempt = {
 // Blueprint for a quiz
 export type Quiz = {
   id: number // Unique identifier
-  image: string // URL or path for the quiz image
-  logo: string // Logo of the quiz
   title: string // Title of the quiz
   identifier: string // Identifier of the quiz
+  type: string // Type of the quiz
   description: string // Description of the quiz
+  image: QuizImageData | null // Imagem of the quiz
+  audio: QuizAudioData | null // Imagem of the quiz
   sociologicalData: QuizSociologicalData[] // List of sociological data in the quiz
   questions: QuizQuestion[] // List of questions in the quiz
-  completedQuiz: number // Number of users who have completed the quiz
-  totalQuiz: number // Total number of questions in the quiz
-  time: number // Duration or time limit for the quiz
-  color: ThemeColor // Theme color for the quiz
-  owner: UsersType
-  averageTime: number // Average time taken by the user
-  users: QuizUserData[] // List of users who have taken the quiz
-  progressValue?: string;
-  attempts: Attempt[]
-}
-
-export type QuizData = {
-  quizIndex: number
+  //completedQuiz?: number // Number of users who have completed the quiz
+  // totalQuiz: number // Total number of questions in the quiz
+  // time?: number // Duration or time limit for the quiz
+  // color: ThemeColor // Theme color for the quiz
+  // owner: UsersType
+  // averageTime: number // Average time taken by the user
+  // users?: QuizUserData[] // List of users who have taken the quiz
+  // progressValue?: string;
+  // attempts: Attempt[]
 }
 
 // Represents an individual question in a quiz
@@ -86,7 +81,7 @@ export type QuizUserData = {
 // User-specific data for completed questions within a quiz
 export type UserQuizQuestion = {
   id: number // Reference to Question id
-  question?: string // The question text
+  questionId?: string // The question text
   answered?: boolean // Indicates if the user answered the question
 }
 

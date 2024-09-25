@@ -14,7 +14,7 @@ import { useTheme } from '@mui/material/styles'
 import type { ApexOptions } from 'apexcharts'
 
 // Custom Imports
-import { useSociologicalData } from './AddQuizContext'
+import { useSociologicalData } from './QuizContext'
 
 // Styled Component Imports
 // eslint-disable-next-line import/no-unresolved

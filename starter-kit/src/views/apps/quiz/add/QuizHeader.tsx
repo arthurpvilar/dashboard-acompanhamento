@@ -5,7 +5,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 // Importar o contexto
-import { useSociologicalData } from './AddQuizContext';
+import { useSociologicalData } from './QuizContext';
+import type { Quiz } from '@/types/apps/quizTypes';
 
 const QuizHeader = () => {
   const {
@@ -15,6 +16,7 @@ const QuizHeader = () => {
     setQuizIdentifier,
     quizDescription,
     setQuizDescription,
+    sociologicalData,
     imageFile,
     setImageFile,
     quizType,
@@ -25,6 +27,26 @@ const QuizHeader = () => {
     audioFile,
     setAudioFile,
   } = useSociologicalData(); // Acessar o contexto
+
+  // Função para publicar o quiz (simulando envio para uma API)
+  const handlePublish = () => {
+    const quizData = {
+      title: quizName,
+      identifier: quizIdentifier,
+      type: quizType,
+      description: quizDescription,
+      image: imageFile,
+      audio: audioFile,
+      sociologicalData,
+      questions: quizQuestions,
+    } as Quiz;
+
+    console.log('Publicando quiz...', quizData);
+
+    // Aqui você pode adicionar a lógica para enviar os dados para uma API
+    alert('Quiz publicado com sucesso!');
+    clearAllData(); // Limpar os dados após a publicação
+  };
 
   // Função para limpar todos os dados
   const clearAllData = () => {
@@ -42,9 +64,10 @@ const QuizHeader = () => {
   // Função para salvar o rascunho no localStorage
   const handleSaveDraft = () => {
     const quizDraft = {
-      name: quizName,
+      title: quizName,
       identifier: quizIdentifier,
       description: quizDescription,
+      sociologicalData,
       imageFile,
       quizType,
       questions: quizQuestions,
@@ -53,25 +76,6 @@ const QuizHeader = () => {
 
     localStorage.setItem('quizDraft', JSON.stringify(quizDraft));
     alert('Rascunho salvo!');
-  };
-
-  // Função para publicar o quiz (simulando envio para uma API)
-  const handlePublish = () => {
-    const quizData = {
-      name: quizName,
-      identifier: quizIdentifier,
-      description: quizDescription,
-      imageFile,
-      quizType,
-      questions: quizQuestions,
-      audioFile,
-    };
-
-    console.log('Publicando quiz...', quizData);
-
-    // Aqui você pode adicionar a lógica para enviar os dados para uma API
-    alert('Quiz publicado com sucesso!');
-    clearAllData(); // Limpar os dados após a publicação
   };
 
   return (

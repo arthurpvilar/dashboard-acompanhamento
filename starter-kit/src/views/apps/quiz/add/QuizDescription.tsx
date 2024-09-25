@@ -22,7 +22,7 @@ import { TextAlign } from '@tiptap/extension-text-align';
 import CustomIconButton from '@core/components/mui/IconButton';
 
 // Context Imports
-import { useSociologicalData } from './AddQuizContext'; // Importar o contexto
+import { useSociologicalData } from './QuizContext';
 
 // Style Imports
 // eslint-disable-next-line import/no-unresolved
