@@ -57,10 +57,13 @@ const QuizMainImage = () => {
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0];
+        const fileUrl = URL.createObjectURL(file);
+        const blobImage = fileToBlob(file);
 
         setImageFile({
           imageFile: file,
           imageUrl: '',
+          blobData: blobImage,
         });
       }
     },
@@ -80,6 +83,7 @@ const QuizMainImage = () => {
     setImageFile({
       imageFile: null,
       imageUrl: '',
+      blobData: null,
     });
   };
 
@@ -87,13 +91,39 @@ const QuizMainImage = () => {
     setShowUrlInput((prev) => !prev);
   };
 
-  const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUrlChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
+    const fileBlobData = await urlToBlob(url); // Converte a URL em Blob
 
     setImageFile({
       imageFile: null,
       imageUrl: url,
+      blobData: fileBlobData,
     });
+  };
+
+  // Função para converter um File em Blob
+  const fileToBlob = (file: File): Blob => {
+    return file;
+  };
+
+  // Função para converter uma URL em Blob
+  const urlToBlob = async (url: string): Promise<Blob | null> => {
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Erro ao buscar a URL: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+
+      return blob;
+    } catch (error) {
+      console.error('Erro ao converter URL em Blob:', error);
+
+      return null;
+    }
   };
 
   return (

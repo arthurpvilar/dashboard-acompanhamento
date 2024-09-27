@@ -1,56 +1,148 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+```markdown
+# Projeto NestJS com TypeScript e TypeORM
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este é um projeto NestJS utilizando TypeScript e TypeORM. Este guia irá cobrir os passos para criar e executar migrações, além de iniciar o projeto.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Requisitos
 
-## Description
+- Node.js (v14 ou superior)
+- npm (v6 ou superior) ou yarn
+- PostgreSQL
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Configuração do Projeto
 
-## Installation
+### 1. Instalação das Dependências
+
+Clone o repositório e instale as dependências:
 
 ```bash
-$ npm install
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
+npm install
+# ou
+yarn install
 ```
 
-## Running the app
+### 2. Configuração do Banco de Dados
 
-```bash
-# docker
-docker-compose up -d
+Crie um arquivo `.env` na raiz do projeto e configure suas variáveis de ambiente:
 
-# migrations
-npm run migration:run
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=seu-usuario
+DB_PASSWORD=sua-senha
+DB_DATABASE=nome-do-banco
 ```
 
-## Test
+### 3. Configuração do TypeORM
+
+No arquivo `src/config/database/database.providers.ts`, configure sua instância do DataSource do TypeORM:
+
+```typescript
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config();
+
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { SeederOptions } from 'typeorm-extension';
+import { entities } from './database-entities';
+import { MainSeeder } from './main-seeder';
+
+export const typeormOptions: DataSourceOptions & SeederOptions = {
+  type: 'postgres',
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  entities,
+  migrations: [__dirname + './migrations/*{.ts,.js}'],
+  synchronize: false,
+  logging: false,
+  seeds: [MainSeeder],
+};
+
+export const AppDataSource = new DataSource(typeormOptions);
+```
+
+### 4. Criando Migrações
+
+Para criar uma nova migração, utilize o seguinte comando:
 
 ```bash
-# unit tests
-$ npm run test
+npx typeorm-ts-node-commonjs migration:create src/config/database/migrations/NomeDaSuaMigration
+```
+
+Isso criará um novo arquivo de migração em `src/config/database/migrations`.
+
+### 5. Executando Migrações
+
+Para executar as migrações, utilize o comando abaixo:
+
+```bash
+npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli migration:run -d src/config/database/database.providers.ts
+```
+
+Este comando irá aplicar todas as migrações pendentes ao seu banco de dados.
+
+### 6. Iniciando o Projeto
+
+Para iniciar o projeto, utilize o comando:
+
+```bash
+npm run start:dev
+# ou
+yarn start:dev
+```
+
+Isso iniciará o servidor NestJS em modo de desenvolvimento.
+
+## Comandos Úteis
+
+### Rodar o Projeto
+
+```bash
+npm run start
+# ou
+yarn start
+```
+
+### Rodar em Modo de Desenvolvimento
+
+```bash
+npm run start:dev
+# ou
+yarn start:dev
+```
+
+### Compilar o Projeto
+
+```bash
+npm run build
+# ou
+yarn build
+```
+
+## Estrutura do Projeto
+
+```
+src/
+├── app.module.ts
+├── main.ts
+├── config/
+│   ├── database/
+│   │   ├── database.providers.ts
+│   │   ├── database-entities.ts
+│   │   └── migrations/
+│   │       └── ...
+│   └── ...
+├── modules/
+│   ├── company/
+│   │   ├── company.entity.ts
+│   │   ├── company.module.ts
+│   │   ├── company.service.ts
+│   │   └── company.controller.ts
+│   └── ...
+└── ...
+```
 ```

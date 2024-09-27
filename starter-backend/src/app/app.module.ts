@@ -9,13 +9,13 @@ import { QuizQuestionModule } from '@App/modules/quiz-question/quiz-question.mod
 import { QuizSociologicalDataModule } from '@App/modules/quiz-sociological-data/quiz-sociological-data.module';
 import { QuizModule } from '@App/modules/quiz/quiz.module';
 import { UserModule } from '@App/modules/user/user.module';
+import { ConfigProvidersModule } from '@App/providers/environment/environment.module';
+import { DatabaseModule } from '@App/providers/database/database.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(/* TypeORM configuration */),
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigProvidersModule,
+    DatabaseModule,
     QuizModule,
     UserModule,
     AuthModule,
@@ -24,5 +24,7 @@ import { UserModule } from '@App/modules/user/user.module';
     QuizQuestionOptionModule,
     QuizSociologicalDataModule,
   ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

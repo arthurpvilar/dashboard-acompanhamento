@@ -22,15 +22,18 @@ export class CreateQuizDto {
   @IsString()
   type: string;
 
+  @IsOptional()
   @IsString()
   description: string;
 
   @IsOptional()
   @ValidateNested()
+  @Type(() => serializeModel(QuizImageData))
   image?: QuizImageData;
 
   @IsOptional()
   @ValidateNested()
+  @Type(() => QuizAudioData)
   audio?: QuizAudioData;
 
   @IsOptional()
