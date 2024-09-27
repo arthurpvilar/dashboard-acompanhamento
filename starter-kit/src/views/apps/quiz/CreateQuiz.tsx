@@ -72,14 +72,16 @@ const CreateQuiz = () => {
     title: '',
     description: '',
     identifier: '',
-    averageTime: 0,
+
+    //averageTime: 0,
     sociologicalData: [],
     questions: [],
-    attempts: [],
-    completedQuiz: 0,
-    totalQuiz: 0,
-    time: 0,
-    color: 'primary',
+
+    //attempts: [],
+    //completedQuiz: 0,
+    //totalQuiz: 0,
+    //time: 0,
+    //color: 'primary',
     owner: {
       id: 51,
       role: 'Admin',
@@ -94,7 +96,8 @@ const CreateQuiz = () => {
       currentPlan: 'Enterprise',
       avatarColor: 'primary',
     },
-    users: [],
+
+    //users: [],
   });
 
   const [sociologicalData, setSociologicalData] = useState<QuizSociologicalData[]>([]);

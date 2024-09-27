@@ -1,21 +1,15 @@
-import { Application } from '@App/modules/application/entities/application.entity';
-import { Candidate } from '@App/modules/candidate/entities/candidate.entity';
-import { DesiredSkillUserData } from '@App/modules/desired-skills-user-data/entities/desired-skills-user-data.entity';
-import { DesiredSkill } from '@App/modules/desired-skills/entities/desired-skill.entity';
-import { TechnicalSkillUserData } from '@App/modules/technical-skills-user-data/entities/technical-skills-user-data.entity';
-import { TechnicalSkill } from '@App/modules/technical-skills/entities/technical-skill.entity';
-import { Company } from '@modules/company/entities/company.entity';
-import { Job } from '@modules/job/entities/job.entity';
-import { User } from '@modules/user/entities/user.entity';
+import { QuizAttempt } from '@App/modules/quiz-attempt/entities/quiz-attempt.entity';
+import { QuizQuestionOption } from '@App/modules/quiz-question-option/entities/quiz-question-option.entity';
+import { QuizQuestion } from '@App/modules/quiz-question/entities/quiz-question.entity';
+import { QuizSociologicalData } from '@App/modules/quiz-sociological-data/entities/quiz-sociological-data.entity';
+import { Quiz } from '@App/modules/quiz/entities/quiz.entity';
+import { User } from '@App/modules/user/entities/user.entity';
 
 export const entities = [
   User,
-  Company,
-  Candidate,
-  Job,
-  Application,
-  DesiredSkill,
-  DesiredSkillUserData,
-  TechnicalSkill,
-  TechnicalSkillUserData,
+  Quiz,
+  QuizAttempt,
+  QuizQuestion,
+  QuizQuestionOption,
+  QuizSociologicalData,
 ];

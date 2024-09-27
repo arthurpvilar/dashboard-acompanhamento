@@ -1,45 +1,25 @@
-import {
-  IsEmail,
-  IsMobilePhone,
-  IsNotEmpty,
-  IsString,
-  MinLength,
-} from 'class-validator';
+// src/user/dto/create-user.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'Nome completo do usuário' })
+  @ApiProperty({ description: 'Username', example: 'john_doe' })
+  @IsNotEmpty()
+  @IsString()
+  username: string;
+
+  @ApiProperty({ description: 'Full name', example: 'John Doe' })
   @IsNotEmpty()
   @IsString()
   fullName: string;
 
-  @ApiProperty({ description: 'CPF ou CNPJ do usuário' })
+  @ApiProperty({ description: 'Email address', example: 'john@example.com' })
   @IsNotEmpty()
-  @IsString()
-  cpfOrCnpj: string;
-
-  @ApiProperty({ description: 'Gênero do usuário' })
-  @IsNotEmpty()
-  @IsString()
-  gender: string;
-
-  @ApiProperty({ description: 'E-mail do usuário' })
   @IsEmail()
   email: string;
 
-  @ApiProperty({ description: 'Nome de usuário do usuário' })
-  @IsString()
-  username: string;
-
-  @ApiProperty({ description: 'Senha do usuário', minLength: 8 })
-  @IsString()
-  @MinLength(8)
+  @ApiProperty({ description: 'Password', example: 'strongpassword' })
+  @IsNotEmpty()
+  @MinLength(6)
   password: string;
-
-  @ApiProperty({
-    description: 'Número de celular do usuário',
-    example: '+5511987654321',
-  })
-  @IsMobilePhone('pt-BR')
-  mobilePhone: string;
 }

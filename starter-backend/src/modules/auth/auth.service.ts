@@ -1,39 +1,46 @@
+// src/auth/auth.service.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  private config = new ConfigService();
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private jwtService: JwtService,
+  ) {}
 
-  async login(login: LoginDto) {
-    if (!login.email_or_username) throw new Error('Email is required.');
+  async validateUser(emailOrUsername: string, pass: string): Promise<any> {
+    const user = await this.userService.findByEmailOrUsername(emailOrUsername);
+    if (user && bcrypt.compareSync(pass, user.password)) {
+      const { ...result } = user; // Exclude password from result
+      return result;
+    }
+    return null;
+  }
 
-    const user = await this.userService.findByLogin(login.email_or_username);
+  async login(loginDto: LoginDto) {
+    const user = await this.userService.findByEmailOrUsername(loginDto.email);
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials.');
+    }
 
-    if (!user) throw new Error('User not found.');
-
-    const isPasswordValid = bcrypt.compareSync(login.password, user.password);
-
-    if (!isPasswordValid) throw new UnauthorizedException('Invalid password.');
-
-    // to avoid returning the password in the response
-    delete user.password;
-
-    // create a token
-    const { id, companyId, email } = user;
-    const token = jwt.sign(
-      { id, companyId, email },
-      this.config.get('JWT_SECRET'),
-      {
-        expiresIn: '1d',
-      },
+    const isPasswordValid = bcrypt.compareSync(
+      loginDto.password,
+      user.password,
     );
+    if (!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials.');
+    }
 
-    return { access_token: { ...user, token } };
+    const payload = { id: user.id, email: user.email };
+    const token = this.jwtService.sign(payload);
+
+    return {
+      access_token: token,
+      user: { ...user, password: undefined },
+    };
   }
 }

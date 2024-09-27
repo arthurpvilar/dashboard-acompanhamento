@@ -1,84 +1,100 @@
+// src/user/user.controller.ts
 import {
   Controller,
   Get,
   Post,
   Body,
-  Patch,
   Param,
+  UseGuards,
+  Req,
+  BadRequestException,
+  NotFoundException,
+  Put,
   Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags, ApiResponse, ApiOperation, ApiBody } from '@nestjs/swagger';
-import { LoginDto } from './dto/login-user.dto';
-import { ForgetPasswordDto } from './dto/forget-user-password.dto';
 
-@ApiTags('user')
-@Controller('user')
+@ApiTags('users')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Cria um novo usuário' })
+  @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({
     status: 201,
-    description: 'O usuário foi criado com sucesso.',
+    description: 'The user has been successfully created.',
+    type: CreateUserDto,
   })
-  @ApiResponse({ status: 400, description: 'Dados de entrada inválidos.' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
-  @Get()
-  @ApiOperation({ summary: 'Retorna todos os usuários' })
-  @ApiResponse({ status: 200, description: 'Usuários listados com sucesso.' })
-  findAll() {
-    return this.userService.findAll();
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiBody({ type: CreateUserDto })
+  async create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Busca um usuário pelo seu ID' })
-  @ApiResponse({ status: 200, description: 'Usuário encontrado.' })
-  @ApiResponse({ status: 404, description: 'Usuário não encontrado.' })
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Get user by ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'User retrieved successfully.',
+    type: CreateUserDto,
+  })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  async findOne(@Param('id') id: string) {
+    const user = await this.userService.findOne(id);
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+    const { ...result } = user;
+    return result;
   }
 
-  @Patch(':id')
-  @ApiOperation({ summary: 'Atualiza um usuário pelo seu ID' })
-  @ApiResponse({ status: 200, description: 'Usuário atualizado com sucesso.' })
-  @ApiResponse({ status: 404, description: 'Usuário não encontrado.' })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  @Put(':id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Update user information' })
+  @ApiResponse({
+    status: 200,
+    description: 'User updated successfully.',
+    type: UpdateUserDto,
+  })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  @ApiBody({ type: UpdateUserDto })
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req,
+  ) {
+    // Optionally, check if the authenticated user is updating their own profile
+    if (req.user.id !== id) {
+      throw new BadRequestException('You can only update your own profile.');
+    }
+    return this.userService.updateUser(id, updateUserDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Remove um usuário pelo seu ID' })
-  @ApiResponse({ status: 204, description: 'Usuário removido com sucesso.' })
-  @ApiResponse({ status: 404, description: 'Usuário não encontrado.' })
-  remove(@Param('id') id: string) {
-    return this.userService.remove(id);
-  }
-
-  @Post('login')
-  @ApiOperation({ summary: 'Realizar login' })
-  @ApiBody({ type: LoginDto })
-  @ApiResponse({ status: 200, description: 'Login bem-sucedido' })
-  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
-  login(@Body() loginDto: LoginDto) {
-    return this.userService.login(loginDto);
-  }
-
-  @Post('recuperar-senha')
-  @ApiOperation({ summary: 'Recuperar senha' })
-  @ApiBody({ type: ForgetPasswordDto })
-  @ApiResponse({
-    status: 200,
-    description: 'E-mail de recuperação enviado com sucesso',
-  })
-  @ApiResponse({ status: 404, description: 'Empresa não encontrada' })
-  recuperarSenha(@Body() forgetPasswordDto: ForgetPasswordDto) {
-    return this.userService.recuperarSenha(forgetPasswordDto);
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Delete user account' })
+  @ApiResponse({ status: 200, description: 'User deleted successfully.' })
+  @ApiResponse({ status: 404, description: 'User not found.' })
+  async delete(@Param('id') id: string, @Req() req) {
+    // Optionally, check if the authenticated user is deleting their own account
+    if (req.user.id !== id) {
+      throw new BadRequestException('You can only delete your own account.');
+    }
+    return this.userService.deleteUser(id);
   }
 }

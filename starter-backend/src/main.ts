@@ -7,10 +7,10 @@ async function bootstrap() {
 
   // Configuração do Swagger
   const config = new DocumentBuilder()
-    .setTitle('Gobeesiness API')
+    .setTitle('Quiz Social Data API')
     .setDescription('API de desenvolvimento')
     .setVersion('1.0')
-    .addTag('Gobeesiness')
+    .addTag('SocialData')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

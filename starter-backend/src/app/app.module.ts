@@ -1,58 +1,28 @@
-import { DatabaseModule } from '@App/providers/database/database.module';
-import { ConfigProvidersModule } from '@App/providers/environment/environment.module';
-import { CompanyModule } from '@modules/company/company.module';
-import { JobModule } from '@modules/job/job.module';
-import { UserModule } from '@modules/user/user.module';
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
-import { AuthModule } from '../modules/auth/auth.module';
-import AuthMiddleware from '../modules/auth/auth.middleware';
-import { RouteInfo } from '@nestjs/common/interfaces';
-import { ApplicationModule } from '@App/modules/application/application.module';
-import { DesiredSkillUserDataModule } from '@App/modules/desired-skills-user-data/desired-skills-user-data.module';
-import { DesiredSkillModule } from '@App/modules/desired-skills/desired-skill.module';
-import { TechnicalSkillUserDataModule } from '@App/modules/technical-skills-user-data/technical-skills-user-data.module';
-import { TechnicalSkillModule } from '@App/modules/technical-skills/technical-skills.module';
-import { AddressModule } from '@App/modules/address/address.module';
+// src/app.module.ts
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from '@App/modules/auth/auth.module';
+import { QuizAttemptModule } from '@App/modules/quiz-attempt/quiz-attempt.module';
+import { QuizQuestionOptionModule } from '@App/modules/quiz-question-option/quiz-question-option.module';
+import { QuizQuestionModule } from '@App/modules/quiz-question/quiz-question.module';
+import { QuizSociologicalDataModule } from '@App/modules/quiz-sociological-data/quiz-sociological-data.module';
+import { QuizModule } from '@App/modules/quiz/quiz.module';
+import { UserModule } from '@App/modules/user/user.module';
 
 @Module({
   imports: [
-    ConfigProvidersModule,
-    DatabaseModule,
-    AuthModule,
-    AddressModule,
+    TypeOrmModule.forRoot(/* TypeORM configuration */),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    QuizModule,
     UserModule,
-    CompanyModule,
-    JobModule,
-    ApplicationModule,
-    DesiredSkillModule,
-    DesiredSkillUserDataModule,
-    TechnicalSkillModule,
-    TechnicalSkillUserDataModule,
+    AuthModule,
+    QuizAttemptModule,
+    QuizQuestionModule,
+    QuizQuestionOptionModule,
+    QuizSociologicalDataModule,
   ],
-  controllers: [],
-  providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
-      ...privateRoutes.map((route) => ({
-        path: route.path,
-        method: route.method,
-      })),
-    );
-  }
-}
-
-// Auth Middleware will be applied to the following routes:
-const privateRoutes: RouteInfo[] = [
-  // todo: add all private routes here
-  { path: '/user', method: RequestMethod.GET },
-  { path: '/user:id', method: RequestMethod.GET },
-  { path: '/user:id', method: RequestMethod.PATCH },
-  { path: '/user:id', method: RequestMethod.DELETE },
-];
+export class AppModule {}

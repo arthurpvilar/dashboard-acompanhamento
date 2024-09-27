@@ -1,18 +1,20 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+// src/auth/auth.controller.ts
+import { Controller, Post, Body } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 
-@Controller('auth')
 @ApiTags('auth')
-export default class AuthController {
+@Controller('auth')
+export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Try to login an user.' })
+  @ApiOperation({ summary: 'User login' })
   @ApiResponse({ status: 200, description: 'User logged in successfully.' })
-  @ApiResponse({ status: 404, description: 'Bad Request.' })
-  async login(@Body() login: LoginDto) {
-    return this.authService.login(login);
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiBody({ type: LoginDto })
+  async login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
   }
 }
