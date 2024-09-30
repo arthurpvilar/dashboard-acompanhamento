@@ -13,7 +13,7 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import LinearProgress from '@mui/material/LinearProgress'
 import TablePagination from '@mui/material/TablePagination'
-import type { TextFieldProps } from '@mui/material/TextField';
+import type { TextFieldProps } from '@mui/material/TextField'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
@@ -70,7 +70,7 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 
   addMeta({ itemRank })
 
-return itemRank.passed
+  return itemRank.passed
 }
 
 const DebouncedInput = ({
@@ -202,11 +202,7 @@ const QuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
         )
       }),
       columnHelper.accessor('action', {
-        header: () => (
-          <div className='flex justify-end gap-1 ml-auto pr-14'>
-            Actions
-          </div>
-        ),
+        header: () => <div className='flex justify-end gap-1 ml-auto pr-14'>Actions</div>,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         cell: ({ row }) => (
           <div className='flex items-center'>
@@ -225,7 +221,7 @@ const QuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
                     text: 'Relatório',
                     icon: 'ri-download-line',
                     menuItemProps: { className: 'flex items-center gap-2 text-textSecondary' }
-                  },
+                  }
                 ]}
               />
             </div>
@@ -273,7 +269,11 @@ const QuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
             placeholder='Procurar por Quiz'
             className='is-full sm:is-auto'
           />
-          <Button variant='contained' href={getLocalizedUrl(`/quiz/create`, locale as Locale)} className='is-full sm:is-auto'>
+          <Button
+            variant='contained'
+            href={getLocalizedUrl(`/quiz/create`, locale as Locale)}
+            className='is-full sm:is-auto'
+          >
             Criar Quiz
           </Button>
         </div>

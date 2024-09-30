@@ -56,7 +56,6 @@ import type { UsersType } from '@/types/apps/userTypes'
 import TableFilters from './TableFilters'
 import AddUserDrawer from './AddUserDrawer'
 
-
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
@@ -233,11 +232,7 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         )
       }),
       columnHelper.accessor('action', {
-        header: () => (
-          <div className='flex justify-end gap-1 ml-auto pr-14'>
-            Action
-          </div>
-        ),
+        header: () => <div className='flex justify-end gap-1 ml-auto pr-14'>Action</div>,
         cell: ({ row }) => (
           <div className='flex items-center'>
             <div className='flex items-center gap-1.5 ml-auto pr-4'>

@@ -4,9 +4,12 @@ import {
   IsOptional,
   IsNumber,
   ValidateNested,
+  IsInt,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizSociologicalOptionData } from '@App/modules/shared/types/quiz-social-option-data';
+import { Type } from 'class-transformer';
 
 export class CreateQuizQuestionOptionDto {
   @ApiProperty({ description: 'Title of the option' })
@@ -22,18 +25,19 @@ export class CreateQuizQuestionOptionDto {
   @IsNumber()
   weight?: number;
 
-  @ApiPropertyOptional({ description: 'ID of the sociological data' })
-  @IsOptional()
-  @IsNumber()
-  sociologicalId?: number;
+  @ApiPropertyOptional({
+    description: 'Sociological data with id and name for the option',
+  })
+  @ValidateNested({ each: true })
+  @Type(() => QuizSociologicalOptionData)
+  sociological?: QuizSociologicalOptionData;
+
+  @ApiProperty({ description: 'ID of the sociological data' })
+  @IsInt() // Certifique-se de que o valor seja um inteiro
+  sociologicalId: number;  // Troque para 'sociologicalId' e remova o @IsOptional
 
   @ApiPropertyOptional({ description: 'Image URL for the option' })
   @ValidateNested()
   @IsOptional()
   image?: QuizImageData;
-
-  @ApiPropertyOptional({ description: 'Question ID' })
-  @IsOptional()
-  @IsNumber()
-  questionId?: number;
 }

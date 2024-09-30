@@ -1,12 +1,12 @@
 'use client'
 
 // MUI Imports
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
 // Importar o contexto
-import { useSociologicalData } from './QuizContext';
-import type { Quiz } from '@/types/apps/quizTypes';
+import { useSociologicalData } from './QuizContext'
+import type { Quiz } from '@/types/apps/quizTypes'
 
 const QuizHeader = () => {
   const {
@@ -25,8 +25,8 @@ const QuizHeader = () => {
     optionImages,
     setOptionImage,
     audioFile,
-    setAudioFile,
-  } = useSociologicalData(); // Acessar o contexto
+    setAudioFile
+  } = useSociologicalData() // Acessar o contexto
 
   // Função para publicar o quiz (simulando envio para uma API)
   const handlePublish = () => {
@@ -38,28 +38,28 @@ const QuizHeader = () => {
       image: imageFile,
       audio: audioFile,
       sociologicalData,
-      questions: quizQuestions,
-    } as Quiz;
+      questions: quizQuestions
+    } as Quiz
 
-    console.log('Publicando quiz...', quizData);
+    console.log('Publicando quiz...', quizData)
 
     // Aqui você pode adicionar a lógica para enviar os dados para uma API
-    alert('Quiz publicado com sucesso!');
-    clearAllData(); // Limpar os dados após a publicação
-  };
+    alert('Quiz publicado com sucesso!')
+    clearAllData() // Limpar os dados após a publicação
+  }
 
   // Função para limpar todos os dados
   const clearAllData = () => {
-    setQuizName('');
-    setQuizIdentifier('');
-    setQuizDescription('');
-    setImageFile(null);
-    setQuizQuestions([]);
-    setAudioFile(null);
-    Object.keys(optionImages).forEach((key) => {
-      setOptionImage(key, { imageUrl: '', imageFile: null });
-    });
-  };
+    setQuizName('')
+    setQuizIdentifier('')
+    setQuizDescription('')
+    setImageFile(null)
+    setQuizQuestions([])
+    setAudioFile(null)
+    Object.keys(optionImages).forEach(key => {
+      setOptionImage(key, { imageUrl: '', imageFile: null })
+    })
+  }
 
   // Função para salvar o rascunho no localStorage
   const handleSaveDraft = () => {
@@ -71,36 +71,34 @@ const QuizHeader = () => {
       imageFile,
       quizType,
       questions: quizQuestions,
-      audioFile,
-    };
+      audioFile
+    }
 
-    localStorage.setItem('quizDraft', JSON.stringify(quizDraft));
-    alert('Rascunho salvo!');
-  };
+    localStorage.setItem('quizDraft', JSON.stringify(quizDraft))
+    alert('Rascunho salvo!')
+  }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-6">
+    <div className='flex flex-wrap items-center justify-between gap-6'>
       <div>
-        <Typography variant="h4" className="mbe-1">
+        <Typography variant='h4' className='mbe-1'>
           Adicionar novo Quiz
         </Typography>
-        <Typography>
-          Esse quiz será liberado para toda a plataforma, para ser acessado com um identificador
-        </Typography>
+        <Typography>Esse quiz será liberado para toda a plataforma, para ser acessado com um identificador</Typography>
       </div>
-      <div className="flex flex-wrap gap-4">
-        <Button variant="outlined" color="secondary" onClick={clearAllData}>
+      <div className='flex flex-wrap gap-4'>
+        <Button variant='outlined' color='secondary' onClick={clearAllData}>
           Descartar
         </Button>
-        <Button variant="outlined" onClick={handleSaveDraft}>
+        <Button variant='outlined' onClick={handleSaveDraft}>
           Salvar Rascunho
         </Button>
-        <Button variant="contained" onClick={handlePublish}>
+        <Button variant='contained' onClick={handlePublish}>
           Publicar Quiz
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default QuizHeader;
+export default QuizHeader

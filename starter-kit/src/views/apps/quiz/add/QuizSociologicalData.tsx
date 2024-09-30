@@ -1,24 +1,24 @@
-'use client';
+'use client'
 
 // MUI Imports
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import { Box, CardHeader } from '@mui/material';
+import Grid from '@mui/material/Grid'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
+import TextField from '@mui/material/TextField'
+import { Box, CardHeader } from '@mui/material'
 
 // Components Imports
 // eslint-disable-next-line import/no-unresolved
-import CustomIconButton from '@core/components/mui/IconButton';
+import CustomIconButton from '@core/components/mui/IconButton'
 
-import QuizSociologicalTopics from './QuizSociologicalTopics';
+import QuizSociologicalTopics from './QuizSociologicalTopics'
 
-import { useSociologicalData } from './QuizContext';
+import { useSociologicalData } from './QuizContext'
 
 // Primary color config object
 export const primaryColorConfig = [
@@ -27,64 +27,63 @@ export const primaryColorConfig = [
   { name: 'Vermelho', main: '#EB3D63' },
   { name: 'Amarelo', main: '#FFAB1D' },
   { name: 'Azul', main: '#2092EC' },
-  { name: 'Ciano', main: '#2EC' },
-];
+  { name: 'Ciano', main: '#2EC' }
+]
 
-const MAX_ITEMS = 6;
+const MAX_ITEMS = 6
 
 const SociologicalData = () => {
-  const { sociologicalData, addSociologicalData, removeSociologicalData } = useSociologicalData();
+  const { sociologicalData, addSociologicalData, removeSociologicalData } = useSociologicalData()
 
   const getAvailableColors = (currentColor?: string) => {
-    const usedColors = sociologicalData.map(data => data.color).filter(Boolean);
+    const usedColors = sociologicalData.map(data => data.color).filter(Boolean)
 
-
-return primaryColorConfig.filter(color => !usedColors.includes(color.main) || color.main === currentColor);
-  };
+    return primaryColorConfig.filter(color => !usedColors.includes(color.main) || color.main === currentColor)
+  }
 
   const handleAddSociologicalData = () => {
     if (sociologicalData.length < MAX_ITEMS) {
-      const randomValue = Math.floor(Math.random() * (100 - 15 + 1)) + 15;
+      const randomValue = Math.floor(Math.random() * (100 - 15 + 1)) + 15
 
       // Obter a primeira cor disponível da lista
-      const availableColors = getAvailableColors();
-      const firstAvailableColor = availableColors.length > 0 ? availableColors[0].main : '';
+      const availableColors = getAvailableColors()
+      const firstAvailableColor = availableColors.length > 0 ? availableColors[0].main : ''
 
       // Adicionar novo dado sociológico com a primeira cor disponível
       addSociologicalData({
-        id: 0,
+        id: sociologicalData.length + 1,
         name: `Dado sociológico ${sociologicalData.length + 1}`,
         value: randomValue,
-        color: firstAvailableColor,
-      });
+        color: firstAvailableColor
+      })
     }
-  };
+  }
 
   const handleRemoveSociologicalData = (index: number) => {
     if (sociologicalData.length > 1) {
-      removeSociologicalData(index);
+      removeSociologicalData(index)
     }
-  };
+  }
 
   return (
     <Card>
-      <CardHeader title="Dados Sociológicos" />
+      <CardHeader title='Dados Sociológicos' />
       <CardContent>
         <Grid container spacing={5}>
           {sociologicalData.map((data, index) => {
-            const availableColors = getAvailableColors(data.color);
+            const availableColors = getAvailableColors(data.color)
 
             return (
-              <Grid key={index} item xs={12} className="repeater-item">
+              <Grid key={index} item xs={12} className='repeater-item'>
                 <Grid container spacing={5}>
                   <Grid item xs={12} md={3}>
                     <FormControl fullWidth>
                       <InputLabel>Selecione a Cor</InputLabel>
                       <Select
-                        label="Selecione a Cor"
+                        label='Selecione a Cor'
                         value={data.color}
-                        onChange={(e) => addSociologicalData({ ...data, color: e.target.value }, index)}
-                        renderValue={(selected) => (
+                        onChange={e => addSociologicalData({ ...data, color: e.target.value }, index)}
+                        renderValue={selected => (
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                             <Box
                               sx={{
@@ -92,14 +91,14 @@ return primaryColorConfig.filter(color => !usedColors.includes(color.main) || co
                                 height: 25,
                                 backgroundColor: selected as string,
                                 border: '1px solid var(--border-color)',
-                                borderRadius: 'var(--border-radius)',
+                                borderRadius: 'var(--border-radius)'
                               }}
                             />
-                            <span>{primaryColorConfig.find((color) => color.main === selected)?.name}</span>
+                            <span>{primaryColorConfig.find(color => color.main === selected)?.name}</span>
                           </Box>
                         )}
                       >
-                        {availableColors.map((color) => (
+                        {availableColors.map(color => (
                           <MenuItem key={color.name} value={color.main}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                               <Box
@@ -108,7 +107,7 @@ return primaryColorConfig.filter(color => !usedColors.includes(color.main) || co
                                   height: 25,
                                   backgroundColor: color.main,
                                   border: '1px solid var(--border-color)',
-                                  borderRadius: 'var(--border-radius)',
+                                  borderRadius: 'var(--border-radius)'
                                 }}
                               />
                               <span>{color.name}</span>
@@ -119,28 +118,28 @@ return primaryColorConfig.filter(color => !usedColors.includes(color.main) || co
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} md={9}>
-                    <div className="flex items-center gap-5">
+                    <div className='flex items-center gap-5'>
                       <TextField
                         fullWidth
-                        label="Nome da propriedade sociológica"
-                        placeholder="Propriedade Sociológica"
+                        label='Nome da propriedade sociológica'
+                        placeholder='Propriedade Sociológica'
                         value={data.name}
-                        onChange={(e) => addSociologicalData({ ...data, name: e.target.value }, index)}
+                        onChange={e => addSociologicalData({ ...data, name: e.target.value }, index)}
                       />
-                      <CustomIconButton onClick={() => handleRemoveSociologicalData(index)} className="min-is-fit">
-                        <i className="ri-close-line" />
+                      <CustomIconButton onClick={() => handleRemoveSociologicalData(index)} className='min-is-fit'>
+                        <i className='ri-close-line' />
                       </CustomIconButton>
                     </div>
                   </Grid>
                 </Grid>
               </Grid>
-            );
+            )
           })}
           <Grid item xs={12}>
             <Button
-              variant="contained"
+              variant='contained'
               onClick={handleAddSociologicalData}
-              startIcon={<i className="ri-add-line" />}
+              startIcon={<i className='ri-add-line' />}
               disabled={sociologicalData.length >= MAX_ITEMS}
             >
               Adicionar nova propriedade
@@ -149,11 +148,11 @@ return primaryColorConfig.filter(color => !usedColors.includes(color.main) || co
         </Grid>
       </CardContent>
       <CardContent>
-        <CardHeader title="Quadro Sociológico Atual" />
+        <CardHeader title='Quadro Sociológico Atual' />
         <QuizSociologicalTopics />
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default SociologicalData;
+export default SociologicalData

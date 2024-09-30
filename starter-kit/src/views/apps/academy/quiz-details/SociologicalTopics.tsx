@@ -1,40 +1,40 @@
-'use client';
+'use client'
 
 // Next Imports
-import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic'
 
 // MUI Imports
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import { useTheme } from '@mui/material/styles'
 
 // Third-party Imports
-import classnames from 'classnames';
-import type { ApexOptions } from 'apexcharts';
+import classnames from 'classnames'
+import type { ApexOptions } from 'apexcharts'
 
 // Styled Component Imports
-const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'));
+const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
 type DataType = {
-  title: string;
-  value: number;
-  colorClass: string;
-};
+  title: string
+  value: number
+  colorClass: string
+}
 
 type SociologicalTopicsProps = {
-  sociologicalData: DataType[];
-};
+  sociologicalData: DataType[]
+}
 
-const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) => { 
-  const theme = useTheme();
+const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) => {
+  const theme = useTheme()
 
   const series = [
     {
-      data: sociologicalData.map((data) => data.value)
+      data: sociologicalData.map(data => data.value)
     }
-  ];
+  ]
 
-  const labels = sociologicalData.map((data) => data.title);
+  const labels = sociologicalData.map(data => data.title)
 
   const options: ApexOptions = {
     chart: {
@@ -51,7 +51,7 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
       }
     },
 
-    colors: sociologicalData.map((data) => `var(--mui-palette-${data.colorClass}-main)`),
+    colors: sociologicalData.map(data => `var(--mui-palette-${data.colorClass}-main)`),
     grid: {
       strokeDashArray: 8,
       borderColor: 'var(--mui-palette-divider)',
@@ -77,7 +77,7 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
         fontSize: '0.8125rem'
       },
       formatter(val: string, opt: any) {
-        return labels[opt.dataPointIndex];
+        return labels[opt.dataPointIndex]
       }
     },
     tooltip: {
@@ -103,7 +103,7 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
       axisBorder: { show: false },
       categories: sociologicalData.map((_, index) => `${index + 1}`),
       labels: {
-        formatter: (val) => `${val}%`,
+        formatter: val => `${val}%`,
         style: {
           fontSize: '0.8125rem',
           colors: 'var(--mui-palette-text-disabled)'
@@ -121,33 +121,33 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
         offsetX: theme.direction === 'rtl' ? -15 : -30
       }
     }
-  };
+  }
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={6} className="max-sm:mbe-6">
-        <AppReactApexCharts type="bar" height={308} width="100%" series={series} options={options} />
+      <Grid item xs={12} sm={6} className='max-sm:mbe-6'>
+        <AppReactApexCharts type='bar' height={308} width='100%' series={series} options={options} />
       </Grid>
-      <Grid item xs={12} sm={6} alignSelf="center">
-        <div className="flex justify-around items-start">
-          <div className="flex flex-col gap-y-12">
+      <Grid item xs={12} sm={6} alignSelf='center'>
+        <div className='flex justify-around items-start'>
+          <div className='flex flex-col gap-y-12'>
             {sociologicalData.slice(0, Math.ceil(sociologicalData.length / 2)).map((item, i) => (
-              <div key={i} className="flex gap-2">
+              <div key={i} className='flex gap-2'>
                 <i className={classnames('ri-circle-fill text-xs m-[5px]', item.colorClass)} />
                 <div>
                   <Typography>{item.title}</Typography>
-                  <Typography variant="h5">{`${item.value}%`}</Typography>
+                  <Typography variant='h5'>{`${item.value}%`}</Typography>
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex flex-col gap-y-12">
+          <div className='flex flex-col gap-y-12'>
             {sociologicalData.slice(Math.ceil(sociologicalData.length / 2)).map((item, i) => (
-              <div key={i} className="flex gap-2">
+              <div key={i} className='flex gap-2'>
                 <i className={classnames('ri-circle-fill text-xs m-[5px]', item.colorClass)} />
                 <div>
                   <Typography>{item.title}</Typography>
-                  <Typography variant="h5">{`${item.value}%`}</Typography>
+                  <Typography variant='h5'>{`${item.value}%`}</Typography>
                 </div>
               </div>
             ))}
@@ -155,7 +155,7 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
         </div>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default SociologicalTopics;
+export default SociologicalTopics

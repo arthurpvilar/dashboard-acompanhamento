@@ -11,12 +11,14 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity()
 export class Quiz {
   @PrimaryGeneratedColumn()
-  id: number;
+  index: number;
 
   @Column()
   title: string;
@@ -39,10 +41,26 @@ export class Quiz {
   @Column({ default: 'draft' })
   status: 'draft' | 'published' | 'archived';
 
-  @OneToMany(() => QuizSociologicalData, (data) => data.quiz, { cascade: true })
+  // Relação Many-to-Many entre Quiz e QuizSociologicalData
+  @ManyToMany(() => QuizSociologicalData, (data) => data.quizzes, {
+    cascade: false, // Mantendo cascade como false para controlar manualmente
+  })
+  @JoinTable({
+    name: 'quiz_sociological_data_join',
+    joinColumn: {
+      name: 'quizId',
+      referencedColumnName: 'index',
+    },
+    inverseJoinColumn: {
+      name: 'sociologicalDataId',
+      referencedColumnName: 'index',
+    },
+  })
   sociologicalData: QuizSociologicalData[];
 
-  @OneToMany(() => QuizQuestion, (question) => question.quiz, { cascade: true })
+  @OneToMany(() => QuizQuestion, (question) => question.quiz, { 
+    cascade: true
+   })
   questions: QuizQuestion[];
 
   @ManyToOne(() => User, (user) => user.quizzes)

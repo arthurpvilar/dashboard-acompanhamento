@@ -1,7 +1,7 @@
 // Type Imports
-import type { QuizType } from '@/types/apps/quizTypes'
+import type { Quiz } from '@/types/apps/quizTypes'
 
-export const db: QuizType = {
+export const db: Quiz = {
   quizzes: [
     {
       id: 1,

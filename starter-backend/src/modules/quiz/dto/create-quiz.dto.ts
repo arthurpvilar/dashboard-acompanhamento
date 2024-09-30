@@ -28,17 +28,13 @@ export class CreateQuizDto {
 
   @IsOptional()
   @ValidateNested()
-  @Type(() => serializeModel(QuizImageData))
+  @Type(() => QuizImageData)
   image?: QuizImageData;
 
   @IsOptional()
   @ValidateNested()
   @Type(() => QuizAudioData)
   audio?: QuizAudioData;
-
-  @IsOptional()
-  @IsIn(['draft', 'published', 'archived'])
-  status?: 'draft' | 'published' | 'archived';
 
   @IsArray()
   @ValidateNested({ each: true })
@@ -52,4 +48,8 @@ export class CreateQuizDto {
 
   @IsString()
   ownerId: string;
+
+  @IsOptional()
+  @IsIn(['draft', 'published', 'archived'])
+  status?: 'draft' | 'published' | 'archived';
 }

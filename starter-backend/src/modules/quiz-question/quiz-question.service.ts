@@ -22,14 +22,13 @@ export class QuizQuestionService {
   async create(
     createQuizQuestionDto: CreateQuizQuestionDto,
   ): Promise<QuizQuestion> {
-    const { quizId, parentQuestionId, options, subQuestions, ...rest } =
-      createQuizQuestionDto;
+    const { quizId, options, ...rest } = createQuizQuestionDto;
 
     const quizQuestion = this.quizQuestionRepository.create(rest);
 
     if (quizId) {
       const quiz = await this.quizRepository.findOne({
-        where: { id: quizId },
+        where: { index: quizId },
       });
       if (!quiz) {
         throw new NotFoundException(`Quiz with ID ${quizId} not found`);
@@ -37,6 +36,7 @@ export class QuizQuestionService {
       quizQuestion.quiz = quiz;
     }
 
+    /*
     if (parentQuestionId) {
       const parentQuestion = await this.quizQuestionRepository.findOne({
         where: { id: parentQuestionId },
@@ -48,6 +48,7 @@ export class QuizQuestionService {
       }
       quizQuestion.parentQuestion = parentQuestion;
     }
+      */
 
     if (options && options.length > 0) {
       const createdOptions = options.map((optionDto) =>
@@ -57,6 +58,7 @@ export class QuizQuestionService {
         await this.quizQuestionOptionRepository.save(createdOptions);
     }
 
+    /*
     if (subQuestions && subQuestions.length > 0) {
       const createdSubQuestions = subQuestions.map((subQuestionDto) =>
         this.quizQuestionRepository.create({
@@ -67,6 +69,7 @@ export class QuizQuestionService {
       quizQuestion.subQuestions =
         await this.quizQuestionRepository.save(createdSubQuestions);
     }
+    */
 
     return this.quizQuestionRepository.save(quizQuestion);
   }
@@ -79,7 +82,7 @@ export class QuizQuestionService {
 
   async findOne(id: number): Promise<QuizQuestion> {
     const quizQuestion = await this.quizQuestionRepository.findOne({
-      where: { id },
+      where: { index: id },
       relations: ['options', 'subQuestions', 'quiz', 'parentQuestion'],
     });
     if (!quizQuestion) {
@@ -92,10 +95,10 @@ export class QuizQuestionService {
     id: number,
     updateQuizQuestionDto: UpdateQuizQuestionDto,
   ): Promise<QuizQuestion> {
-    const { options, subQuestions, ...rest } = updateQuizQuestionDto;
+    const { options, ...rest } = updateQuizQuestionDto;
 
     const quizQuestion = await this.quizQuestionRepository.preload({
-      id,
+      index: id,
       ...rest,
     });
 
@@ -104,7 +107,7 @@ export class QuizQuestionService {
     }
 
     if (options) {
-      await this.quizQuestionOptionRepository.delete({ question: { id } });
+      await this.quizQuestionOptionRepository.delete({ question: { index: id } });
       const updatedOptions = options.map((optionDto) =>
         this.quizQuestionOptionRepository.create({
           ...optionDto,
@@ -115,6 +118,7 @@ export class QuizQuestionService {
         await this.quizQuestionOptionRepository.save(updatedOptions);
     }
 
+    /*
     if (subQuestions) {
       await this.quizQuestionRepository.delete({ parentQuestion: { id } });
       const updatedSubQuestions = subQuestions.map((subQuestionDto) =>
@@ -126,7 +130,7 @@ export class QuizQuestionService {
       quizQuestion.subQuestions =
         await this.quizQuestionRepository.save(updatedSubQuestions);
     }
-
+    */
     return this.quizQuestionRepository.save(quizQuestion);
   }
 

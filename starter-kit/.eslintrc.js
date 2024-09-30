@@ -1,5 +1,11 @@
 module.exports = {
-  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'plugin:import/recommended', 'prettier', "plugin:import/typescript"],
+  extends: [
+    'next/core-web-vitals',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/recommended',
+    'prettier',
+    'plugin:import/typescript'
+  ],
   rules: {
     'jsx-a11y/alt-text': 'off',
     'react/display-name': 'off',
@@ -101,10 +107,7 @@ module.exports = {
         }
       }
     ],
-    "import/no-unresolved": [
-      2,
-      { "caseSensitive": false }
-   ]
+    'import/no-unresolved': [2, { caseSensitive: false }]
   },
   settings: {
     react: {
@@ -115,7 +118,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
       },
       typescript: {
         project: './tsconfig.json'
@@ -131,4 +134,4 @@ module.exports = {
       }
     }
   ]
-};
+}

@@ -9,26 +9,29 @@ import type { UserDataType } from '@components/card-statistics/HorizontalWithSub
 import HorizontalWithSubtitle from '@components/card-statistics/HorizontalWithSubtitle'
 
 // Types
-import type { QuizQuestion, UserQuizQuestion } from '@/types/apps/quizTypes';
+import type { QuizQuestion, UserQuizQuestion } from '@/types/apps/quizTypes'
 
 // Calcula a taxa de conclusão do quiz
 const calculateCompletionRate = (completedQuiz: number, totalUsers: number): number => {
-  return (completedQuiz / totalUsers) * 100;
+  return (completedQuiz / totalUsers) * 100
 }
 
 // Calcula o tempo médio de conclusão do quiz
 const calculateAverageCompletionTime = (averageTime: number): number => {
-  return averageTime;
+  return averageTime
 }
 
 // Calcula a média de questões respondidas pelos usuários
-const calculateAverageQuestionsAnswered = (questions: QuizQuestion[], completedQuestions: UserQuizQuestion[]): number => {
-  return completedQuestions.length / questions.length;
+const calculateAverageQuestionsAnswered = (
+  questions: QuizQuestion[],
+  completedQuestions: UserQuizQuestion[]
+): number => {
+  return completedQuestions.length / questions.length
 }
 
 // Calcula a taxa de respostas corretas
 const calculateCorrectAnswerRate = (correctAnswers: number, totalAnswers: number): number => {
-  return (correctAnswers / totalAnswers) * 100;
+  return (correctAnswers / totalAnswers) * 100
 }
 
 // Vars
@@ -53,7 +56,7 @@ const data: UserDataType[] = [
   },
   {
     title: 'Média de Questões Respondidas',
-    stats: `${calculateAverageQuestionsAnswered([{id: 1}, {id: 2}, {id: 3}], [{id: 1}, {id: 2}]).toFixed(2)}`, // Mock: 3 questões no total, 2 respondidas
+    stats: `${calculateAverageQuestionsAnswered([{ id: 1 }, { id: 2 }, { id: 3 }], [{ id: 1 }, { id: 2 }]).toFixed(2)}`, // Mock: 3 questões no total, 2 respondidas
     avatarIcon: 'ri-question-answer-line',
     avatarColor: 'warning',
     trend: 'positive',
@@ -70,7 +73,6 @@ const data: UserDataType[] = [
     subtitle: 'Porcentagem de respostas corretas'
   }
 ]
-
 
 const UserListCards = () => {
   return (

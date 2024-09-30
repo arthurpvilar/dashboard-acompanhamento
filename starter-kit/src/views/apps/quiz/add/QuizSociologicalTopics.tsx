@@ -35,7 +35,7 @@ const QuizSociologicalTopics = () => {
 
   const series = [
     {
-      data: sociologicalData.map((item) => item.value)
+      data: sociologicalData.map(item => item.value)
     }
   ]
 

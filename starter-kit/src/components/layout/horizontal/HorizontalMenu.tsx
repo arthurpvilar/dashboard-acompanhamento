@@ -7,7 +7,6 @@ import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Me
 // Component Imports
 import HorizontalNav, { Menu, MenuItem } from '@menu/horizontal-menu'
 
-
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
 import { useSettings } from '@core/hooks/useSettings'

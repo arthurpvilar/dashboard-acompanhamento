@@ -9,7 +9,7 @@ import QuizDetails from '@/views/apps/academy/quiz-details/QuizDetails'
 
 // Data Imports
 import { getQuizData } from '@/app/server/actions'
-import type { Quiz} from '@/types/apps/quizTypes';
+import type { Quiz } from '@/types/apps/quizTypes'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

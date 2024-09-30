@@ -13,7 +13,7 @@ export class User {
   @IsNotEmpty()
   username: string;
 
-  @Column({ name: 'full_name' })
+  @Column({ name: 'fullName' })
   @IsNotEmpty()
   fullName: string;
 

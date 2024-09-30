@@ -12,7 +12,7 @@ import {
 @Entity()
 export class QuizAttempt {
   @PrimaryGeneratedColumn()
-  id: number;
+  index: number;
 
   @ManyToOne(() => User, (user) => user.attempts, { nullable: true })
   @JoinColumn({ name: 'userId' })

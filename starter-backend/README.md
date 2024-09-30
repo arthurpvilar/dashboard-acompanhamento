@@ -1,4 +1,4 @@
-```markdown
+````markdown
 # Projeto NestJS com TypeScript e TypeORM
 
 Este é um projeto NestJS utilizando TypeScript e TypeORM. Este guia irá cobrir os passos para criar e executar migrações, além de iniciar o projeto.
@@ -22,6 +22,7 @@ npm install
 # ou
 yarn install
 ```
+````
 
 ### 2. Configuração do Banco de Dados
 
@@ -145,4 +146,7 @@ src/
 │   └── ...
 └── ...
 ```
+
+```
+
 ```

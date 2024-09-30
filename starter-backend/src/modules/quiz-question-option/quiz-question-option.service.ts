@@ -20,35 +20,11 @@ export class QuizQuestionOptionService {
   ) {}
 
   async create(
-    createDto: CreateQuizQuestionOptionDto,
+    createQuizQuestionOptionDto: CreateQuizQuestionOptionDto,
   ): Promise<QuizQuestionOption> {
-    const { questionId, sociologicalId, ...rest } = createDto;
+    const { ...rest } = createQuizQuestionOptionDto;
 
     const option = this.quizQuestionOptionRepository.create(rest);
-
-    if (questionId) {
-      const question = await this.quizQuestionRepository.findOne({
-        where: { id: questionId },
-      });
-      if (!question) {
-        throw new NotFoundException(
-          `QuizQuestion with ID ${questionId} not found`,
-        );
-      }
-      option.question = question;
-    }
-
-    if (sociologicalId) {
-      const sociologicalData = await this.sociologicalDataRepository.findOne({
-        where: { id: sociologicalId },
-      });
-      if (!sociologicalData) {
-        throw new NotFoundException(
-          `SociologicalData with ID ${sociologicalId} not found`,
-        );
-      }
-      option.sociologicalData = sociologicalData;
-    }
 
     return this.quizQuestionOptionRepository.save(option);
   }
@@ -61,7 +37,7 @@ export class QuizQuestionOptionService {
 
   async findOne(id: number): Promise<QuizQuestionOption> {
     const option = await this.quizQuestionOptionRepository.findOne({
-      where: { id },
+      where: { index: id },
       relations: ['question', 'sociologicalData'],
     });
     if (!option) {
@@ -75,29 +51,17 @@ export class QuizQuestionOptionService {
     updateDto: UpdateQuizQuestionOptionDto,
   ): Promise<QuizQuestionOption> {
     const option = await this.quizQuestionOptionRepository.preload({
-      id,
+      index: id,
       ...updateDto,
     });
 
     if (!option) {
       throw new NotFoundException(`QuizQuestionOption with ID ${id} not found`);
     }
-
-    if (updateDto.questionId) {
-      const question = await this.quizQuestionRepository.findOne({
-        where: { id: updateDto.questionId },
-      });
-      if (!question) {
-        throw new NotFoundException(
-          `QuizQuestion with ID ${updateDto.questionId} not found`,
-        );
-      }
-      option.question = question;
-    }
-
+    
     if (updateDto.sociologicalId) {
       const sociologicalData = await this.sociologicalDataRepository.findOne({
-        where: { id: updateDto.sociologicalId },
+        where: { index: updateDto.sociologicalId },
       });
       if (!sociologicalData) {
         throw new NotFoundException(

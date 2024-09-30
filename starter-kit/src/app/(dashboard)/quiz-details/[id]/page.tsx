@@ -5,7 +5,7 @@ import type { GetServerSidePropsContext } from 'next'
 
 import QuizDetails from '@/views/apps/academy/quiz-details/QuizDetails'
 import { getQuizData } from '@/app/server/actions'
-import type { Quiz} from '@/types/apps/quizTypes';
+import type { Quiz } from '@/types/apps/quizTypes'
 
 const QuizDetailsPage = async (context: GetServerSidePropsContext) => {
   const { id } = context.params!

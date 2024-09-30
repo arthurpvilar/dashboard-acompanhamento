@@ -24,7 +24,7 @@ const QuizAdd = async () => {
               <QuizDescription />
             </Grid>
             <Grid item xs={12}>
-              <QuizMainImage/>
+              <QuizMainImage />
             </Grid>
             <Grid item xs={12}>
               <QuizSociologicalData />

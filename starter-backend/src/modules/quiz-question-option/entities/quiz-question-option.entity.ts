@@ -12,7 +12,7 @@ import {
 @Entity()
 export class QuizQuestionOption {
   @PrimaryGeneratedColumn()
-  id: number;
+  index: number;
 
   @Column()
   title: string;
@@ -27,12 +27,14 @@ export class QuizQuestionOption {
   image: QuizImageData;
 
   @ManyToOne(() => QuizSociologicalData, (data) => data.options, {
-    nullable: true,
+    nullable: false,
   })
   @JoinColumn({ name: 'sociologicalId' })
   sociologicalData: QuizSociologicalData;
 
-  @ManyToOne(() => QuizQuestion, (question) => question.options)
+  @ManyToOne(() => QuizQuestion, (question) => question.options, {
+    nullable: true,
+  })
   @JoinColumn({ name: 'questionId' })
   question: QuizQuestion;
 }

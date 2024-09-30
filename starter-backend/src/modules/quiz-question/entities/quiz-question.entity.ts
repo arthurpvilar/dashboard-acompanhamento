@@ -15,7 +15,7 @@ import {
 @Entity()
 export class QuizQuestion {
   @PrimaryGeneratedColumn()
-  id: number;
+  index: number;
 
   @Column()
   type: string;
@@ -32,23 +32,25 @@ export class QuizQuestion {
   @Column({ type: 'jsonb', nullable: true })
   audio: QuizAudioData;
 
-  @ManyToOne(() => QuizQuestion, (question) => question.subQuestions, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'parentQuestionId' })
-  parentQuestion: QuizQuestion;
+  //@ManyToOne(() => QuizQuestion, (question) => question.subQuestions, {
+  //  nullable: false,
+  //})
+  //@JoinColumn({ name: 'parentQuestionId' })
+  //parentQuestion: QuizQuestion;
 
-  @OneToMany(() => QuizQuestion, (question) => question.parentQuestion, {
-    cascade: true,
-  })
-  subQuestions: QuizQuestion[];
+  ///@OneToMany(() => QuizQuestion, (question) => question.parentQuestion, {
+  //  cascade: false,
+  //})
+  //subQuestions: QuizQuestion[];
 
   @OneToMany(() => QuizQuestionOption, (option) => option.question, {
     cascade: true,
   })
   options: QuizQuestionOption[];
 
-  @ManyToOne(() => Quiz, (quiz) => quiz.questions)
+  @ManyToOne(() => Quiz, (quiz) => quiz.questions, {
+    cascade: false,
+  })
   @JoinColumn({ name: 'quizId' })
   quiz: Quiz;
 }

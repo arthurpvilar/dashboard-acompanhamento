@@ -9,6 +9,8 @@ import { User } from '../user/entities/user.entity';
 import { Quiz } from './entities/quiz.entity';
 import { QuizController } from './quiz.controller';
 import { QuizService } from './quiz.service';
+import { QuizQuestionOptionModule } from '../quiz-question-option/quiz-question-option.module';
+import { QuizQuestionModule } from '../quiz-question/quiz-question.module';
 
 @Module({
   imports: [
@@ -20,8 +22,11 @@ import { QuizService } from './quiz.service';
       QuizAttempt,
       User,
     ]),
+    QuizQuestionModule,
+    QuizQuestionOptionModule,
   ],
   controllers: [QuizController],
   providers: [QuizService],
+  exports: [QuizService],
 })
 export class QuizModule {}

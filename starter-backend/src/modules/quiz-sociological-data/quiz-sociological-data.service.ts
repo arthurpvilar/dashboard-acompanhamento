@@ -19,18 +19,9 @@ export class QuizSociologicalDataService {
   async create(
     createDto: CreateQuizSociologicalDataDto,
   ): Promise<QuizSociologicalData> {
-    const { quizId, ...rest } = createDto;
+    const { ...rest } = createDto;
 
     const sociologicalData = this.sociologicalDataRepository.create(rest);
-
-    if (quizId) {
-      const quiz = await this.quizRepository.findOne({ where: { id: quizId } });
-      if (!quiz) {
-        throw new NotFoundException(`Quiz with ID ${quizId} not found`);
-      }
-      sociologicalData.quiz = quiz;
-    }
-
     return this.sociologicalDataRepository.save(sociologicalData);
   }
 
@@ -40,7 +31,7 @@ export class QuizSociologicalDataService {
 
   async findOne(id: number): Promise<QuizSociologicalData> {
     const sociologicalData = await this.sociologicalDataRepository.findOne({
-      where: { id },
+      where: { index: id },
       relations: ['quiz'],
     });
     if (!sociologicalData) {
@@ -60,18 +51,6 @@ export class QuizSociologicalDataService {
 
     if (!sociologicalData) {
       throw new NotFoundException(`SociologicalData with ID ${id} not found`);
-    }
-
-    if (updateDto.quizId) {
-      const quiz = await this.quizRepository.findOne({
-        where: { id: updateDto.quizId },
-      });
-      if (!quiz) {
-        throw new NotFoundException(
-          `Quiz with ID ${updateDto.quizId} not found`,
-        );
-      }
-      sociologicalData.quiz = quiz;
     }
 
     return this.sociologicalDataRepository.save(sociologicalData);

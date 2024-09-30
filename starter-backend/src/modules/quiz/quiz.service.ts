@@ -10,9 +10,11 @@ import { User } from '../user/entities/user.entity';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { Quiz } from './entities/quiz.entity';
-import { QuizQuestionOption } from '../quiz-question-option/entities/quiz-question-option.entity';
-import { QuizQuestion } from '../quiz-question/entities/quiz-question.entity';
 import { QuizSociologicalData } from '../quiz-sociological-data/entities/quiz-sociological-data.entity';
+import { CreateQuizSociologicalDataDto } from '../quiz-sociological-data/dto/create-quiz-sociological-data.dto';
+import { CreateQuizQuestionDto } from '../quiz-question/dto/create-quiz-question.dto';
+import { ConflictException } from '@nestjs/common';
+import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
 
 @Injectable()
 export class QuizService {
@@ -22,89 +24,180 @@ export class QuizService {
     @InjectRepository(Quiz)
     private readonly quizRepository: Repository<Quiz>,
     @InjectRepository(QuizAttempt)
-    private quizAttemptRepository: Repository<QuizAttempt>,
-    @InjectRepository(QuizQuestion)
-    private readonly quizQuestionRepository: Repository<QuizQuestion>,
+    private readonly quizAttemptRepository: Repository<QuizAttempt>,
     @InjectRepository(QuizSociologicalData)
     private readonly sociologicalDataRepository: Repository<QuizSociologicalData>,
-    @InjectRepository(QuizQuestionOption)
-    private readonly quizQuestionOptionRepository: Repository<QuizQuestionOption>,
   ) {}
 
-  // Função para verificar ou criar os dados sociológicos
-  private async verifyOrCreateSociologicalData(
-    sociologicalData: QuizSociologicalData[],
-  ): Promise<QuizSociologicalData[]> {
-    const verifiedData: QuizSociologicalData[] = [];
+  // Criação do quiz, com verificação de usuário e dados sociológicos
+async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
+  // Handle identifier uniqueness
+  const existingQuiz = await this.quizRepository.findOne({
+    where: { identifier: createQuizDto.identifier },
+  });
+  if (existingQuiz) {
+    throw new ConflictException('Quiz identifier already exists');
+  }
+  
+  // Handle sociological data
+  const { sociologicalData: sociologicalDataDto, questions, ...quizData } = createQuizDto;
+  const sociologicalMap: Record<string, QuizSociologicalData> = {};
 
-    for (const item of sociologicalData) {
+  // Handle sociological data
+  const sociologicalData = await Promise.all(
+    sociologicalDataDto.map(async (data: CreateQuizSociologicalDataDto) => {
+      // Check if sociological data with the same name already exists
       let existingData = await this.sociologicalDataRepository.findOne({
-        where: { name: item.name, value: item.value, color: item.color },
+        where: { name: data.name },
       });
 
+      // If it doesn't exist, create a new entry
       if (!existingData) {
-        existingData = await this.sociologicalDataRepository.save(item);
+        existingData = this.sociologicalDataRepository.create(data);
+        await this.sociologicalDataRepository.save(existingData);
       }
 
-      verifiedData.push(existingData);
+      sociologicalMap[existingData.name] = existingData; // Usa o índice como chave
+      return existingData; // Retorna o dado sociológico existente ou criado
+    })
+  );
+
+  // Handle each question and its options
+  const processedQuestions = await Promise.all(
+    questions.map(async (question) => {
+      const processedOptions = await Promise.all(
+        question.options.map(async (option) => {
+          const sociologicalData = sociologicalMap[option.sociological.name];
+          option.sociologicalId = sociologicalData.index;
+    
+          if (!option.sociologicalId) {
+            throw new Error(`Sociological data not found for ID: ${option.sociologicalId}`);
+          }
+          
+          return {
+            ...option,
+            sociologicalData, // Certifique-se de que está passando o objeto completo aqui
+          };
+        })
+      );
+
+      return {
+        ...question,
+        options: processedOptions,
+      };
+    })
+  );
+
+  // Create and save the new quiz, associando os dados sociológicos
+  const quiz = this.quizRepository.create({
+    ...quizData,
+    sociologicalData,
+    questions: processedQuestions,
+  });
+
+  return this.quizRepository.save(quiz);
+}
+
+  async updateQuizOwner(
+    quizId: number,
+    updateQuizOwnerDto: UpdateQuizOwnerDto,
+  ): Promise<Quiz> {
+    // Verifica se o quiz existe
+    const quiz = await this.quizRepository.findOne({
+      where: { index: quizId },
+    });
+
+    if (!quiz) {
+      throw new NotFoundException(`Quiz with ID ${quizId} not found`);
     }
 
-    return verifiedData;
-  }
-
-  // Função para atualizar as opções das perguntas com os sociologicalIds corretos
-  private async updateOptionsWithSociologicalIds(
-    questions: QuizQuestion[],
-    verifiedData: QuizSociologicalData[],
-  ) {
-    for (const question of questions) {
-      for (const option of question.options) {
-        const matchedSociological = verifiedData.find(
-          (data) => data.name === option.sociological.name,
-        );
-
-        if (matchedSociological) {
-          option.sociologicalId = matchedSociological.id; // Atribui o sociologicalId correto
-          delete option.sociological; // Remove o objeto sociological para manter apenas o ID
-        }
-      }
-    }
-  }
-
-  // Criação do quiz, com verificação de usuário e dados sociológicos
-  async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
+    // Verifica se o novo proprietário existe
     const owner = await this.userRepository.findOne({
-      where: { id: createQuizDto.ownerId },
+      where: { id: updateQuizOwnerDto.ownerId },
     });
 
     if (!owner) {
-      throw new NotFoundException(`User with ID ${createQuizDto.ownerId} not found`);
+      throw new NotFoundException(
+        `User with ID ${updateQuizOwnerDto.ownerId} not found`,
+      );
     }
 
-    // Verifica ou cria os dados sociológicos
-    const verifiedSociologicalData = await this.verifyOrCreateSociologicalData(
-      createQuizDto.sociologicalData,
-    );
+    // Atualiza o proprietário do quiz
+    quiz.owner = owner;
 
-    // Atualiza as opções das perguntas com os sociologicalIds corretos
-    await this.updateOptionsWithSociologicalIds(
-      createQuizDto.questions,
-      verifiedSociologicalData,
-    );
-
-    // Cria o quiz associando o usuário (owner)
-    const quiz = this.quizRepository.create({
-      ...createQuizDto,
-      owner,
-    });
-
+    // Salva a atualização
     return this.quizRepository.save(quiz);
   }
 
-  // Função para encontrar um quiz
+  // Função para verificar ou criar os dados sociológicos
+  async verifyOrCreateSociologicalData(
+    sociologicalData: CreateQuizSociologicalDataDto[],
+  ): Promise<Record<string, number>> {
+    const sociologicalMap: Record<string, number> = {};
+
+    for (const data of sociologicalData) {
+      let existingData = await this.sociologicalDataRepository.findOne({
+        where: { name: data.name },
+      });
+
+      if (!existingData) {
+        existingData = await this.sociologicalDataRepository.save(
+          this.sociologicalDataRepository.create(data),
+        );
+      }
+
+      sociologicalMap[data.name] = existingData.index;
+    }
+
+    return sociologicalMap;
+  }
+
+  // Função para atualizar os dados sociológicos com os valores corretos
+  updateQuestionWithSociologicalIds(
+    createQuizDto: CreateQuizDto,
+    sociologicalMap: Record<string, number>,
+  ): void {
+    for (const sociological of createQuizDto.sociologicalData) {
+      sociological.id = sociologicalMap[sociological.name];
+    }
+  }
+
+  async findAll(options: {
+    page: number;
+    limit: number;
+    search?: string;
+    status?: 'draft' | 'published' | 'archived';
+  }): Promise<{ data: Quiz[]; total: number }> {
+    const { page, limit, search, status } = options;
+
+    const findOptions: FindManyOptions<Quiz> = {
+      skip: (page - 1) * limit,
+      take: limit,
+      relations: ['questions', 'sociologicalData', 'owner'],
+      where: {},
+    };
+
+    if (search) {
+      findOptions.where = [
+        { title: Like(`%${search}%`) },
+        { identifier: Like(`%${search}%`) },
+      ];
+    }
+
+    if (status) {
+      findOptions.where = {
+        ...findOptions.where,
+        status,
+      };
+    }
+
+    const [data, total] = await this.quizRepository.findAndCount(findOptions);
+    return { data, total };
+  }
+
   async findOne(id: number): Promise<Quiz> {
     const quiz = await this.quizRepository.findOne({
-      where: { id },
+      where: { index: id },
       relations: [
         'questions',
         'questions.options',
@@ -113,49 +206,30 @@ export class QuizService {
         'owner',
       ],
     });
-
     if (!quiz) {
       throw new NotFoundException(`Quiz with ID ${id} not found`);
     }
-
     return quiz;
   }
 
-  // Função para atualizar um quiz existente
   async update(id: number, updateQuizDto: UpdateQuizDto): Promise<Quiz> {
     const quiz = await this.quizRepository.preload({
-      id,
+      index: id,
       ...updateQuizDto,
     });
-
     if (!quiz) {
       throw new NotFoundException(`Quiz with ID ${id} not found`);
     }
-
-    // Verifica ou cria os dados sociológicos atualizados
-    const verifiedSociologicalData = await this.verifyOrCreateSociologicalData(
-      updateQuizDto.sociologicalData,
-    );
-
-    // Atualiza as opções das perguntas com os sociologicalIds corretos
-    await this.updateOptionsWithSociologicalIds(
-      updateQuizDto.questions,
-      verifiedSociologicalData,
-    );
-
     return this.quizRepository.save(quiz);
   }
 
-  // Função para remover um quiz
   async remove(id: number): Promise<void> {
     const result = await this.quizRepository.delete(id);
-
     if (result.affected === 0) {
       throw new NotFoundException(`Quiz with ID ${id} not found`);
     }
   }
 
-  // Função para buscar quizzes por dono (owner)
   async findByOwner(ownerId: string): Promise<Quiz[]> {
     return this.quizRepository.find({
       where: { owner: { id: ownerId } },
@@ -163,7 +237,6 @@ export class QuizService {
     });
   }
 
-  // Função para registrar uma tentativa de quiz
   async recordAttempt(
     userId: string | null,
     email: string | null,
@@ -171,7 +244,6 @@ export class QuizService {
     answers: any,
   ): Promise<QuizAttempt> {
     let user: User | null = null;
-
     if (userId) {
       user = await this.userRepository.findOne({ where: { id: userId } });
     }
@@ -181,7 +253,7 @@ export class QuizService {
     }
 
     const quiz = await this.quizRepository.findOne({
-      where: { id: quizId },
+      where: { index: quizId },
       relations: ['questions', 'questions.options'],
     });
 
@@ -202,14 +274,13 @@ export class QuizService {
     return this.quizAttemptRepository.save(attempt);
   }
 
-  // Função auxiliar para calcular a pontuação de um quiz
   private calculateScore(quiz: Quiz, answers: any): number {
     let score = 0;
 
     for (const question of quiz.questions) {
-      const userAnswer = answers[question.id];
+      const userAnswer = answers[question.index];
       if (question.answer && question.answer === userAnswer) {
-        score += 1; // Pontuação atribuída conforme necessário
+        score += 1; // Assign points as needed
       }
     }
 

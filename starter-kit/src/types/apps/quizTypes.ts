@@ -1,7 +1,6 @@
 import type { ThemeColor } from '@/@core/types'
 import type { UsersType } from './userTypes'
 
-
 //export type Attempt = {
 //  userId: number;
 //  completion: number;
@@ -38,22 +37,22 @@ export type QuizQuestionOption = {
   title: string
   isChecked: boolean
   weight?: number // Question's weight in scoring
-  sociologicalId?: number // Sociological data reference
+  sociological?: QuizSociologicalOptionData // Sociological data reference
   image?: QuizImageData // Adiciona o campo de imagem à opção
 }
 
 // Nova interface para armazenar dados de imagem
 export type QuizImageData = {
-  imageUrl: string | null;
-  imageFile: File | null;
-  blobData?: Blob | null;
+  imageUrl: string | null
+  imageFile: File | null
+  blobData?: Blob | null
 }
 
 // Nova interface para armazenar dados do áudio
 export type QuizAudioData = {
-  audioUrl: string;
-  audioFile: File | null;
-  blobData: Blob | null;
+  audioUrl: string
+  audioFile: File | null
+  blobData: Blob | null
 }
 
 // Sociological metadata for quizzes
@@ -62,6 +61,12 @@ export type QuizSociologicalData = {
   name: string // Sociological category name
   value: number // value for the category
   color: ThemeColor // Associated color for the category
+}
+
+// Sociological metadata for quizzes
+export type QuizSociologicalOptionData = {
+  id: number // Unique identifier for sociological data
+  name: string // Sociological category name
 }
 
 export type QuizType = {

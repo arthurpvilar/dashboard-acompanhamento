@@ -1,9 +1,10 @@
 // src/auth/auth.service.ts
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Post, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,10 @@ export class AuthService {
     return null;
   }
 
+  @Post('login')
+  @ApiOperation({ summary: 'Login with email/username and password' })
+  @ApiResponse({ status: 201, description: 'Successful login' })
+  @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async login(loginDto: LoginDto) {
     const user = await this.userService.findByEmailOrUsername(loginDto.email);
     if (!user) {

@@ -3,14 +3,14 @@ version: '3.9'
 services:
   database:
     image: postgres
-    container_name: gobeesiness_postgres
+    container_name: sociological_container
     restart: always
     ports:
       - ${DB_PORT}:${DB_PORT}
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE} 
+      POSTGRES_DB: ${DB_DATABASE}
     volumes:
       - postgres-data:/data/postgres
     command: -p ${DB_PORT}

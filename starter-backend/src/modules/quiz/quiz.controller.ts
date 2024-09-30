@@ -10,12 +10,16 @@ import {
   Query,
   ParseIntPipe,
   BadRequestException,
+  Patch,
 } from '@nestjs/common';
 import { RecordAttemptDto } from '../quiz-attempt/dto/record-attempt.dto';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizService } from './quiz.service';
+import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('quizzes')
 @Controller('quizzes')
 export class QuizController {
   constructor(private readonly quizService: QuizService) {}
@@ -59,8 +63,16 @@ export class QuizController {
   }
 
   @Get('owner/:ownerId')
-  findByOwner(@Param('ownerId', ParseIntPipe) ownerId: string) {
+  findByOwner(@Param('ownerId') ownerId: string) {
     return this.quizService.findByOwner(ownerId);
+  }
+
+  @Patch('owner/:quizId')
+  async updateOwner(
+    @Param('quizId') quizId: number,
+    @Body() updateQuizOwnerDto: UpdateQuizOwnerDto,
+  ) {
+    return this.quizService.updateQuizOwner(quizId, updateQuizOwnerDto);
   }
 
   @Post(':id/attempt')

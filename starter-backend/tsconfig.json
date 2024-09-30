@@ -28,9 +28,6 @@
       "@modules/*": ["src/modules/*"],
       "@providers/*": ["src/providers/*"]
     },
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ]
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   }
 }

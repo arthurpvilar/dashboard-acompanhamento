@@ -1,14 +1,29 @@
-'use client';
+'use client'
 
-import { useEffect, useState, ChangeEvent } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { getQuizById, updateQuiz } from '@/libs/quiz/handlers';
-import type { Quiz } from '@/types/apps/quizTypes';
-import { TextField, Button, Box, Typography, Card, CardHeader, CardContent, Grid, Divider, List, ListItem, IconButton, Snackbar, Alert } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useDropzone } from 'react-dropzone';
-import CustomAvatar from '@core/components/mui/Avatar';
-import type { BoxProps } from '@mui/material/Box';
+import { useEffect, useState, ChangeEvent } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import { getQuizById, updateQuiz } from '@/libs/quiz/handlers'
+import type { Quiz } from '@/types/apps/quizTypes'
+import {
+  TextField,
+  Button,
+  Box,
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  Grid,
+  Divider,
+  List,
+  ListItem,
+  IconButton,
+  Snackbar,
+  Alert
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { useDropzone } from 'react-dropzone'
+import CustomAvatar from '@core/components/mui/Avatar'
+import type { BoxProps } from '@mui/material/Box'
 
 // Styled Dropzone Component
 const Dropzone = styled(Box)<BoxProps>(({ theme }) => ({
@@ -16,118 +31,111 @@ const Dropzone = styled(Box)<BoxProps>(({ theme }) => ({
     minHeight: 'unset',
     padding: theme.spacing(12),
     [theme.breakpoints.down('sm')]: {
-      paddingInline: theme.spacing(5),
+      paddingInline: theme.spacing(5)
     },
     '&+.MuiList-root .MuiListItem-root .file-name': {
-      fontWeight: theme.typography.body1.fontWeight,
-    },
-  },
-}));
+      fontWeight: theme.typography.body1.fontWeight
+    }
+  }
+}))
 
 const EditQuiz = () => {
-  const router = useRouter();
-  const { id } = useParams();
-  const [quiz, setQuiz] = useState<Quiz | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const router = useRouter()
+  const { id } = useParams()
+  const [quiz, setQuiz] = useState<Quiz | null>(null)
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
 
   useEffect(() => {
     if (id) {
-      const fetchedQuiz = getQuizById(Number(id));
+      const fetchedQuiz = getQuizById(Number(id))
       if (fetchedQuiz) {
-        setQuiz(fetchedQuiz);
+        setQuiz(fetchedQuiz)
       }
     }
-  }, [id]);
+  }, [id])
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     if (quiz) {
-      setQuiz({ ...quiz, [e.target.name]: e.target.value });
+      setQuiz({ ...quiz, [e.target.name]: e.target.value })
     }
-  };
+  }
 
   const { getRootProps: getRootPropsImage, getInputProps: getInputPropsImage } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        setImageFile(acceptedFiles[0]);
+        setImageFile(acceptedFiles[0])
       }
-    },
-  });
+    }
+  })
 
   const { getRootProps: getRootPropsLogo, getInputProps: getInputPropsLogo } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        setLogoFile(acceptedFiles[0]);
+        setLogoFile(acceptedFiles[0])
       }
-    },
-  });
+    }
+  })
 
   const renderFilePreview = (file: File) => {
     if (file.type.startsWith('image')) {
-      return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />;
+      return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
     } else {
-      return <i className='ri-file-text-line' />;
+      return <i className='ri-file-text-line' />
     }
-  };
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (quiz) {
-      let updatedQuiz: Quiz = { ...quiz };
+      let updatedQuiz: Quiz = { ...quiz }
 
       if (imageFile) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = () => {
-          updatedQuiz.image = reader.result as string;
-        };
-        reader.readAsDataURL(imageFile);
+          updatedQuiz.image = reader.result as string
+        }
+        reader.readAsDataURL(imageFile)
       }
 
       if (logoFile) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = () => {
-          updatedQuiz.logo = reader.result as string;
-        };
-        reader.readAsDataURL(logoFile);
+          updatedQuiz.logo = reader.result as string
+        }
+        reader.readAsDataURL(logoFile)
       }
 
       setTimeout(async () => {
-        await updateQuiz(Number(id), updatedQuiz);
-        setOpenSnackbar(true);
+        await updateQuiz(Number(id), updatedQuiz)
+        setOpenSnackbar(true)
         setTimeout(() => {
-          router.push('/quiz');
-        }, 1500);
-      }, 500);
+          router.push('/quiz')
+        }, 1500)
+      }, 500)
     }
-  };
+  }
 
   const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+    setOpenSnackbar(false)
+  }
 
-  if (!quiz) return <p>Loading...</p>;
+  if (!quiz) return <p>Loading...</p>
 
   return (
     <Card>
-      <CardHeader title="Edit Quiz" />
+      <CardHeader title='Edit Quiz' />
       <CardContent>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <Box component='form' onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <Grid container spacing={5} className='mbe-5'>
             <Grid item xs={12}>
-              <TextField
-                name="title"
-                label="Title"
-                value={quiz.title}
-                onChange={handleChange}
-                required
-                fullWidth
-              />
+              <TextField name='title' label='Title' value={quiz.title} onChange={handleChange} required fullWidth />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                name="identifier"
-                label="Identifier"
+                name='identifier'
+                label='Identifier'
                 value={quiz.identifier}
                 onChange={handleChange}
                 required
@@ -136,8 +144,8 @@ const EditQuiz = () => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                name="time"
-                label="Time (seconds)"
+                name='time'
+                label='Time (seconds)'
                 value={quiz.time.toString()}
                 onChange={handleChange}
                 required
@@ -146,22 +154,22 @@ const EditQuiz = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography className='mbe-1'>Description</Typography>
-              <TextField 
-                name="description" 
-                value={quiz.description} 
-                onChange={handleChange} 
-                required 
-                fullWidth 
-                multiline 
-                rows={4} 
+              <TextField
+                name='description'
+                value={quiz.description}
+                onChange={handleChange}
+                required
+                fullWidth
+                multiline
+                rows={4}
                 placeholder='Write the quiz description here...'
               />
             </Grid>
           </Grid>
-          
+
           <Divider />
 
-          <Typography variant="h6">Change Logo</Typography>
+          <Typography variant='h6'>Change Logo</Typography>
           <Dropzone>
             <div {...getRootPropsLogo({ className: 'dropzone' })}>
               <input {...getInputPropsLogo()} />
@@ -200,7 +208,7 @@ const EditQuiz = () => {
             )}
           </Dropzone>
 
-          <Typography variant="h6">Change Quiz Image</Typography>
+          <Typography variant='h6'>Change Quiz Image</Typography>
           <Dropzone>
             <div {...getRootPropsImage({ className: 'dropzone' })}>
               <input {...getInputPropsImage()} />
@@ -239,7 +247,7 @@ const EditQuiz = () => {
             )}
           </Dropzone>
 
-          <Button type="submit" variant="contained" color="primary">
+          <Button type='submit' variant='contained' color='primary'>
             Save Changes
           </Button>
 
@@ -249,14 +257,14 @@ const EditQuiz = () => {
             onClose={handleCloseSnackbar}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           >
-            <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+            <Alert onClose={handleCloseSnackbar} severity='success' sx={{ width: '100%' }}>
               Quiz alterado com sucesso!
             </Alert>
           </Snackbar>
         </Box>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default EditQuiz;
+export default EditQuiz

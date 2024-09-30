@@ -1,11 +1,10 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'
 
-import type {
-  SelectChangeEvent} from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material'
 import {
   Button,
   TextField,
@@ -22,50 +21,50 @@ import {
   InputLabel,
   MenuItem,
   Select
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { useDropzone } from 'react-dropzone';
-import CustomAvatar from '@core/components/mui/Avatar';
-import DeleteIcon from '@mui/icons-material/Delete';
-import type { BoxProps } from '@mui/material/Box';
-import Link from '@components/Link';
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { useDropzone } from 'react-dropzone'
+import CustomAvatar from '@core/components/mui/Avatar'
+import DeleteIcon from '@mui/icons-material/Delete'
+import type { BoxProps } from '@mui/material/Box'
+import Link from '@components/Link'
 
-import type { ThemeColor } from '@core/types';
+import type { ThemeColor } from '@core/types'
 
-import type { Quiz, QuizSociologicalData, QuizQuestion } from '@/types/apps/quizTypes';
-import { createQuiz } from '@/libs/quiz/handlers';
+import type { Quiz, QuizSociologicalData, QuizQuestion } from '@/types/apps/quizTypes'
+import { createQuiz } from '@/libs/quiz/handlers'
 
 type SociologicalImpact = {
-  sociologicalId: number;
-  name: string;
-  totalWeight: number;
-  impactPercentage: number;
-};
+  sociologicalId: number
+  name: string
+  totalWeight: number
+  impactPercentage: number
+}
 
 const Dropzone = styled(Box)<BoxProps>(({ theme }) => ({
   '& .dropzone': {
     border: '2px dashed #474361',
     padding: theme.spacing(12),
     backgroundColor: '#312D4B',
-    borderRadius: '8px',
-  },
-}));
+    borderRadius: '8px'
+  }
+}))
 
 const Section = styled(Box)<BoxProps>(({ theme }) => ({
   padding: theme.spacing(4),
   backgroundColor: '#312D4B',
   borderRadius: theme.shape.borderRadius,
   marginBottom: theme.spacing(4),
-  color: '#FFFFFF',
-}));
+  color: '#FFFFFF'
+}))
 
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#6C5DD3',
   color: '#FFFFFF',
   '&:hover': {
-    backgroundColor: '#5B4CC0',
-  },
-}));
+    backgroundColor: '#5B4CC0'
+  }
+}))
 
 const CreateQuiz = () => {
   const [quiz, setQuiz] = useState<Omit<Quiz, 'id' | 'image' | 'logo'>>({
@@ -94,154 +93,167 @@ const CreateQuiz = () => {
       fullName: 'John Doe',
       username: 'johndoe',
       currentPlan: 'Enterprise',
-      avatarColor: 'primary',
-    },
+      avatarColor: 'primary'
+    }
 
     //users: [],
-  });
+  })
 
-  const [sociologicalData, setSociologicalData] = useState<QuizSociologicalData[]>([]);
-  const [questions, setQuestions] = useState<QuizQuestion[]>([]);
-  const [currentSociological, setCurrentSociological] = useState<Omit<QuizSociologicalData, 'id'>>({ name: '', value: 0, color: 'primary' as ThemeColor });
-  const [currentQuestion, setCurrentQuestion] = useState<Omit<QuizQuestion, 'id'>>({ question: '', options: [''], answer: '', weight: 1, sociologicalId: 0 });
+  const [sociologicalData, setSociologicalData] = useState<QuizSociologicalData[]>([])
+  const [questions, setQuestions] = useState<QuizQuestion[]>([])
+  const [currentSociological, setCurrentSociological] = useState<Omit<QuizSociologicalData, 'id'>>({
+    name: '',
+    value: 0,
+    color: 'primary' as ThemeColor
+  })
+  const [currentQuestion, setCurrentQuestion] = useState<Omit<QuizQuestion, 'id'>>({
+    question: '',
+    options: [''],
+    answer: '',
+    weight: 1,
+    sociologicalId: 0
+  })
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [quizType, setQuizType] = useState<string>('');
-  const [message, setMessage] = useState<string | null>(null);
-  const router = useRouter();
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
+  const [quizType, setQuizType] = useState<string>('')
+  const [message, setMessage] = useState<string | null>(null)
+  const router = useRouter()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuiz({ ...quiz, [e.target.name]: e.target.value });
-  };
+    setQuiz({ ...quiz, [e.target.name]: e.target.value })
+  }
 
   const handleQuizTypeChange = (event: SelectChangeEvent<string>) => {
-    setQuizType(event.target.value);
-  };
+    setQuizType(event.target.value)
+  }
 
   const handleSociologicalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentSociological({ ...currentSociological, [e.target.name]: e.target.value });
-  };
+    setCurrentSociological({ ...currentSociological, [e.target.name]: e.target.value })
+  }
 
   const handleColorChange = (event: SelectChangeEvent<ThemeColor>) => {
-    setCurrentSociological({ ...currentSociological, color: event.target.value as ThemeColor });
-  };
+    setCurrentSociological({ ...currentSociological, color: event.target.value as ThemeColor })
+  }
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentQuestion({ ...currentQuestion, [e.target.name]: e.target.value });
-  };
+    setCurrentQuestion({ ...currentQuestion, [e.target.name]: e.target.value })
+  }
 
   const handleSociologicalSelectChange = (event: SelectChangeEvent<number>) => {
-    setCurrentQuestion({ ...currentQuestion, sociologicalId: Number(event.target.value) });
-  };
+    setCurrentQuestion({ ...currentQuestion, sociologicalId: Number(event.target.value) })
+  }
 
   const addSociologicalData = () => {
-    setSociologicalData([...sociologicalData, { ...currentSociological, id: sociologicalData.length }]);
-    setCurrentSociological({ name: '', value: 0, color: 'primary' as ThemeColor });
-  };
+    setSociologicalData([...sociologicalData, { ...currentSociological, id: sociologicalData.length }])
+    setCurrentSociological({ name: '', value: 0, color: 'primary' as ThemeColor })
+  }
 
   const addQuestion = () => {
     const newQuestion: QuizQuestion = {
       ...currentQuestion,
-      id: questions.length + 1,
-    };
+      id: questions.length + 1
+    }
 
     // Verifica se o tipo de quiz é dissertativo e remove as opções
     if (quizType === 'dissertativo') {
-      delete newQuestion.options;
+      delete newQuestion.options
     }
 
-    setQuestions([...questions, newQuestion]);
-    setCurrentQuestion({ question: '', options: quizType === 'dissertativo' ? [] : [''], answer: '', weight: 1, sociologicalId: 0 });
-  };
+    setQuestions([...questions, newQuestion])
+    setCurrentQuestion({
+      question: '',
+      options: quizType === 'dissertativo' ? [] : [''],
+      answer: '',
+      weight: 1,
+      sociologicalId: 0
+    })
+  }
 
   const removeQuestion = (index: number) => {
-    const newQuestions = [...questions];
+    const newQuestions = [...questions]
 
-    newQuestions.splice(index, 1);
-    setQuestions(newQuestions);
-  };
+    newQuestions.splice(index, 1)
+    setQuestions(newQuestions)
+  }
 
   function calculateSociologicalImpact(quiz: Quiz, userResponses: Record<number, string>): SociologicalImpact[] {
     // Somar o peso total de todas as perguntas respondidas pelo usuário
     const totalWeight = quiz.questions.reduce((sum, question) => {
-      const userAnswer = userResponses[question.id];
+      const userAnswer = userResponses[question.id]
 
-
-return sum + (userAnswer ? question.weight || 0 : 0);
-    }, 0);
+      return sum + (userAnswer ? question.weight || 0 : 0)
+    }, 0)
 
     if (totalWeight === 0) {
-      return []; // Retorna vazio se não houver respostas ainda
+      return [] // Retorna vazio se não houver respostas ainda
     }
 
     // Agrupar perguntas por SociologicalId e calcular o impacto percentual
-    const sociologicalGroups = quiz.sociologicalData.map((data) => {
+    const sociologicalGroups = quiz.sociologicalData.map(data => {
       const totalWeightForCategory = quiz.questions
-        .filter((question) => question.sociologicalId === data.id)
+        .filter(question => question.sociologicalId === data.id)
         .reduce((sum, question) => {
-          const userAnswer = userResponses[question.id];
+          const userAnswer = userResponses[question.id]
 
+          return sum + (userAnswer ? question.weight || 0 : 0)
+        }, 0)
 
-return sum + (userAnswer ? question.weight || 0 : 0);
-        }, 0);
-
-      const impactPercentage = totalWeight > 0 ? (totalWeightForCategory / totalWeight) * 100 : 0;
+      const impactPercentage = totalWeight > 0 ? (totalWeightForCategory / totalWeight) * 100 : 0
 
       return {
         sociologicalId: data.id,
         name: data.name,
         totalWeight: totalWeightForCategory,
-        impactPercentage: impactPercentage,
-      };
-    });
+        impactPercentage: impactPercentage
+      }
+    })
 
-    return sociologicalGroups;
+    return sociologicalGroups
   }
-
 
   const { getRootProps: getRootPropsImage, getInputProps: getInputPropsImage } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        setImageFile(acceptedFiles[0]);
+        setImageFile(acceptedFiles[0])
       }
-    },
-  });
+    }
+  })
 
   const { getRootProps: getRootPropsLogo, getInputProps: getInputPropsLogo } = useDropzone({
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        setLogoFile(acceptedFiles[0]);
+        setLogoFile(acceptedFiles[0])
       }
-    },
-  });
+    }
+  })
 
   const renderFilePreview = (file: File) => {
     if (file.type.startsWith('image')) {
-      return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />;
+      return <img width={38} height={38} alt={file.name} src={URL.createObjectURL(file)} />
     } else {
-      return <i className='ri-file-text-line' />;
+      return <i className='ri-file-text-line' />
     }
-  };
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    let imageBase64 = imageUrl || null;
-    let logoBase64 = logoUrl || null;
+    e.preventDefault()
+    let imageBase64 = imageUrl || null
+    let logoBase64 = logoUrl || null
 
     if (imageFile) {
-      const reader = new FileReader();
+      const reader = new FileReader()
 
       reader.onloadend = () => {
-        imageBase64 = reader.result as string;
+        imageBase64 = reader.result as string
 
         if (logoFile) {
-          const logoReader = new FileReader();
+          const logoReader = new FileReader()
 
           logoReader.onloadend = () => {
-            logoBase64 = logoReader.result as string;
+            logoBase64 = logoReader.result as string
 
             const newQuiz: Quiz = {
               ...quiz,
@@ -249,21 +261,21 @@ return sum + (userAnswer ? question.weight || 0 : 0);
               image: imageBase64!,
               logo: logoBase64!,
               sociologicalData,
-              questions,
-            };
+              questions
+            }
 
-            createQuiz(newQuiz);
-            setMessage('Quiz criado com sucesso! Redirecionando...');
+            createQuiz(newQuiz)
+            setMessage('Quiz criado com sucesso! Redirecionando...')
             setTimeout(() => {
-              router.push('/quiz');
-            }, 2000);
-          };
+              router.push('/quiz')
+            }, 2000)
+          }
 
-          logoReader.readAsDataURL(logoFile);
+          logoReader.readAsDataURL(logoFile)
         }
-      };
+      }
 
-      reader.readAsDataURL(imageFile);
+      reader.readAsDataURL(imageFile)
     } else if (imageUrl && logoUrl) {
       const newQuiz: Quiz = {
         ...quiz,
@@ -271,19 +283,18 @@ return sum + (userAnswer ? question.weight || 0 : 0);
         image: imageUrl,
         logo: logoUrl,
         sociologicalData,
-        questions,
-      };
+        questions
+      }
 
-      createQuiz(newQuiz);
-      setMessage('Quiz criado com sucesso! Redirecionando...');
+      createQuiz(newQuiz)
+      setMessage('Quiz criado com sucesso! Redirecionando...')
       setTimeout(() => {
-        router.push('/quiz');
-      }, 2000);
+        router.push('/quiz')
+      }, 2000)
     } else {
-      alert('Please upload both an image and a logo.');
+      alert('Please upload both an image and a logo.')
     }
-  };
-
+  }
 
   return (
     <Card sx={{ backgroundColor: '#28243D', color: '#FFFFFF' }}>
@@ -291,24 +302,44 @@ return sum + (userAnswer ? question.weight || 0 : 0);
         Add a new Quiz
       </Typography>
       <CardContent>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-
+        <Box component='form' onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {/* Seção 1: Títulos, Descrição, Tempo, Identificador */}
           <Section>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                <TextField name="title" label="Title" onChange={handleChange} required fullWidth sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }} />
+                <TextField
+                  name='title'
+                  label='Title'
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField name="identifier" label="Identifier" onChange={handleChange} required fullWidth sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }} />
+                <TextField
+                  name='identifier'
+                  label='Identifier'
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
+                />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField name="time" label="Time (seconds)" onChange={handleChange} required fullWidth sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }} />
+                <TextField
+                  name='time'
+                  label='Time (seconds)'
+                  onChange={handleChange}
+                  required
+                  fullWidth
+                  sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Typography className='mbe-1'>Description</Typography>
                 <TextField
-                  name="description"
+                  name='description'
                   onChange={handleChange}
                   required
                   fullWidth
@@ -323,7 +354,7 @@ return sum + (userAnswer ? question.weight || 0 : 0);
 
           {/* Seção 2: Importar Imagens */}
           <Section>
-            <Typography variant="h6">Upload Image</Typography>
+            <Typography variant='h6'>Upload Image</Typography>
             <Dropzone>
               <div {...getRootPropsImage({ className: 'dropzone' })}>
                 <input {...getInputPropsImage()} />
@@ -372,15 +403,15 @@ return sum + (userAnswer ? question.weight || 0 : 0);
               <CardContent>
                 <TextField
                   fullWidth
-                  placeholder="Enter image URL"
+                  placeholder='Enter image URL'
                   value={imageUrl || ''}
-                  onChange={(e) => setImageUrl(e.target.value)}
+                  onChange={e => setImageUrl(e.target.value)}
                   sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
               </CardContent>
             </Dropzone>
 
-            <Typography variant="h6">Upload Logo</Typography>
+            <Typography variant='h6'>Upload Logo</Typography>
             <Dropzone>
               <div {...getRootPropsLogo({ className: 'dropzone' })}>
                 <input {...getInputPropsLogo()} />
@@ -429,9 +460,9 @@ return sum + (userAnswer ? question.weight || 0 : 0);
               <CardContent>
                 <TextField
                   fullWidth
-                  placeholder="Enter logo URL"
+                  placeholder='Enter logo URL'
                   value={logoUrl || ''}
-                  onChange={(e) => setLogoUrl(e.target.value)}
+                  onChange={e => setLogoUrl(e.target.value)}
                   sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
               </CardContent>
@@ -443,33 +474,33 @@ return sum + (userAnswer ? question.weight || 0 : 0);
             <Grid container spacing={5}>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel id="quiz-type-label">Quiz Type</InputLabel>
+                  <InputLabel id='quiz-type-label'>Quiz Type</InputLabel>
                   <Select
-                    labelId="quiz-type-label"
+                    labelId='quiz-type-label'
                     value={quizType}
-                    label="Quiz Type"
+                    label='Quiz Type'
                     onChange={handleQuizTypeChange}
                     fullWidth
                     sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                   >
-                    <MenuItem value="perguntas">Perguntas</MenuItem>
-                    <MenuItem value="dissertativo">Dissertativo</MenuItem>
+                    <MenuItem value='perguntas'>Perguntas</MenuItem>
+                    <MenuItem value='dissertativo'>Dissertativo</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
 
               {quizType === 'dissertativo' && (
                 <Grid item xs={12}>
-                  <Typography variant="h6">Add a Question</Typography>
+                  <Typography variant='h6'>Add a Question</Typography>
                   <TextField
                     fullWidth
-                    label="Question"
+                    label='Question'
                     value={currentQuestion.question}
-                    name="question"
+                    name='question'
                     onChange={handleQuestionChange}
                     sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                   />
-                  <CustomButton variant="contained" sx={{ marginTop: 2 }} onClick={addQuestion}>
+                  <CustomButton variant='contained' sx={{ marginTop: 2 }} onClick={addQuestion}>
                     Add Question
                   </CustomButton>
                 </Grid>
@@ -477,12 +508,12 @@ return sum + (userAnswer ? question.weight || 0 : 0);
 
               {quizType === 'perguntas' && (
                 <Grid item xs={12}>
-                  <Typography variant="h6">Add a Question</Typography>
+                  <Typography variant='h6'>Add a Question</Typography>
                   <TextField
                     fullWidth
-                    label="Question"
+                    label='Question'
                     value={currentQuestion.question}
-                    name="question"
+                    name='question'
                     onChange={handleQuestionChange}
                     sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                   />
@@ -492,23 +523,23 @@ return sum + (userAnswer ? question.weight || 0 : 0);
                         fullWidth
                         label={`Option ${index + 1}`}
                         value={option}
-                        name="options"
-                        onChange={(e) => {
-                          const newOptions = [...(currentQuestion.options || [])];
+                        name='options'
+                        onChange={e => {
+                          const newOptions = [...(currentQuestion.options || [])]
 
-                          newOptions[index] = e.target.value;
-                          setCurrentQuestion({ ...currentQuestion, options: newOptions });
+                          newOptions[index] = e.target.value
+                          setCurrentQuestion({ ...currentQuestion, options: newOptions })
                         }}
                         sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                       />
                       <IconButton
                         onClick={() => {
-                          const newOptions = [...(currentQuestion.options || [])];
+                          const newOptions = [...(currentQuestion.options || [])]
 
-                          newOptions.splice(index, 1);
-                          setCurrentQuestion({ ...currentQuestion, options: newOptions });
+                          newOptions.splice(index, 1)
+                          setCurrentQuestion({ ...currentQuestion, options: newOptions })
                         }}
-                        color="error"
+                        color='error'
                         sx={{ marginLeft: 2 }}
                       >
                         <DeleteIcon />
@@ -516,42 +547,44 @@ return sum + (userAnswer ? question.weight || 0 : 0);
                     </Box>
                   ))}
                   <CustomButton
-                    variant="outlined"
+                    variant='outlined'
                     sx={{ marginTop: 2 }}
-                    onClick={() => setCurrentQuestion({ ...currentQuestion, options: [...(currentQuestion.options || []), ''] })}
+                    onClick={() =>
+                      setCurrentQuestion({ ...currentQuestion, options: [...(currentQuestion.options || []), ''] })
+                    }
                   >
                     Add Option
                   </CustomButton>
                   <TextField
                     fullWidth
-                    label="Correct Answer"
+                    label='Correct Answer'
                     value={currentQuestion.answer}
-                    name="answer"
+                    name='answer'
                     onChange={handleQuestionChange}
                     sx={{ marginTop: 2, backgroundColor: '#312D4B', color: '#FFFFFF' }}
                   />
                   <TextField
                     fullWidth
-                    label="Weight"
-                    type="number"
+                    label='Weight'
+                    type='number'
                     value={currentQuestion.weight}
-                    name="weight"
+                    name='weight'
                     onChange={handleQuestionChange}
                     sx={{ marginTop: 2, backgroundColor: '#312D4B', color: '#FFFFFF' }}
                   />
 
                   {/* Seletor de Categoria Sociológica */}
                   <FormControl fullWidth sx={{ marginTop: 2 }}>
-                    <InputLabel id="sociological-category-label">Sociological Category</InputLabel>
+                    <InputLabel id='sociological-category-label'>Sociological Category</InputLabel>
                     <Select
-                      labelId="sociological-category-label"
+                      labelId='sociological-category-label'
                       value={currentQuestion.sociologicalId}
-                      label="Sociological Category"
+                      label='Sociological Category'
                       onChange={handleSociologicalSelectChange}
                       fullWidth
                       sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                     >
-                      {sociologicalData.map((data) => (
+                      {sociologicalData.map(data => (
                         <MenuItem key={data.id} value={data.id}>
                           {data.name}
                         </MenuItem>
@@ -559,7 +592,7 @@ return sum + (userAnswer ? question.weight || 0 : 0);
                     </Select>
                   </FormControl>
 
-                  <CustomButton variant="contained" sx={{ marginTop: 2 }} onClick={addQuestion}>
+                  <CustomButton variant='contained' sx={{ marginTop: 2 }} onClick={addQuestion}>
                     Add Question
                   </CustomButton>
                 </Grid>
@@ -569,15 +602,12 @@ return sum + (userAnswer ? question.weight || 0 : 0);
 
           {/* Exibir todas as perguntas */}
           <Section>
-            <Typography variant="h6">All Questions</Typography>
+            <Typography variant='h6'>All Questions</Typography>
             <List>
               {questions.map((q, index) => (
                 <ListItem key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <Typography>{q.question}</Typography>
-                  <IconButton
-                    onClick={() => removeQuestion(index)}
-                    color="error"
-                  >
+                  <IconButton onClick={() => removeQuestion(index)} color='error'>
                     <DeleteIcon />
                   </IconButton>
                 </ListItem>
@@ -589,49 +619,51 @@ return sum + (userAnswer ? question.weight || 0 : 0);
           <Section>
             <Grid container spacing={5}>
               <Grid item xs={12}>
-                <Typography variant="h6">Add Sociological Data</Typography>
+                <Typography variant='h6'>Add Sociological Data</Typography>
                 <TextField
                   fullWidth
-                  label="Name"
+                  label='Name'
                   value={currentSociological.name}
-                  name="name"
+                  name='name'
                   onChange={handleSociologicalChange}
                   sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
                 <TextField
                   fullWidth
-                  label="Value"
-                  type="number"
+                  label='Value'
+                  type='number'
                   value={currentSociological.value}
-                  name="value"
+                  name='value'
                   onChange={handleSociologicalChange}
                   sx={{ marginTop: 2, backgroundColor: '#312D4B', color: '#FFFFFF' }}
                 />
                 <FormControl fullWidth sx={{ marginTop: 2, backgroundColor: '#312D4B', color: '#FFFFFF' }}>
-                  <InputLabel id="color-label">Color</InputLabel>
+                  <InputLabel id='color-label'>Color</InputLabel>
                   <Select
-                    labelId="color-label"
+                    labelId='color-label'
                     value={currentSociological.color}
-                    label="Color"
+                    label='Color'
                     onChange={handleColorChange}
                     fullWidth
                     sx={{ backgroundColor: '#312D4B', color: '#FFFFFF' }}
                   >
-                    <MenuItem value="primary">Primary</MenuItem>
-                    <MenuItem value="secondary">Secondary</MenuItem>
-                    <MenuItem value="error">Error</MenuItem>
-                    <MenuItem value="warning">Warning</MenuItem>
-                    <MenuItem value="info">Info</MenuItem>
-                    <MenuItem value="success">Success</MenuItem>
+                    <MenuItem value='primary'>Primary</MenuItem>
+                    <MenuItem value='secondary'>Secondary</MenuItem>
+                    <MenuItem value='error'>Error</MenuItem>
+                    <MenuItem value='warning'>Warning</MenuItem>
+                    <MenuItem value='info'>Info</MenuItem>
+                    <MenuItem value='success'>Success</MenuItem>
                   </Select>
                 </FormControl>
-                <CustomButton variant="contained" sx={{ marginTop: 2 }} onClick={addSociologicalData}>
+                <CustomButton variant='contained' sx={{ marginTop: 2 }} onClick={addSociologicalData}>
                   Add Sociological Data
                 </CustomButton>
                 <List>
                   {sociologicalData.map((data, index) => (
                     <ListItem key={index}>
-                      <Typography>{data.name} - {data.value} ({data.color})</Typography>
+                      <Typography>
+                        {data.name} - {data.value} ({data.color})
+                      </Typography>
                     </ListItem>
                   ))}
                 </List>
@@ -639,15 +671,15 @@ return sum + (userAnswer ? question.weight || 0 : 0);
             </Grid>
           </Section>
 
-          {message && <Typography color="success">{message}</Typography>}
+          {message && <Typography color='success'>{message}</Typography>}
 
-          <CustomButton type="submit" variant="contained" color="primary">
+          <CustomButton type='submit' variant='contained' color='primary'>
             Create Quiz
           </CustomButton>
         </Box>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
-export default CreateQuiz;
+export default CreateQuiz

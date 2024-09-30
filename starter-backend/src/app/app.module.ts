@@ -1,7 +1,5 @@
 // src/app.module.ts
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '@App/modules/auth/auth.module';
 import { QuizAttemptModule } from '@App/modules/quiz-attempt/quiz-attempt.module';
 import { QuizQuestionOptionModule } from '@App/modules/quiz-question-option/quiz-question-option.module';

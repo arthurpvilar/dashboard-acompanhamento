@@ -51,10 +51,7 @@ const ConnectionsTeams = (props: Props) => {
                       <Typography variant='body2'>{connection.connections} Connections</Typography>
                     </div>
                   </div>
-                  <CustomIconButton
-                    color='primary'
-                    variant={connection.isFriend ? 'contained' : 'outlined'}
-                  >
+                  <CustomIconButton color='primary' variant={connection.isFriend ? 'contained' : 'outlined'}>
                     <i className={connection.isFriend ? 'ri-user-3-line' : 'ri-user-add-line'} />
                   </CustomIconButton>
                 </div>

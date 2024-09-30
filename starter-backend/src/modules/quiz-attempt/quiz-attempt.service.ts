@@ -18,8 +18,8 @@ export class QuizAttemptService {
   constructor(
     @InjectRepository(QuizAttempt)
     private quizAttemptRepository: Repository<QuizAttempt>,
-    private userService: UserService,
-    private quizService: QuizService,
+    private readonly userService: UserService, // Correctly inject UserService
+    private readonly quizService: QuizService,
   ) {}
 
   async createAttempt(
@@ -60,7 +60,7 @@ export class QuizAttemptService {
 
   async findOne(id: number): Promise<QuizAttempt> {
     const attempt = await this.quizAttemptRepository.findOne({
-      where: { id },
+      where: { index: id },
       relations: ['user', 'quiz'],
     });
     if (!attempt) {
@@ -74,7 +74,7 @@ export class QuizAttemptService {
     let score = 0;
 
     for (const question of quiz.questions) {
-      const userAnswer = answers[question.id];
+      const userAnswer = answers[question.index];
       if (question.answer && question.answer === userAnswer) {
         score += 1; // Assign points as needed
       }
