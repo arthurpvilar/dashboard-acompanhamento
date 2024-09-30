@@ -26,13 +26,12 @@ export class QuizSociologicalDataService {
   }
 
   async findAll(): Promise<QuizSociologicalData[]> {
-    return this.sociologicalDataRepository.find({ relations: ['quiz'] });
+    return this.sociologicalDataRepository.find();
   }
 
   async findOne(id: number): Promise<QuizSociologicalData> {
     const sociologicalData = await this.sociologicalDataRepository.findOne({
       where: { index: id },
-      relations: ['quiz'],
     });
     if (!sociologicalData) {
       throw new NotFoundException(`SociologicalData with ID ${id} not found`);

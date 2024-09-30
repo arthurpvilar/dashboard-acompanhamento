@@ -38,7 +38,8 @@ const QuizHeader = () => {
       image: imageFile,
       audio: audioFile,
       sociologicalData,
-      questions: quizQuestions
+      questions: quizQuestions,
+      status: 'published'
     } as Quiz
 
     console.log('Publicando quiz...', quizData)
@@ -71,7 +72,8 @@ const QuizHeader = () => {
       imageFile,
       quizType,
       questions: quizQuestions,
-      audioFile
+      audioFile,
+      status: 'draft'
     }
 
     localStorage.setItem('quizDraft', JSON.stringify(quizDraft))

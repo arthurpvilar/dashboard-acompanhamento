@@ -19,6 +19,7 @@ export type Quiz = {
   sociologicalData: QuizSociologicalData[] // List of sociological data in the quiz
   questions: QuizQuestion[] // List of questions in the quiz
   owner: UsersType // Quiz owner
+  status?: string // Status of the quiz
 }
 
 // Represents an individual question in a quiz

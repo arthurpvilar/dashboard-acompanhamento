@@ -173,7 +173,7 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
     const findOptions: FindManyOptions<Quiz> = {
       skip: (page - 1) * limit,
       take: limit,
-      relations: ['questions', 'sociologicalData', 'owner'],
+      relations: ['questions', 'questions.options', 'sociologicalData'/*, 'owner'*/],
       where: {},
     };
 
@@ -201,9 +201,9 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
       relations: [
         'questions',
         'questions.options',
-        'questions.subQuestions',
+        //'questions.subQuestions',
         'sociologicalData',
-        'owner',
+        //'owner',
       ],
     });
     if (!quiz) {

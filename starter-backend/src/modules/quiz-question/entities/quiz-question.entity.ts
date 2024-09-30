@@ -38,7 +38,7 @@ export class QuizQuestion {
   //@JoinColumn({ name: 'parentQuestionId' })
   //parentQuestion: QuizQuestion;
 
-  ///@OneToMany(() => QuizQuestion, (question) => question.parentQuestion, {
+  //@OneToMany(() => QuizQuestion, (question) => question.parentQuestion, {
   //  cascade: false,
   //})
   //subQuestions: QuizQuestion[];
