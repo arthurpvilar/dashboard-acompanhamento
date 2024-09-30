@@ -473,7 +473,7 @@ const QuizQuestions: React.FC = () => {
   const [showUrlInput, setShowUrlInput] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
-  const audioRef = useRef<HTMLAudioElement>(new Audio())
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   // Variáveis das questões sociológicas
   const [selectedSociologicals, setSelectedSociologicals] = useState<(SociologicalDataType | null)[]>([null, null])
@@ -612,6 +612,8 @@ const QuizQuestions: React.FC = () => {
   }
 
   const handlePlayPause = () => {
+    if (!audioRef || !audioRef.current) return
+
     if (isPlaying) {
       audioRef.current.pause()
       setIsPlaying(false)
@@ -656,7 +658,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 
@@ -672,7 +674,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 
@@ -688,7 +690,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 
@@ -704,7 +706,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 
@@ -720,7 +722,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 
@@ -736,7 +738,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 
@@ -752,7 +754,7 @@ const QuizQuestions: React.FC = () => {
       Underline
     ],
     content: '',
-    immediatelyRender: true,
+    immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
 

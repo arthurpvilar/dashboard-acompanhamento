@@ -87,7 +87,7 @@ const QuizAudio: React.FC = () => {
   const [showUrlInput, setShowUrlInput] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
-  const audioRef = useRef<HTMLAudioElement>(new Audio())
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
@@ -176,6 +176,8 @@ const QuizAudio: React.FC = () => {
   }
 
   const handlePlayPause = () => {
+    if (!audioRef || !audioRef.current) return
+
     if (isPlaying) {
       audioRef.current.pause()
       setIsPlaying(false)
@@ -290,7 +292,7 @@ const QuizAudio: React.FC = () => {
             </Box>
           )}
           <Box mb={4}>
-            <audio ref={audioRef} controls={false} />
+            {audioRef && audioRef.current && <audio ref={audioRef} controls={false} />}
             {(audioFile?.audioFile || audioFile?.audioUrl) && (
               <Box display='flex' alignItems='center' paddingTop={1}>
                 <IconButton onClick={handlePlayPause} size='large' sx={{ paddingTop: '5px' }}>
