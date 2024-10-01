@@ -2,9 +2,9 @@
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
-import { getQuizData } from '@/app/server/actions'
+import { getLatestQuizData, getQuizData } from '@/app/server/actions'
 import WelcomeCard from '@/views/apps/academy/dashboard/WelcomeCard'
-import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
+import LatestQuizCreatedView from '@/views/apps/home/LatestQuizCreatedView'
 
 // Component Imports
 
@@ -28,9 +28,9 @@ import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
   return res.json()
 } */
 
-const AcademyDashboard = async () => {
+const HomePage = async () => {
   // Vars
-  const data = await getQuizData()
+  const data = await getLatestQuizData()
 
   return (
     <Grid container spacing={6}>
@@ -38,10 +38,10 @@ const AcademyDashboard = async () => {
         <WelcomeCard />
       </Grid>
       <Grid item xs={12}>
-        <SimpleQuizListTable quizData={data?.quizzes} />
+        <LatestQuizCreatedView quizData={data} />
       </Grid>
     </Grid>
   )
 }
 
-export default AcademyDashboard
+export default HomePage

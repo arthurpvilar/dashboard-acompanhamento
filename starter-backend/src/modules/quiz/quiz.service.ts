@@ -15,6 +15,8 @@ import { CreateQuizSociologicalDataDto } from '../quiz-sociological-data/dto/cre
 import { CreateQuizQuestionDto } from '../quiz-question/dto/create-quiz-question.dto';
 import { ConflictException } from '@nestjs/common';
 import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
+import { DetailedQuizResponseDto } from './dto/detailed-quiz.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class QuizService {
@@ -286,4 +288,24 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
 
     return score;
   }
+
+  async findLatestQuiz(): Promise<Quiz> {
+    const quiz = await this.quizRepository
+      .createQueryBuilder('quiz')
+      .leftJoinAndSelect('quiz.sociologicalData', 'quizSociologicalData')
+      .leftJoinAndSelect('quiz.questions', 'questions')
+      .leftJoinAndSelect('questions.options', 'options')
+      .leftJoinAndSelect('options.sociologicalData', 'optionSociologicalData')
+      .orderBy('quiz.createdAt', 'DESC')
+      .take(1)
+      .getOne();
+  
+    if (!quiz) {
+      throw new NotFoundException('No quizzes found');
+    }
+    //console.log(plainToClass(DetailedQuizResponseDto, quiz));
+    //return plainToClass(DetailedQuizResponseDto, quiz);
+    return quiz;
+  }
+  
 }

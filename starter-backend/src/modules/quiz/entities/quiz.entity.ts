@@ -69,4 +69,7 @@ export class Quiz {
 
   @OneToMany(() => QuizAttempt, (attempt) => attempt.quiz)
   attempts: QuizAttempt[];
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 }

@@ -17,7 +17,7 @@ import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizService } from './quiz.service';
 import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('quizzes')
 @Controller('quizzes')
@@ -49,6 +49,14 @@ export class QuizController {
       search,
       status,
     });
+  }
+
+  @ApiOperation({ summary: 'Find the latest quiz' })
+  @ApiResponse({ status: 200, description: 'Returns the latest quiz.' })
+  @ApiResponse({ status: 404, description: 'Quiz not found.' })
+  @Get('latest')
+  findLatestQuiz() {
+    return this.quizService.findLatestQuiz();
   }
 
   @Get(':id')

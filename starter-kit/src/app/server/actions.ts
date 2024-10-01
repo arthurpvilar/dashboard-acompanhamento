@@ -18,9 +18,18 @@ import { db as profileData } from '@/fake-db/pages/user-profile'
 import { db as faqData } from '@/fake-db/pages/faq'
 import { db as pricingData } from '@/fake-db/pages/pricing'
 import { db as statisticsData } from '@/fake-db/pages/widget-examples'
+import { DetailedQuizResponseDto } from '@/types/apps/quizTypes'
 
 export const getEcommerceData = async () => {
   return eCommerceData
+}
+
+export const getLatestQuizData = async () => {
+  const response = await fetch('http://localhost:4000/quizzes/latest', {
+    cache: 'no-store'
+  })
+
+  return await response.json()
 }
 
 export const getQuizData = async () => {

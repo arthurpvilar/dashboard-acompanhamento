@@ -56,21 +56,14 @@ const QuizMainImage = () => {
     onDrop: (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0]
+        const fileUrl = URL.createObjectURL(file)
+        const blobImage = fileToBlob(file)
 
-        // Use FileReader to read the file and store blob data
-        const reader = new FileReader()
-
-        reader.onloadend = () => {
-          const blobData = reader.result // This will be the blob data
-
-          setImageFile({
-            imageFile: file,
-            imageUrl: URL.createObjectURL(file), // Temporary URL for preview
-            blobData // Store the blob data
-          })
-        }
-
-        reader.readAsDataURL(file) // Convert file to base64 or blob data
+        setImageFile({
+          imageFile: file,
+          imageUrl: fileUrl,
+          blobData: blobImage
+        })
       }
     }
   })

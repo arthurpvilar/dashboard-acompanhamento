@@ -33,8 +33,8 @@ export class CreateQuizQuestionOptionDto {
   sociological?: QuizSociologicalOptionData;
 
   @ApiProperty({ description: 'ID of the sociological data' })
-  @IsInt() // Certifique-se de que o valor seja um inteiro
-  sociologicalId: number;  // Troque para 'sociologicalId' e remova o @IsOptional
+  @IsInt()
+  sociologicalId: number;
 
   @ApiPropertyOptional({ description: 'Image URL for the option' })
   @ValidateNested()
