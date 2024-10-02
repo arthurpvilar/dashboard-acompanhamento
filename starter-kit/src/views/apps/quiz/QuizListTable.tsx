@@ -191,13 +191,8 @@ const QuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
             <Typography className='font-medium' color='text.primary'>{`${Math.floor(
               (row.original.completedQuiz / row.original.totalQuiz) * 100
             )}%`}</Typography>
-            <LinearProgress
-              color={row.original.color}
-              value={Math.floor((row.original.completedQuiz / row.original.totalQuiz) * 100)}
-              variant='determinate'
-              className='is-full bs-2'
-            />
-            <Typography variant='body2'>{`${row.original.completedQuiz}/${row.original.totalQuiz}`}</Typography>
+            <LinearProgress color={'success'} value={Math.floor(100)} variant='determinate' className='is-full bs-2' />
+            <Typography variant='body2'>{`2`}</Typography>
           </div>
         )
       }),

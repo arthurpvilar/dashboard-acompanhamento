@@ -15,3 +15,10 @@ export type UsersType = {
   currentPlan?: string
   avatarColor?: ThemeColor
 }
+
+export type BackEndUsersType = {
+  id: string
+  username: string
+  fullName: string
+  email: string
+}

@@ -17,10 +17,10 @@ const QuizPage = async () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <FindQuizHeader mode={mode} quizData={data?.quizzes} />
+        <FindQuizHeader mode={mode} quizData={data} />
       </Grid>
       <Grid item xs={12}>
-        <QuizListTable quizData={data?.quizzes} />
+        <QuizListTable quizData={data} />
       </Grid>
     </Grid>
   )

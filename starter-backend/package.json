@@ -19,12 +19,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "migration:create": "cd src/config/database/migrations && npx typeorm-ts-node-commonjs migration:create",
-    "migration:generate": "typeorm -d ./dist/src/config/database/data-providers.js migration:generate",
-    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/config/database/database.providers.ts",
-    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/config/database/database.providers.ts",
-    "seed:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/cli.js seed -d ./src/config/database/data-source.ts",
-    "db:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js db:create -d ./src/config/database/database.providers.ts && npm run migration:run && npm run seed:run",
-    "db:drop": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js db:drop -d ./src/config/database/database.providers.ts && npm run db:create",
+    "migration:generate": "typeorm -d ./dist/src/config/database/data-source.js migration:generate",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/config/database/database.providers.ts",
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d src/config/database/database.providers.ts",
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs seed:run -d src/config/database/database.providers.ts",
+    "db:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs db:create -d src/config/database/database.providers.ts && npm run migration:run && npm run seed:run",
+    "db:drop": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs db:drop -d src/config/database/database.providers.ts && npm run db:create",
     "typeorm": "typeorm-ts-node-commonjs"
   },
   "dependencies": {
@@ -51,7 +51,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
-    "typeorm-extension": "^3.6.1"
+    "typeorm-extension": "3.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

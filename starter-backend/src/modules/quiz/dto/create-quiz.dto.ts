@@ -27,6 +27,10 @@ export class CreateQuizDto {
   description: string;
 
   @IsOptional()
+  @IsString()
+  category: string;
+
+  @IsOptional()
   @ValidateNested()
   @Type(() => QuizImageData)
   image?: QuizImageData;

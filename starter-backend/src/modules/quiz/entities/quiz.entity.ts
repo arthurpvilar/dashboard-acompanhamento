@@ -32,6 +32,9 @@ export class Quiz {
   @Column()
   description: string;
 
+  @Column()
+  category: string;
+
   @Column({ type: 'jsonb', nullable: true })
   image: QuizImageData;
 

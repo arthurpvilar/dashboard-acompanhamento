@@ -120,12 +120,10 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
   const columns = useMemo<ColumnDef<QuizWithProgress, any>[]>(
     () => [
       columnHelper.accessor('title', {
-        header: 'Nome do Quiz',
+        header: 'Nome do Questionário',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <CustomAvatar variant='rounded' skin='light' color={row.original.color}>
-              <i className={classnames('text-[28px]', row.original.logo)} />
-            </CustomAvatar>
+            <CustomAvatar variant='rounded' skin='light' color={'success'}></CustomAvatar>
             <div className='flex flex-col gap-0.5'>
               <Typography
                 component={Link}
@@ -136,15 +134,16 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
                 {row.original.title}
               </Typography>
               <div className='flex items-center gap-2'>
-                <CustomAvatar src={row.original.image} size={22} />
-                <Typography variant='body2'>{row.original.owner.fullName}</Typography>
+                //
+                <CustomAvatar src={'https://www.senaisolucoes.com.br/xp_images/TDAH.png'} size={22} />
+                <Typography variant='body2'>{row.original.owner?.fullName}</Typography>
               </div>
             </div>
           </div>
         )
       }),
       columnHelper.accessor('identifier', {
-        header: 'Código',
+        header: 'Identificador',
         cell: ({ row }) => (
           <Typography className='font-medium' color='text.primary'>
             {row.original.identifier}
@@ -153,32 +152,24 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
         enableSorting: false
       }),
       columnHelper.accessor('progressValue', {
-        header: 'Percentual Médio de Conclusão',
+        header: 'Média de Conclusão',
         sortingFn: (rowA, rowB) => {
-          if (
-            !Math.floor((rowA.original.completedQuiz / rowA.original.totalQuiz) * 100) ||
-            !Math.floor((rowB.original.completedQuiz / rowB.original.totalQuiz) * 100)
-          )
-            return 0
+          //if (
+          //  !Math.floor((rowA.original.completedQuiz / rowA.original.totalQuiz) * 100) ||
+          //  !Math.floor((rowB.original.completedQuiz / rowB.original.totalQuiz) * 100)
+          //)
+          return 0
 
-          return (
-            Number(Math.floor((rowA.original.completedQuiz / rowA.original.totalQuiz) * 100)) -
-            Number(Math.floor((rowB.original.completedQuiz / rowB.original.totalQuiz) * 100))
-          )
+          //return (
+          //  Number(Math.floor((rowA.original.completedQuiz / rowA.original.totalQuiz) * 100)) -
+          //  Number(Math.floor((rowB.original.completedQuiz / rowB.original.totalQuiz) * 100))
+          //)
         },
         cell: ({ row }) => (
           <div className='flex items-center gap-4 min-is-48'>
-            <Typography
-              className='font-medium'
-              color='text.primary'
-            >{`${Math.floor((row.original.completedQuiz / row.original.totalQuiz) * 100)}%`}</Typography>
-            <LinearProgress
-              color={row.original.color}
-              value={Math.floor((row.original.completedQuiz / row.original.totalQuiz) * 100)}
-              variant='determinate'
-              className='is-full bs-2'
-            />
-            <Typography variant='body2'>{`${row.original.completedQuiz}/${row.original.totalQuiz}`}</Typography>
+            <Typography className='font-medium' color='text.primary'>{`75%`}</Typography>
+            <LinearProgress color={'success'} value={100} variant='determinate' className='is-full bs-2' />
+            <Typography variant='body2'>{`5`}</Typography>
           </div>
         )
       }),
@@ -188,7 +179,7 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
           <div className='flex items-center justify-between gap-5'>
             <div className='flex items-center gap-1.5 ml-auto pr-4'>
               <i className='ri-group-line text-primary' />
-              <Typography>{row.original.users.length}</Typography>
+              <Typography>{3}</Typography>
             </div>
           </div>
         ),

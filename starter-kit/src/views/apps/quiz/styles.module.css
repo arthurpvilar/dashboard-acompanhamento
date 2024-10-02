@@ -1,0 +1,9 @@
+.tableHead {
+  tr th:not(:first-child) {
+    text-align: center;
+  }
+}
+
+.tableBody {
+  text-align: justify;
+}

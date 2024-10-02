@@ -4,7 +4,8 @@ import Grid from '@mui/material/Grid'
 
 import { getLatestQuizData, getQuizData } from '@/app/server/actions'
 import WelcomeCard from '@/views/apps/academy/dashboard/WelcomeCard'
-import LatestQuizCreatedView from '@/views/apps/home/LatestQuizCreatedView'
+import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
+import LatestQuizCreatedView from '@/views/apps/quiz/LatestQuizCreatedView'
 
 // Component Imports
 
@@ -30,7 +31,8 @@ import LatestQuizCreatedView from '@/views/apps/home/LatestQuizCreatedView'
 
 const HomePage = async () => {
   // Vars
-  const data = await getLatestQuizData()
+  // const data = await getLatestQuizData()
+  const data = await getQuizData()
 
   return (
     <Grid container spacing={6}>
@@ -38,7 +40,10 @@ const HomePage = async () => {
         <WelcomeCard />
       </Grid>
       <Grid item xs={12}>
-        <LatestQuizCreatedView quizData={data} />
+        <LatestQuizCreatedView quizData={null} />
+      </Grid>
+      <Grid item xs={12}>
+        <SimpleQuizListTable quizData={data} />
       </Grid>
     </Grid>
   )

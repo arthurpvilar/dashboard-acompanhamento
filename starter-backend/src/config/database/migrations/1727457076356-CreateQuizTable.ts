@@ -37,6 +37,11 @@ export class CreateQuizTable1727457076356 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'category',
+            type: 'text',
+            isNullable: true,
+          },
+          {
             name: 'image',
             type: 'jsonb',
             isNullable: true,

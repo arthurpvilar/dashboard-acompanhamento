@@ -13,6 +13,7 @@ export class DetailedQuizResponseDto {
   identifier: string;
   type: string;
   description: string;
+  category: string;
   image: QuizImageData | null;
   audio: QuizImageData | null; // Assuming audio is similar to image data structure
   status: 'draft' | 'published' | 'archived';

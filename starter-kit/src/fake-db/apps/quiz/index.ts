@@ -1,614 +1,4300 @@
 // Type Imports
 import type { Quiz } from '@/types/apps/quizTypes'
 
-export const db: Quiz = {
-  quizzes: [
-    {
-      id: 1,
-      title: 'Conhecimentos Gerais',
-      description:
-        'Esse quiz de "Conhecimentos Gerais" é uma atividade interativa projetada para testar e expandir a amplitude de conhecimento de um indivíduo em diversas áreas. Esse tipo de quiz pode ser utilizado tanto em ambientes educacionais quanto em situações de lazer, proporcionando uma maneira divertida e desafiadora de aprender e revisar informações.',
-      identifier: '60b9',
-      logo: 'ri-angularjs-line',
-      image:
-        'https://www.shutterstock.com/shutterstock/photos/1751379035/display_1500/stock-photo-focused-african-student-wear-headphones-studying-on-line-do-exercise-using-laptop-watching-video-1751379035.jpg',
-      averageTime: 458,
-      sociologicalData: [
-        {
-          id: 0,
-          name: 'Conhecimento',
-          value: 10,
-          color: 'primary'
-        },
-        {
-          id: 1,
-          name: 'Raciocínio',
-          value: 8,
-          color: 'secondary'
-        },
-        {
-          id: 2,
-          name: 'Cultura',
-          value: 7,
-          color: 'success'
-        },
-        {
-          id: 3,
-          name: 'História',
-          value: 9,
-          color: 'warning'
-        },
-        {
-          id: 4,
-          name: 'Geografia',
-          value: 6,
-          color: 'info'
-        }
-      ],
-      questions: [
-        {
-          id: 1,
-          sociologicalId: 0,
-          question: 'Qual é a capital da França?',
-          options: ['Paris', 'Lyon', 'Marselha', 'Nice'],
-          answer: 'Paris',
-          weight: 1.5
-        },
-        {
-          id: 2,
-          sociologicalId: 1,
-          question: 'Quem descobriu a América?',
-          options: ['Cristóvão Colombo', 'Pedro Álvares Cabral', 'Vasco da Gama', 'Fernando de Magalhães'],
-          answer: 'Cristóvão Colombo',
-          weight: 2.0
-        },
-        {
-          id: 3,
-          sociologicalId: 2,
-          question: "Qual é o elemento químico representado pelo símbolo 'O'?",
-          options: ['Oxigênio', 'Ouro', 'Prata', 'Platina'],
-          answer: 'Oxigênio',
-          weight: 1.2
-        },
-        {
-          id: 4,
-          sociologicalId: 3,
-          question: 'Qual foi o evento que marcou o início da Segunda Guerra Mundial?',
-          options: [
-            'Invasão da Polônia',
-            'Ataque a Pearl Harbor',
-            'Assassinato de Franz Ferdinand',
-            'Queda do Muro de Berlim'
-          ],
-          answer: 'Invasão da Polônia',
-          weight: 2.5
-        },
-        {
-          id: 5,
-          sociologicalId: 4,
-          question: 'Qual é o maior continente do mundo?',
-          options: ['Ásia', 'África', 'América do Norte', 'Europa'],
-          answer: 'Ásia',
-          weight: 1.8
-        },
-        {
-          id: 6,
-          sociologicalId: 0,
-          question: 'Quantos estados tem o Brasil?',
-          options: ['26', '27', '28', '29'],
-          answer: '27',
-          weight: 2.2
-        },
-        {
-          id: 7,
-          sociologicalId: 1,
-          question: 'Qual a fórmula química da água?',
-          options: ['H2O', 'CO2', 'O2', 'NH3'],
-          answer: 'H2O',
-          weight: 1.1
-        },
-        {
-          id: 8,
-          sociologicalId: 2,
-          question: 'Quem pintou a Mona Lisa?',
-          options: ['Leonardo da Vinci', 'Michelangelo', 'Vincent van Gogh', 'Pablo Picasso'],
-          answer: 'Leonardo da Vinci',
-          weight: 2.3
-        },
-        {
-          id: 9,
-          sociologicalId: 3,
-          question: 'Em que ano o homem pisou na lua pela primeira vez?',
-          options: ['1965', '1969', '1971', '1974'],
-          answer: '1969',
-          weight: 2.0
-        },
-        {
-          id: 10,
-          sociologicalId: 4,
-          question: 'Qual é o maior oceano do mundo?',
-          options: ['Atlântico', 'Pacífico', 'Índico', 'Ártico'],
-          answer: 'Pacífico',
-          weight: 1.9
-        },
-        {
-          id: 11,
-          sociologicalId: 0,
-          question: 'Qual é o planeta mais próximo do sol?',
-          options: ['Mercúrio', 'Vênus', 'Terra', 'Marte'],
-          answer: 'Mercúrio',
-          weight: 2.1
-        },
-        {
-          id: 12,
-          sociologicalId: 1,
-          question: 'Qual é a principal composição química do gás natural?',
-          options: ['Metano', 'Etano', 'Propano', 'Butano'],
-          answer: 'Metano',
-          weight: 1.7
-        },
-        {
-          id: 13,
-          sociologicalId: 2,
-          question: 'Qual é a montanha mais alta do mundo?',
-          options: ['Everest', 'K2', 'Kangchenjunga', 'Lhotse'],
-          answer: 'Everest',
-          weight: 2.4
-        },
-        {
-          id: 14,
-          sociologicalId: 3,
-          question: 'Quem foi o primeiro presidente dos Estados Unidos?',
-          options: ['George Washington', 'Thomas Jefferson', 'Abraham Lincoln', 'John Adams'],
-          answer: 'George Washington',
-          weight: 1.6
-        },
-        {
-          id: 15,
-          sociologicalId: 4,
-          question: 'Qual país tem a maior população do mundo?',
-          options: ['China', 'Índia', 'Estados Unidos', 'Indonésia'],
-          answer: 'China',
-          weight: 1.4
-        }
-      ],
-      completedQuiz: 10,
-      totalQuiz: 15,
-      time: 600,
-      color: 'primary',
-      owner: {
-        id: 1,
-        role: 'Admin',
-        email: 'admin@example.com',
-        status: 'Active',
-        avatar: 'https://example.com/avatar1.jpg',
-        company: 'Example Corp',
-        country: 'USA',
-        contact: '+1234567890',
-        fullName: 'John Doe',
-        username: 'johndoe',
-        currentPlan: 'Enterprise',
-        avatarColor: 'primary'
-      },
-      users: [
-        {
-          id: '567890',
-          quizId: 1,
-          averageTime: 874,
-          completedQuestions: [
-            {
-              id: 1,
-              question: 'Qual é a capital da França?',
-              answered: true
-            },
-            {
-              id: 2,
-              question: 'Quem descobriu a América?',
-              answered: true
-            }
-          ]
-        }
-      ]
+export const db: Quiz[] = [
+  {
+    id: 1,
+    title: 'Transtorno do Déficit de Atenção e Hiperatividade',
+    identifier: 'TDAH0127',
+    type: 'Pergunta e Resposta Dissertativa',
+    description:
+      '<p style="text-align: justify">Este questionário foi desenvolvido para ajudar a identificar possíveis sinais de Transtorno do Déficit de Atenção com Hiperatividade (TDAH). Ele contém perguntas sobre comportamentos do dia a dia, como a capacidade de concentração, organização e controle de impulsos. As respostas são simples e incluem opções que descrevem diferentes níveis de dificuldade. É importante responder com sinceridade, pensando em como você ou a criança normalmente se comporta. O questionário não substitui uma avaliação médica, mas pode fornecer uma visão inicial sobre questões que merecem atenção.</p>',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+      blobData: null
     },
-    {
-      id: 2,
-      image: 'https://example.com/quiz2.jpg',
-      logo: 'ri-angularjs-line',
-      title: 'Matemática Básica',
-      description: 'Testes seus conhecimentos de matemática básica.',
-      identifier: '49c0',
-      averageTime: 874,
-      sociologicalData: [
-        {
-          id: 0,
-          name: 'Matemática',
-          value: 10,
-          color: 'primary'
-        },
-        {
-          id: 1,
-          name: 'Raciocínio Lógico',
-          value: 8,
-          color: 'secondary'
-        },
-        {
-          id: 2,
-          name: 'Álgebra',
-          value: 7,
-          color: 'success'
-        },
-        {
-          id: 3,
-          name: 'Geometria',
-          value: 9,
-          color: 'warning'
-        },
-        {
-          id: 4,
-          name: 'Estatística',
-          value: 6,
-          color: 'info'
-        }
-      ],
-      questions: [
-        {
-          id: 1,
-          sociologicalId: 0,
-          question: 'Quanto é 2 + 2?',
-          options: ['3', '4', '5', '6'],
-          answer: '4',
-          weight: 1.4
-        },
-        {
-          id: 2,
-          sociologicalId: 1,
-          question: 'Se João tem 5 maçãs e dá 2 para Maria, quantas ele terá?',
-          options: ['2', '3', '4', '5'],
-          answer: '3',
-          weight: 1.6
-        },
-        {
-          id: 3,
-          sociologicalId: 2,
-          question: 'Qual é a fórmula da área de um círculo?',
-          options: ['πr²', '2πr', 'πd', '2r'],
-          answer: 'πr²',
-          weight: 2.1
-        },
-        {
-          id: 4,
-          sociologicalId: 3,
-          question: 'Qual é a soma dos ângulos internos de um triângulo?',
-          options: ['180°', '360°', '90°', '270°'],
-          answer: '180°',
-          weight: 2.2
-        },
-        {
-          id: 5,
-          sociologicalId: 4,
-          question: 'Qual é a média de 2, 4, 6 e 8?',
-          options: ['4', '5', '6', '8'],
-          answer: '5',
-          weight: 1.5
-        },
-        {
-          id: 6,
-          sociologicalId: 0,
-          question: 'Quanto é 10 dividido por 2?',
-          options: ['2', '3', '4', '5'],
-          answer: '5',
-          weight: 1.8
-        },
-        {
-          id: 7,
-          sociologicalId: 1,
-          question: 'Qual é a raiz quadrada de 49?',
-          options: ['6', '7', '8', '9'],
-          answer: '7',
-          weight: 1.3
-        },
-        {
-          id: 8,
-          sociologicalId: 2,
-          question: 'Se x + 2 = 5, qual é o valor de x?',
-          options: ['2', '3', '4', '5'],
-          answer: '3',
-          weight: 2.4
-        },
-        {
-          id: 9,
-          sociologicalId: 3,
-          question: 'Qual é o perímetro de um quadrado de lado 4?',
-          options: ['8', '12', '16', '20'],
-          answer: '16',
-          weight: 2.5
-        },
-        {
-          id: 10,
-          sociologicalId: 4,
-          question: 'Qual é a variância dos valores 1, 2, 3 e 4?',
-          options: ['1.25', '1.5', '2', '2.5'],
-          answer: '1.25',
-          weight: 1.9
-        },
-        {
-          id: 11,
-          sociologicalId: 0,
-          question: 'Quanto é 5% de 200?',
-          options: ['5', '10', '15', '20'],
-          answer: '10',
-          weight: 1.7
-        },
-        {
-          id: 12,
-          sociologicalId: 1,
-          question: 'Qual é a representação decimal de 1/3?',
-          options: ['0.33', '0.5', '0.75', '1'],
-          answer: '0.33',
-          weight: 1.1
-        },
-        {
-          id: 13,
-          sociologicalId: 2,
-          question: 'Quanto é 2 elevado a 3?',
-          options: ['6', '7', '8', '9'],
-          answer: '8',
-          weight: 1.2
-        },
-        {
-          id: 14,
-          sociologicalId: 3,
-          question: 'Qual é a hipotenusa de um triângulo retângulo com catetos de 3 e 4?',
-          options: ['5', '6', '7', '8'],
-          answer: '5',
-          weight: 2.0
-        },
-        {
-          id: 15,
-          sociologicalId: 4,
-          question: 'Qual é o desvio padrão dos valores 1, 2, 3 e 4?',
-          options: ['0.5', '1', '1.5', '2'],
-          answer: '1',
-          weight: 1.9
-        }
-      ],
-      completedQuiz: 8,
-      totalQuiz: 15,
-      time: 500,
-      color: 'secondary',
-      owner: {
+    audio: null,
+    sociologicalData: [
+      {
         id: 1,
-        role: 'Admin',
-        email: 'admin@example.com',
-        status: 'Active',
-        avatar: 'https://example.com/avatar1.jpg',
-        company: 'Example Corp',
-        country: 'USA',
-        contact: '+1234567890',
-        fullName: 'John Doe',
-        username: 'johndoe',
-        currentPlan: 'Enterprise',
-        avatarColor: 'primary'
+        name: 'Comportamento Padrão',
+        value: 50,
+        color: '#0D9394'
       },
-      users: [
-        {
-          id: '667890',
-          quizId: 2,
-          averageTime: 874,
-          completedQuestions: [
-            {
-              id: 1,
-              question: 'Quanto é 2 + 2?',
-              answered: true
-            },
-            {
-              id: 2,
-              question: 'Se João tem 5 maçãs e dá 2 para Maria, quantas ele terá?',
-              answered: true
-            }
-          ]
-        }
-      ]
-    },
-    {
-      id: 3,
-      image: 'https://example.com/quiz3.jpg',
-      title: 'Ciências Naturais',
-      logo: 'ri-angularjs-line',
-      description: 'Teste seus conhecimentos em ciências naturais.',
-      identifier: '88b5',
-      averageTime: 874,
-      sociologicalData: [
-        {
-          id: 0,
-          name: 'Biologia',
-          value: 10,
-          color: 'primary'
-        },
-        {
-          id: 1,
-          name: 'Química',
-          value: 8,
-          color: 'secondary'
-        },
-        {
-          id: 2,
-          name: 'Física',
-          value: 7,
-          color: 'success'
-        },
-        {
-          id: 3,
-          name: 'Astronomia',
-          value: 9,
-          color: 'warning'
-        },
-        {
-          id: 4,
-          name: 'Geologia',
-          value: 6,
-          color: 'info'
-        }
-      ],
-      questions: [
-        {
-          id: 1,
-          sociologicalId: 0,
-          question: 'Qual é o processo pelo qual as plantas produzem energia?',
-          options: ['Fotossíntese', 'Respiração', 'Fermentação', 'Transpiração'],
-          answer: 'Fotossíntese',
-          weight: 2.0
-        },
-        {
-          id: 2,
-          sociologicalId: 1,
-          question: 'Qual é o símbolo químico da água?',
-          options: ['H2O', 'H2O2', 'O2', 'HO2'],
-          answer: 'H2O',
-          weight: 1.5
-        },
-        {
-          id: 3,
-          sociologicalId: 2,
-          question: 'Qual é a unidade de medida da força no Sistema Internacional?',
-          options: ['Newton', 'Joule', 'Watt', 'Pascal'],
-          answer: 'Newton',
-          weight: 2.2
-        },
-        {
-          id: 4,
-          sociologicalId: 3,
-          question: 'Qual é o planeta mais próximo do sol?',
-          options: ['Mercúrio', 'Vênus', 'Terra', 'Marte'],
-          answer: 'Mercúrio',
-          weight: 2.3
-        },
-        {
-          id: 5,
-          sociologicalId: 4,
-          question: 'Qual é a camada mais externa da Terra?',
-          options: ['Crosta', 'Manto', 'Núcleo Externo', 'Núcleo Interno'],
-          answer: 'Crosta',
-          weight: 1.9
-        },
-        {
-          id: 6,
-          sociologicalId: 0,
-          question: 'Qual é a principal função dos rins no corpo humano?',
-          options: ['Filtrar sangue', 'Digestão', 'Produção de hormônios', 'Proteção de órgãos'],
-          answer: 'Filtrar sangue',
-          weight: 2.4
-        },
-        {
-          id: 7,
-          sociologicalId: 1,
-          question: 'Qual é o pH neutro da água pura?',
-          options: ['7', '5', '9', '3'],
-          answer: '7',
-          weight: 1.8
-        },
-        {
-          id: 8,
-          sociologicalId: 2,
-          question: 'Qual é a velocidade da luz no vácuo?',
-          options: ['300.000 km/s', '150.000 km/s', '200.000 km/s', '250.000 km/s'],
-          answer: '300.000 km/s',
-          weight: 2.1
-        },
-        {
-          id: 9,
-          sociologicalId: 3,
-          question: 'Qual é a maior lua de Júpiter?',
-          options: ['Ganimedes', 'Europa', 'Io', 'Calisto'],
-          answer: 'Ganimedes',
-          weight: 1.6
-        },
-        {
-          id: 10,
-          sociologicalId: 4,
-          question: 'Qual é o principal componente do núcleo da Terra?',
-          options: ['Ferro', 'Níquel', 'Silício', 'Oxigênio'],
-          answer: 'Ferro',
-          weight: 1.7
-        },
-        {
-          id: 11,
-          sociologicalId: 0,
-          question: 'Qual é a maior célula do corpo humano?',
-          options: ['Óvulo', 'Célula nervosa', 'Hemácia', 'Célula muscular'],
-          answer: 'Óvulo',
-          weight: 2.5
-        },
-        {
-          id: 12,
-          sociologicalId: 1,
-          question: 'Qual é a fórmula química do sal de cozinha?',
-          options: ['NaCl', 'KCl', 'CaCO3', 'MgSO4'],
-          answer: 'NaCl',
-          weight: 1.3
-        },
-        {
-          id: 13,
-          sociologicalId: 2,
-          question: 'Qual é a terceira lei de Newton?',
-          options: ['Ação e reação', 'Inércia', 'F = m.a', 'Gravitação universal'],
-          answer: 'Ação e reação',
-          weight: 2.0
-        },
-        {
-          id: 14,
-          sociologicalId: 3,
-          question: 'Qual é o maior planeta do sistema solar?',
-          options: ['Júpiter', 'Saturno', 'Netuno', 'Urano'],
-          answer: 'Júpiter',
-          weight: 1.4
-        },
-        {
-          id: 15,
-          sociologicalId: 4,
-          question: 'Qual é o tipo de rocha formada pelo resfriamento do magma?',
-          options: ['Ígnea', 'Sedimentar', 'Metamórfica', 'Orgânica'],
-          answer: 'Ígnea',
-          weight: 2.1
-        }
-      ],
-      completedQuiz: 12,
-      totalQuiz: 15,
-      time: 700,
-      color: 'success',
-      owner: {
+      {
+        id: 2,
+        name: 'TDAH',
+        value: 77,
+        color: '#FFAB1D'
+      }
+    ],
+    questions: [
+      {
         id: 1,
-        role: 'Admin',
-        email: 'admin@example.com',
-        status: 'Active',
-        avatar: 'https://example.com/avatar1.jpg',
-        company: 'Example Corp',
-        country: 'USA',
-        contact: '+1234567890',
-        fullName: 'John Doe',
-        username: 'johndoe',
-        currentPlan: 'Enterprise',
-        avatarColor: 'primary'
-      },
-      users: [
-        {
-          id: '767890',
-          quizId: 3,
-          averageTime: 635,
-          completedQuestions: [
-            {
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em manter o foco em uma única tarefa por um longo período de tempo, especialmente quando a tarefa é entediante ou repetitiva?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito eficiente em manter minha atenção, mesmo em tarefas que considero desinteressantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
               id: 1,
-              question: 'Qual é o processo pelo qual as plantas produzem energia?',
-              answered: true
-            },
-            {
-              id: 2,
-              question: 'Qual é o símbolo químico da água?',
-              answered: true
+              name: 'Comportamento Padrão'
             }
-          ]
-        }
-      ]
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco o foco, mas consigo me concentrar novamente sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em focar, especialmente em tarefas repetitivas ou longas, e frequentemente começo a me distrair.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sinto grande dificuldade em manter o foco em tarefas longas e rapidamente me distraio com outras coisas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você começa várias tarefas ao mesmo tempo, mas tem dificuldades em terminá-las porque perde o interesse rapidamente?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo terminar todas as tarefas que começo, independentemente de quantas sejam.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes começo várias coisas, mas geralmente consigo terminar a maioria delas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, inicio várias atividades, mas perco o interesse e deixo muitas inacabadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre começo muitas tarefas ao mesmo tempo, mas tenho extrema dificuldade em finalizá-las, já que perco o interesse muito rápido.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está em situações que exigem concentração, como em uma reunião ou assistindo a uma aula, você se pega pensando em outras coisas ou se distraindo com o ambiente ao redor?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito focado(a) e raramente me distraio em reuniões ou aulas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes minha mente vagueia, mas consigo voltar a focar rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Minha mente frequentemente se distrai, e tenho dificuldade em prestar atenção em situações prolongadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho muita dificuldade em manter a concentração, e acabo prestando mais atenção em coisas ao redor do que na reunião ou aula em si.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente uma necessidade constante de se mover, mesmo quando a situação exige que você permaneça parado(a), como em uma fila ou sentado(a) em uma sala de espera?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou capaz de permanecer parado(a) tranquilamente sem sentir a necessidade de me mover.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sinto uma leve inquietação, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em ficar parado(a) por muito tempo e sinto a necessidade de me mexer ou movimentar as pernas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Ficar parado(a) me deixa extremamente inquieto(a), e sinto que preciso constantemente me movimentar ou me levantar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Com que frequência você se sente sobrecarregado(a) ao tentar organizar suas tarefas, especialmente quando há várias coisas para fazer ao mesmo tempo?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente me sinto sobrecarregado(a) com várias tarefas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, me sinto um pouco sobrecarregado(a), mas consigo organizar tudo sem muitos problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, sinto que tenho muita coisa para fazer ao mesmo tempo e tenho dificuldade em organizar minhas prioridades.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre me sinto sobrecarregado(a) ao tentar organizar várias tarefas, e geralmente acabo procrastinando ou deixando tarefas pela metade.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está ouvindo alguém falar por um longo período, como em uma palestra ou reunião, você tem dificuldades em manter sua atenção e acaba se distraindo com pensamentos ou estímulos externos?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo manter minha atenção o tempo todo, mesmo em palestras ou reuniões longas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, minha atenção se desvia, mas consigo me focar de novo rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldades em manter minha atenção e frequentemente perco partes importantes do que está sendo dito</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É extremamente difícil para mim manter o foco em palestras ou reuniões, e frequentemente me perco em pensamentos ou distrações.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você frequentemente age de maneira impulsiva, sem pensar nas consequências, como interromper os outros enquanto falam ou tomar decisões apressadas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sempre penso nas consequências antes de agir e raramente interrompo os outros.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sou um pouco impulsivo(a), mas geralmente consigo me controlar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Ajo impulsivamente com frequência e acabo tomando decisões precipitadas ou interrompendo as pessoas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e raramente consigo pensar nas consequências antes de agir, o que frequentemente causa problemas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldade em lembrar de detalhes importantes ou cumprir prazos, mesmo que as tarefas não sejam difíceis?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo lembrar de tudo que é importante e sempre cumpro meus prazos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, esqueço um ou outro detalhe, mas geralmente cumpro meus prazos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em lembrar de coisas importantes e frequentemente perco prazos.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre esqueço detalhes importantes e frequentemente não consigo cumprir prazos, mesmo em tarefas simples.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você se distrai com atividades paralelas, como checar o celular ou conversar com alguém, enquanto está realizando uma tarefa importante?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Quando estou realizando uma tarefa importante, raramente me distraio com atividades paralelas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, dou uma olhada no celular ou converso, mas não me distraio por muito tempo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Me distraio frequentemente com outras atividades, o que atrapalha minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil me manter focado(a) em uma tarefa sem me distrair constantemente com outras atividades, como mexer no celular.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em seguir instruções ou terminar tarefas que exigem uma sequência específica de etapas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo seguir instruções e concluir tarefas com etapas específicas sem problemas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, tenho dificuldade em seguir as etapas corretamente, mas consigo terminar as tarefas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em seguir instruções e frequentemente perco o fio das etapas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil para mim seguir uma sequência de etapas, e acabo me perdendo ou deixando tarefas inacabadas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente que precisa realizar várias coisas ao mesmo tempo porque é difícil focar em apenas uma atividade?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo focar em uma única atividade até terminá-la antes de passar para a próxima.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, faço várias coisas ao mesmo tempo, mas isso não atrapalha muito meu foco.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho a necessidade de realizar várias tarefas ao mesmo tempo, mas isso frequentemente afeta minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre sinto que preciso estar fazendo várias coisas ao mesmo tempo, o que dificulta muito meu foco e conclusão das atividades.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tende a procrastinar tarefas que exigem muito esforço mental ou organização, adiando-as para o último minuto?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo começar tarefas complexas imediatamente e as concluo no prazo.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, adio tarefas difíceis, mas não deixo para o último minuto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Procrastino tarefas exigentes e frequentemente as deixo para a última hora.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em começar tarefas que exigem muito esforço mental, e acabo sempre as adiando até o último minuto.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você perde coisas importantes, como chaves, carteira ou documentos, mesmo quando tenta ser organizado(a)?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente perco objetos importantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco coisas, mas consigo encontrar sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Perco coisas importantes com frequência, mesmo quando tento ser organizado(a).</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Estou sempre perdendo objetos importantes e isso acontece mesmo quando tento manter tudo organizado.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você se sente facilmente frustrado(a) ou impaciente quando precisa esperar por algo, como em filas ou no trânsito?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito paciente e raramente me sinto frustrado(a) em situações de espera.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, fico um pouco impaciente, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Fico frustrado(a) facilmente e me impaciento em filas ou no trânsito.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em esperar, e fico muito impaciente ou frustrado(a) em situações de espera.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Com que frequência você fala ou age sem pensar, e depois se arrepende das palavras ou ações?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo pensar bem antes de falar ou agir e raramente me arrependo depois.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, falo ou ajo impulsivamente, mas geralmente não me arrependo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify"><strong>Frequentemente.</strong> Falo ou ajo sem pensar, e muitas vezes me arrependo do que disse ou fiz.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e quase sempre me arrependo de minhas palavras ou ações depois de agir sem pensar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      }
+    ],
+    status: 'published',
+    owner: {
+      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      email: 'arthurpvilar@gmail.com'
     }
-  ]
-}
+  },
+  {
+    id: 1,
+    title: 'Transtorno do Déficit de Atenção e Hiperatividade',
+    identifier: 'TDAH0127',
+    type: 'Pergunta e Resposta Dissertativa',
+    description:
+      '<p style="text-align: justify">Este questionário foi desenvolvido para ajudar a identificar possíveis sinais de Transtorno do Déficit de Atenção com Hiperatividade (TDAH). Ele contém perguntas sobre comportamentos do dia a dia, como a capacidade de concentração, organização e controle de impulsos. As respostas são simples e incluem opções que descrevem diferentes níveis de dificuldade. É importante responder com sinceridade, pensando em como você ou a criança normalmente se comporta. O questionário não substitui uma avaliação médica, mas pode fornecer uma visão inicial sobre questões que merecem atenção.</p>',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+      blobData: null
+    },
+    audio: null,
+    sociologicalData: [
+      {
+        id: 1,
+        name: 'Comportamento Padrão',
+        value: 50,
+        color: '#0D9394'
+      },
+      {
+        id: 2,
+        name: 'TDAH',
+        value: 77,
+        color: '#FFAB1D'
+      }
+    ],
+    questions: [
+      {
+        id: 1,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em manter o foco em uma única tarefa por um longo período de tempo, especialmente quando a tarefa é entediante ou repetitiva?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito eficiente em manter minha atenção, mesmo em tarefas que considero desinteressantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco o foco, mas consigo me concentrar novamente sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em focar, especialmente em tarefas repetitivas ou longas, e frequentemente começo a me distrair.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sinto grande dificuldade em manter o foco em tarefas longas e rapidamente me distraio com outras coisas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você começa várias tarefas ao mesmo tempo, mas tem dificuldades em terminá-las porque perde o interesse rapidamente?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo terminar todas as tarefas que começo, independentemente de quantas sejam.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes começo várias coisas, mas geralmente consigo terminar a maioria delas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, inicio várias atividades, mas perco o interesse e deixo muitas inacabadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre começo muitas tarefas ao mesmo tempo, mas tenho extrema dificuldade em finalizá-las, já que perco o interesse muito rápido.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está em situações que exigem concentração, como em uma reunião ou assistindo a uma aula, você se pega pensando em outras coisas ou se distraindo com o ambiente ao redor?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito focado(a) e raramente me distraio em reuniões ou aulas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes minha mente vagueia, mas consigo voltar a focar rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Minha mente frequentemente se distrai, e tenho dificuldade em prestar atenção em situações prolongadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho muita dificuldade em manter a concentração, e acabo prestando mais atenção em coisas ao redor do que na reunião ou aula em si.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente uma necessidade constante de se mover, mesmo quando a situação exige que você permaneça parado(a), como em uma fila ou sentado(a) em uma sala de espera?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou capaz de permanecer parado(a) tranquilamente sem sentir a necessidade de me mover.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sinto uma leve inquietação, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em ficar parado(a) por muito tempo e sinto a necessidade de me mexer ou movimentar as pernas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Ficar parado(a) me deixa extremamente inquieto(a), e sinto que preciso constantemente me movimentar ou me levantar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Com que frequência você se sente sobrecarregado(a) ao tentar organizar suas tarefas, especialmente quando há várias coisas para fazer ao mesmo tempo?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente me sinto sobrecarregado(a) com várias tarefas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, me sinto um pouco sobrecarregado(a), mas consigo organizar tudo sem muitos problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, sinto que tenho muita coisa para fazer ao mesmo tempo e tenho dificuldade em organizar minhas prioridades.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre me sinto sobrecarregado(a) ao tentar organizar várias tarefas, e geralmente acabo procrastinando ou deixando tarefas pela metade.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está ouvindo alguém falar por um longo período, como em uma palestra ou reunião, você tem dificuldades em manter sua atenção e acaba se distraindo com pensamentos ou estímulos externos?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo manter minha atenção o tempo todo, mesmo em palestras ou reuniões longas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, minha atenção se desvia, mas consigo me focar de novo rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldades em manter minha atenção e frequentemente perco partes importantes do que está sendo dito</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É extremamente difícil para mim manter o foco em palestras ou reuniões, e frequentemente me perco em pensamentos ou distrações.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você frequentemente age de maneira impulsiva, sem pensar nas consequências, como interromper os outros enquanto falam ou tomar decisões apressadas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sempre penso nas consequências antes de agir e raramente interrompo os outros.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sou um pouco impulsivo(a), mas geralmente consigo me controlar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Ajo impulsivamente com frequência e acabo tomando decisões precipitadas ou interrompendo as pessoas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e raramente consigo pensar nas consequências antes de agir, o que frequentemente causa problemas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldade em lembrar de detalhes importantes ou cumprir prazos, mesmo que as tarefas não sejam difíceis?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo lembrar de tudo que é importante e sempre cumpro meus prazos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, esqueço um ou outro detalhe, mas geralmente cumpro meus prazos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em lembrar de coisas importantes e frequentemente perco prazos.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre esqueço detalhes importantes e frequentemente não consigo cumprir prazos, mesmo em tarefas simples.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você se distrai com atividades paralelas, como checar o celular ou conversar com alguém, enquanto está realizando uma tarefa importante?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Quando estou realizando uma tarefa importante, raramente me distraio com atividades paralelas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, dou uma olhada no celular ou converso, mas não me distraio por muito tempo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Me distraio frequentemente com outras atividades, o que atrapalha minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil me manter focado(a) em uma tarefa sem me distrair constantemente com outras atividades, como mexer no celular.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em seguir instruções ou terminar tarefas que exigem uma sequência específica de etapas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo seguir instruções e concluir tarefas com etapas específicas sem problemas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, tenho dificuldade em seguir as etapas corretamente, mas consigo terminar as tarefas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em seguir instruções e frequentemente perco o fio das etapas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil para mim seguir uma sequência de etapas, e acabo me perdendo ou deixando tarefas inacabadas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente que precisa realizar várias coisas ao mesmo tempo porque é difícil focar em apenas uma atividade?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo focar em uma única atividade até terminá-la antes de passar para a próxima.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, faço várias coisas ao mesmo tempo, mas isso não atrapalha muito meu foco.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho a necessidade de realizar várias tarefas ao mesmo tempo, mas isso frequentemente afeta minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre sinto que preciso estar fazendo várias coisas ao mesmo tempo, o que dificulta muito meu foco e conclusão das atividades.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tende a procrastinar tarefas que exigem muito esforço mental ou organização, adiando-as para o último minuto?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo começar tarefas complexas imediatamente e as concluo no prazo.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, adio tarefas difíceis, mas não deixo para o último minuto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Procrastino tarefas exigentes e frequentemente as deixo para a última hora.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em começar tarefas que exigem muito esforço mental, e acabo sempre as adiando até o último minuto.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você perde coisas importantes, como chaves, carteira ou documentos, mesmo quando tenta ser organizado(a)?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente perco objetos importantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco coisas, mas consigo encontrar sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Perco coisas importantes com frequência, mesmo quando tento ser organizado(a).</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Estou sempre perdendo objetos importantes e isso acontece mesmo quando tento manter tudo organizado.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você se sente facilmente frustrado(a) ou impaciente quando precisa esperar por algo, como em filas ou no trânsito?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito paciente e raramente me sinto frustrado(a) em situações de espera.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, fico um pouco impaciente, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Fico frustrado(a) facilmente e me impaciento em filas ou no trânsito.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em esperar, e fico muito impaciente ou frustrado(a) em situações de espera.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Com que frequência você fala ou age sem pensar, e depois se arrepende das palavras ou ações?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo pensar bem antes de falar ou agir e raramente me arrependo depois.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, falo ou ajo impulsivamente, mas geralmente não me arrependo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify"><strong>Frequentemente.</strong> Falo ou ajo sem pensar, e muitas vezes me arrependo do que disse ou fiz.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e quase sempre me arrependo de minhas palavras ou ações depois de agir sem pensar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      }
+    ],
+    status: 'published',
+    owner: {
+      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      email: 'arthurpvilar@gmail.com'
+    }
+  },
+  {
+    id: 1,
+    title: 'Transtorno do Déficit de Atenção e Hiperatividade',
+    identifier: 'TDAH0127',
+    type: 'Pergunta e Resposta Dissertativa',
+    description:
+      '<p style="text-align: justify">Este questionário foi desenvolvido para ajudar a identificar possíveis sinais de Transtorno do Déficit de Atenção com Hiperatividade (TDAH). Ele contém perguntas sobre comportamentos do dia a dia, como a capacidade de concentração, organização e controle de impulsos. As respostas são simples e incluem opções que descrevem diferentes níveis de dificuldade. É importante responder com sinceridade, pensando em como você ou a criança normalmente se comporta. O questionário não substitui uma avaliação médica, mas pode fornecer uma visão inicial sobre questões que merecem atenção.</p>',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+      blobData: null
+    },
+    audio: null,
+    sociologicalData: [
+      {
+        id: 1,
+        name: 'Comportamento Padrão',
+        value: 50,
+        color: '#0D9394'
+      },
+      {
+        id: 2,
+        name: 'TDAH',
+        value: 77,
+        color: '#FFAB1D'
+      }
+    ],
+    questions: [
+      {
+        id: 1,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em manter o foco em uma única tarefa por um longo período de tempo, especialmente quando a tarefa é entediante ou repetitiva?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito eficiente em manter minha atenção, mesmo em tarefas que considero desinteressantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco o foco, mas consigo me concentrar novamente sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em focar, especialmente em tarefas repetitivas ou longas, e frequentemente começo a me distrair.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sinto grande dificuldade em manter o foco em tarefas longas e rapidamente me distraio com outras coisas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você começa várias tarefas ao mesmo tempo, mas tem dificuldades em terminá-las porque perde o interesse rapidamente?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo terminar todas as tarefas que começo, independentemente de quantas sejam.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes começo várias coisas, mas geralmente consigo terminar a maioria delas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, inicio várias atividades, mas perco o interesse e deixo muitas inacabadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre começo muitas tarefas ao mesmo tempo, mas tenho extrema dificuldade em finalizá-las, já que perco o interesse muito rápido.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está em situações que exigem concentração, como em uma reunião ou assistindo a uma aula, você se pega pensando em outras coisas ou se distraindo com o ambiente ao redor?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito focado(a) e raramente me distraio em reuniões ou aulas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes minha mente vagueia, mas consigo voltar a focar rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Minha mente frequentemente se distrai, e tenho dificuldade em prestar atenção em situações prolongadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho muita dificuldade em manter a concentração, e acabo prestando mais atenção em coisas ao redor do que na reunião ou aula em si.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente uma necessidade constante de se mover, mesmo quando a situação exige que você permaneça parado(a), como em uma fila ou sentado(a) em uma sala de espera?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou capaz de permanecer parado(a) tranquilamente sem sentir a necessidade de me mover.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sinto uma leve inquietação, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em ficar parado(a) por muito tempo e sinto a necessidade de me mexer ou movimentar as pernas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Ficar parado(a) me deixa extremamente inquieto(a), e sinto que preciso constantemente me movimentar ou me levantar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Com que frequência você se sente sobrecarregado(a) ao tentar organizar suas tarefas, especialmente quando há várias coisas para fazer ao mesmo tempo?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente me sinto sobrecarregado(a) com várias tarefas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, me sinto um pouco sobrecarregado(a), mas consigo organizar tudo sem muitos problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, sinto que tenho muita coisa para fazer ao mesmo tempo e tenho dificuldade em organizar minhas prioridades.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre me sinto sobrecarregado(a) ao tentar organizar várias tarefas, e geralmente acabo procrastinando ou deixando tarefas pela metade.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está ouvindo alguém falar por um longo período, como em uma palestra ou reunião, você tem dificuldades em manter sua atenção e acaba se distraindo com pensamentos ou estímulos externos?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo manter minha atenção o tempo todo, mesmo em palestras ou reuniões longas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, minha atenção se desvia, mas consigo me focar de novo rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldades em manter minha atenção e frequentemente perco partes importantes do que está sendo dito</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É extremamente difícil para mim manter o foco em palestras ou reuniões, e frequentemente me perco em pensamentos ou distrações.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você frequentemente age de maneira impulsiva, sem pensar nas consequências, como interromper os outros enquanto falam ou tomar decisões apressadas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sempre penso nas consequências antes de agir e raramente interrompo os outros.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sou um pouco impulsivo(a), mas geralmente consigo me controlar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Ajo impulsivamente com frequência e acabo tomando decisões precipitadas ou interrompendo as pessoas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e raramente consigo pensar nas consequências antes de agir, o que frequentemente causa problemas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldade em lembrar de detalhes importantes ou cumprir prazos, mesmo que as tarefas não sejam difíceis?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo lembrar de tudo que é importante e sempre cumpro meus prazos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, esqueço um ou outro detalhe, mas geralmente cumpro meus prazos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em lembrar de coisas importantes e frequentemente perco prazos.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre esqueço detalhes importantes e frequentemente não consigo cumprir prazos, mesmo em tarefas simples.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você se distrai com atividades paralelas, como checar o celular ou conversar com alguém, enquanto está realizando uma tarefa importante?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Quando estou realizando uma tarefa importante, raramente me distraio com atividades paralelas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, dou uma olhada no celular ou converso, mas não me distraio por muito tempo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Me distraio frequentemente com outras atividades, o que atrapalha minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil me manter focado(a) em uma tarefa sem me distrair constantemente com outras atividades, como mexer no celular.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em seguir instruções ou terminar tarefas que exigem uma sequência específica de etapas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo seguir instruções e concluir tarefas com etapas específicas sem problemas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, tenho dificuldade em seguir as etapas corretamente, mas consigo terminar as tarefas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em seguir instruções e frequentemente perco o fio das etapas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil para mim seguir uma sequência de etapas, e acabo me perdendo ou deixando tarefas inacabadas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente que precisa realizar várias coisas ao mesmo tempo porque é difícil focar em apenas uma atividade?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo focar em uma única atividade até terminá-la antes de passar para a próxima.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, faço várias coisas ao mesmo tempo, mas isso não atrapalha muito meu foco.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho a necessidade de realizar várias tarefas ao mesmo tempo, mas isso frequentemente afeta minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre sinto que preciso estar fazendo várias coisas ao mesmo tempo, o que dificulta muito meu foco e conclusão das atividades.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tende a procrastinar tarefas que exigem muito esforço mental ou organização, adiando-as para o último minuto?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo começar tarefas complexas imediatamente e as concluo no prazo.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, adio tarefas difíceis, mas não deixo para o último minuto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Procrastino tarefas exigentes e frequentemente as deixo para a última hora.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em começar tarefas que exigem muito esforço mental, e acabo sempre as adiando até o último minuto.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você perde coisas importantes, como chaves, carteira ou documentos, mesmo quando tenta ser organizado(a)?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente perco objetos importantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco coisas, mas consigo encontrar sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Perco coisas importantes com frequência, mesmo quando tento ser organizado(a).</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Estou sempre perdendo objetos importantes e isso acontece mesmo quando tento manter tudo organizado.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você se sente facilmente frustrado(a) ou impaciente quando precisa esperar por algo, como em filas ou no trânsito?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito paciente e raramente me sinto frustrado(a) em situações de espera.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, fico um pouco impaciente, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Fico frustrado(a) facilmente e me impaciento em filas ou no trânsito.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em esperar, e fico muito impaciente ou frustrado(a) em situações de espera.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Com que frequência você fala ou age sem pensar, e depois se arrepende das palavras ou ações?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo pensar bem antes de falar ou agir e raramente me arrependo depois.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, falo ou ajo impulsivamente, mas geralmente não me arrependo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify"><strong>Frequentemente.</strong> Falo ou ajo sem pensar, e muitas vezes me arrependo do que disse ou fiz.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e quase sempre me arrependo de minhas palavras ou ações depois de agir sem pensar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      }
+    ],
+    status: 'published',
+    owner: {
+      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      email: 'arthurpvilar@gmail.com'
+    }
+  },
+  {
+    id: 1,
+    title: 'Transtorno do Déficit de Atenção e Hiperatividade',
+    identifier: 'TDAH0127',
+    type: 'Pergunta e Resposta Dissertativa',
+    description:
+      '<p style="text-align: justify">Este questionário foi desenvolvido para ajudar a identificar possíveis sinais de Transtorno do Déficit de Atenção com Hiperatividade (TDAH). Ele contém perguntas sobre comportamentos do dia a dia, como a capacidade de concentração, organização e controle de impulsos. As respostas são simples e incluem opções que descrevem diferentes níveis de dificuldade. É importante responder com sinceridade, pensando em como você ou a criança normalmente se comporta. O questionário não substitui uma avaliação médica, mas pode fornecer uma visão inicial sobre questões que merecem atenção.</p>',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+      blobData: null
+    },
+    audio: null,
+    sociologicalData: [
+      {
+        id: 1,
+        name: 'Comportamento Padrão',
+        value: 50,
+        color: '#0D9394'
+      },
+      {
+        id: 2,
+        name: 'TDAH',
+        value: 77,
+        color: '#FFAB1D'
+      }
+    ],
+    questions: [
+      {
+        id: 1,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em manter o foco em uma única tarefa por um longo período de tempo, especialmente quando a tarefa é entediante ou repetitiva?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito eficiente em manter minha atenção, mesmo em tarefas que considero desinteressantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco o foco, mas consigo me concentrar novamente sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em focar, especialmente em tarefas repetitivas ou longas, e frequentemente começo a me distrair.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sinto grande dificuldade em manter o foco em tarefas longas e rapidamente me distraio com outras coisas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você começa várias tarefas ao mesmo tempo, mas tem dificuldades em terminá-las porque perde o interesse rapidamente?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo terminar todas as tarefas que começo, independentemente de quantas sejam.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes começo várias coisas, mas geralmente consigo terminar a maioria delas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, inicio várias atividades, mas perco o interesse e deixo muitas inacabadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre começo muitas tarefas ao mesmo tempo, mas tenho extrema dificuldade em finalizá-las, já que perco o interesse muito rápido.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está em situações que exigem concentração, como em uma reunião ou assistindo a uma aula, você se pega pensando em outras coisas ou se distraindo com o ambiente ao redor?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito focado(a) e raramente me distraio em reuniões ou aulas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes minha mente vagueia, mas consigo voltar a focar rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Minha mente frequentemente se distrai, e tenho dificuldade em prestar atenção em situações prolongadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho muita dificuldade em manter a concentração, e acabo prestando mais atenção em coisas ao redor do que na reunião ou aula em si.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente uma necessidade constante de se mover, mesmo quando a situação exige que você permaneça parado(a), como em uma fila ou sentado(a) em uma sala de espera?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou capaz de permanecer parado(a) tranquilamente sem sentir a necessidade de me mover.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sinto uma leve inquietação, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em ficar parado(a) por muito tempo e sinto a necessidade de me mexer ou movimentar as pernas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Ficar parado(a) me deixa extremamente inquieto(a), e sinto que preciso constantemente me movimentar ou me levantar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Com que frequência você se sente sobrecarregado(a) ao tentar organizar suas tarefas, especialmente quando há várias coisas para fazer ao mesmo tempo?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente me sinto sobrecarregado(a) com várias tarefas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, me sinto um pouco sobrecarregado(a), mas consigo organizar tudo sem muitos problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, sinto que tenho muita coisa para fazer ao mesmo tempo e tenho dificuldade em organizar minhas prioridades.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre me sinto sobrecarregado(a) ao tentar organizar várias tarefas, e geralmente acabo procrastinando ou deixando tarefas pela metade.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está ouvindo alguém falar por um longo período, como em uma palestra ou reunião, você tem dificuldades em manter sua atenção e acaba se distraindo com pensamentos ou estímulos externos?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo manter minha atenção o tempo todo, mesmo em palestras ou reuniões longas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, minha atenção se desvia, mas consigo me focar de novo rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldades em manter minha atenção e frequentemente perco partes importantes do que está sendo dito</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É extremamente difícil para mim manter o foco em palestras ou reuniões, e frequentemente me perco em pensamentos ou distrações.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você frequentemente age de maneira impulsiva, sem pensar nas consequências, como interromper os outros enquanto falam ou tomar decisões apressadas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sempre penso nas consequências antes de agir e raramente interrompo os outros.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sou um pouco impulsivo(a), mas geralmente consigo me controlar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Ajo impulsivamente com frequência e acabo tomando decisões precipitadas ou interrompendo as pessoas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e raramente consigo pensar nas consequências antes de agir, o que frequentemente causa problemas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldade em lembrar de detalhes importantes ou cumprir prazos, mesmo que as tarefas não sejam difíceis?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo lembrar de tudo que é importante e sempre cumpro meus prazos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, esqueço um ou outro detalhe, mas geralmente cumpro meus prazos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em lembrar de coisas importantes e frequentemente perco prazos.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre esqueço detalhes importantes e frequentemente não consigo cumprir prazos, mesmo em tarefas simples.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você se distrai com atividades paralelas, como checar o celular ou conversar com alguém, enquanto está realizando uma tarefa importante?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Quando estou realizando uma tarefa importante, raramente me distraio com atividades paralelas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, dou uma olhada no celular ou converso, mas não me distraio por muito tempo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Me distraio frequentemente com outras atividades, o que atrapalha minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil me manter focado(a) em uma tarefa sem me distrair constantemente com outras atividades, como mexer no celular.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em seguir instruções ou terminar tarefas que exigem uma sequência específica de etapas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo seguir instruções e concluir tarefas com etapas específicas sem problemas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, tenho dificuldade em seguir as etapas corretamente, mas consigo terminar as tarefas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em seguir instruções e frequentemente perco o fio das etapas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil para mim seguir uma sequência de etapas, e acabo me perdendo ou deixando tarefas inacabadas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente que precisa realizar várias coisas ao mesmo tempo porque é difícil focar em apenas uma atividade?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo focar em uma única atividade até terminá-la antes de passar para a próxima.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, faço várias coisas ao mesmo tempo, mas isso não atrapalha muito meu foco.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho a necessidade de realizar várias tarefas ao mesmo tempo, mas isso frequentemente afeta minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre sinto que preciso estar fazendo várias coisas ao mesmo tempo, o que dificulta muito meu foco e conclusão das atividades.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tende a procrastinar tarefas que exigem muito esforço mental ou organização, adiando-as para o último minuto?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo começar tarefas complexas imediatamente e as concluo no prazo.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, adio tarefas difíceis, mas não deixo para o último minuto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Procrastino tarefas exigentes e frequentemente as deixo para a última hora.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em começar tarefas que exigem muito esforço mental, e acabo sempre as adiando até o último minuto.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você perde coisas importantes, como chaves, carteira ou documentos, mesmo quando tenta ser organizado(a)?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente perco objetos importantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco coisas, mas consigo encontrar sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Perco coisas importantes com frequência, mesmo quando tento ser organizado(a).</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Estou sempre perdendo objetos importantes e isso acontece mesmo quando tento manter tudo organizado.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você se sente facilmente frustrado(a) ou impaciente quando precisa esperar por algo, como em filas ou no trânsito?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito paciente e raramente me sinto frustrado(a) em situações de espera.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, fico um pouco impaciente, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Fico frustrado(a) facilmente e me impaciento em filas ou no trânsito.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em esperar, e fico muito impaciente ou frustrado(a) em situações de espera.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Com que frequência você fala ou age sem pensar, e depois se arrepende das palavras ou ações?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo pensar bem antes de falar ou agir e raramente me arrependo depois.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, falo ou ajo impulsivamente, mas geralmente não me arrependo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify"><strong>Frequentemente.</strong> Falo ou ajo sem pensar, e muitas vezes me arrependo do que disse ou fiz.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e quase sempre me arrependo de minhas palavras ou ações depois de agir sem pensar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      }
+    ],
+    status: 'published',
+    owner: {
+      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      email: 'arthurpvilar@gmail.com'
+    }
+  },
+  {
+    id: 1,
+    title: 'Transtorno do Déficit de Atenção e Hiperatividade',
+    identifier: 'TDAH0127',
+    type: 'Pergunta e Resposta Dissertativa',
+    description:
+      '<p style="text-align: justify">Este questionário foi desenvolvido para ajudar a identificar possíveis sinais de Transtorno do Déficit de Atenção com Hiperatividade (TDAH). Ele contém perguntas sobre comportamentos do dia a dia, como a capacidade de concentração, organização e controle de impulsos. As respostas são simples e incluem opções que descrevem diferentes níveis de dificuldade. É importante responder com sinceridade, pensando em como você ou a criança normalmente se comporta. O questionário não substitui uma avaliação médica, mas pode fornecer uma visão inicial sobre questões que merecem atenção.</p>',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+      blobData: null
+    },
+    audio: null,
+    sociologicalData: [
+      {
+        id: 1,
+        name: 'Comportamento Padrão',
+        value: 50,
+        color: '#0D9394'
+      },
+      {
+        id: 2,
+        name: 'TDAH',
+        value: 77,
+        color: '#FFAB1D'
+      }
+    ],
+    questions: [
+      {
+        id: 1,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em manter o foco em uma única tarefa por um longo período de tempo, especialmente quando a tarefa é entediante ou repetitiva?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito eficiente em manter minha atenção, mesmo em tarefas que considero desinteressantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco o foco, mas consigo me concentrar novamente sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em focar, especialmente em tarefas repetitivas ou longas, e frequentemente começo a me distrair.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sinto grande dificuldade em manter o foco em tarefas longas e rapidamente me distraio com outras coisas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você começa várias tarefas ao mesmo tempo, mas tem dificuldades em terminá-las porque perde o interesse rapidamente?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo terminar todas as tarefas que começo, independentemente de quantas sejam.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes começo várias coisas, mas geralmente consigo terminar a maioria delas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, inicio várias atividades, mas perco o interesse e deixo muitas inacabadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre começo muitas tarefas ao mesmo tempo, mas tenho extrema dificuldade em finalizá-las, já que perco o interesse muito rápido.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está em situações que exigem concentração, como em uma reunião ou assistindo a uma aula, você se pega pensando em outras coisas ou se distraindo com o ambiente ao redor?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito focado(a) e raramente me distraio em reuniões ou aulas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes minha mente vagueia, mas consigo voltar a focar rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Minha mente frequentemente se distrai, e tenho dificuldade em prestar atenção em situações prolongadas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho muita dificuldade em manter a concentração, e acabo prestando mais atenção em coisas ao redor do que na reunião ou aula em si.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente uma necessidade constante de se mover, mesmo quando a situação exige que você permaneça parado(a), como em uma fila ou sentado(a) em uma sala de espera?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou capaz de permanecer parado(a) tranquilamente sem sentir a necessidade de me mover.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sinto uma leve inquietação, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em ficar parado(a) por muito tempo e sinto a necessidade de me mexer ou movimentar as pernas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Ficar parado(a) me deixa extremamente inquieto(a), e sinto que preciso constantemente me movimentar ou me levantar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Com que frequência você se sente sobrecarregado(a) ao tentar organizar suas tarefas, especialmente quando há várias coisas para fazer ao mesmo tempo?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente me sinto sobrecarregado(a) com várias tarefas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, me sinto um pouco sobrecarregado(a), mas consigo organizar tudo sem muitos problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Muitas vezes, sinto que tenho muita coisa para fazer ao mesmo tempo e tenho dificuldade em organizar minhas prioridades.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre me sinto sobrecarregado(a) ao tentar organizar várias tarefas, e geralmente acabo procrastinando ou deixando tarefas pela metade.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quando você está ouvindo alguém falar por um longo período, como em uma palestra ou reunião, você tem dificuldades em manter sua atenção e acaba se distraindo com pensamentos ou estímulos externos?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo manter minha atenção o tempo todo, mesmo em palestras ou reuniões longas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, minha atenção se desvia, mas consigo me focar de novo rapidamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldades em manter minha atenção e frequentemente perco partes importantes do que está sendo dito</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É extremamente difícil para mim manter o foco em palestras ou reuniões, e frequentemente me perco em pensamentos ou distrações.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você frequentemente age de maneira impulsiva, sem pensar nas consequências, como interromper os outros enquanto falam ou tomar decisões apressadas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sempre penso nas consequências antes de agir e raramente interrompo os outros.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, sou um pouco impulsivo(a), mas geralmente consigo me controlar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Ajo impulsivamente com frequência e acabo tomando decisões precipitadas ou interrompendo as pessoas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e raramente consigo pensar nas consequências antes de agir, o que frequentemente causa problemas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldade em lembrar de detalhes importantes ou cumprir prazos, mesmo que as tarefas não sejam difíceis?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo lembrar de tudo que é importante e sempre cumpro meus prazos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, esqueço um ou outro detalhe, mas geralmente cumpro meus prazos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em lembrar de coisas importantes e frequentemente perco prazos.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre esqueço detalhes importantes e frequentemente não consigo cumprir prazos, mesmo em tarefas simples.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você se distrai com atividades paralelas, como checar o celular ou conversar com alguém, enquanto está realizando uma tarefa importante?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Quando estou realizando uma tarefa importante, raramente me distraio com atividades paralelas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, dou uma olhada no celular ou converso, mas não me distraio por muito tempo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Me distraio frequentemente com outras atividades, o que atrapalha minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil me manter focado(a) em uma tarefa sem me distrair constantemente com outras atividades, como mexer no celular.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tem dificuldades em seguir instruções ou terminar tarefas que exigem uma sequência específica de etapas?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo seguir instruções e concluir tarefas com etapas específicas sem problemas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, tenho dificuldade em seguir as etapas corretamente, mas consigo terminar as tarefas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho dificuldade em seguir instruções e frequentemente perco o fio das etapas.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> É muito difícil para mim seguir uma sequência de etapas, e acabo me perdendo ou deixando tarefas inacabadas.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você sente que precisa realizar várias coisas ao mesmo tempo porque é difícil focar em apenas uma atividade?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Consigo focar em uma única atividade até terminá-la antes de passar para a próxima.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, faço várias coisas ao mesmo tempo, mas isso não atrapalha muito meu foco.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Tenho a necessidade de realizar várias tarefas ao mesmo tempo, mas isso frequentemente afeta minha produtividade.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sempre sinto que preciso estar fazendo várias coisas ao mesmo tempo, o que dificulta muito meu foco e conclusão das atividades.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você tende a procrastinar tarefas que exigem muito esforço mental ou organização, adiando-as para o último minuto?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo começar tarefas complexas imediatamente e as concluo no prazo.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, adio tarefas difíceis, mas não deixo para o último minuto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Procrastino tarefas exigentes e frequentemente as deixo para a última hora.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em começar tarefas que exigem muito esforço mental, e acabo sempre as adiando até o último minuto.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Com que frequência você perde coisas importantes, como chaves, carteira ou documentos, mesmo quando tenta ser organizado(a)?</p>',
+        options: [
+          {
+            title: '<p><strong>Nunca.</strong> Sou muito organizado(a) e raramente perco objetos importantes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, perco coisas, mas consigo encontrar sem grandes problemas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Perco coisas importantes com frequência, mesmo quando tento ser organizado(a).</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Estou sempre perdendo objetos importantes e isso acontece mesmo quando tento manter tudo organizado.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Você se sente facilmente frustrado(a) ou impaciente quando precisa esperar por algo, como em filas ou no trânsito?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Sou muito paciente e raramente me sinto frustrado(a) em situações de espera.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, fico um pouco impaciente, mas consigo me controlar bem.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Frequentemente.</strong> Fico frustrado(a) facilmente e me impaciento em filas ou no trânsito.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Tenho extrema dificuldade em esperar, e fico muito impaciente ou frustrado(a) em situações de espera.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Com que frequência você fala ou age sem pensar, e depois se arrepende das palavras ou ações?</p>',
+        options: [
+          {
+            title:
+              '<p><strong>Nunca.</strong> Costumo pensar bem antes de falar ou agir e raramente me arrependo depois.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Comportamento Padrão'
+            }
+          },
+          {
+            title:
+              '<p><strong>Raramente.</strong> Às vezes, falo ou ajo impulsivamente, mas geralmente não me arrependo.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify"><strong>Frequentemente.</strong> Falo ou ajo sem pensar, e muitas vezes me arrependo do que disse ou fiz.</p>',
+            isChecked: false,
+            weight: 3,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          },
+          {
+            title:
+              '<p><strong>Quase sempre.</strong> Sou extremamente impulsivo(a) e quase sempre me arrependo de minhas palavras ou ações depois de agir sem pensar.</p>',
+            isChecked: false,
+            weight: 5,
+            sociological: {
+              id: 2,
+              name: 'TDAH'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      }
+    ],
+    status: 'published',
+    owner: {
+      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      email: 'arthurpvilar@gmail.com'
+    }
+  }
+]

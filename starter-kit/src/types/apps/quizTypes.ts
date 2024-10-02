@@ -1,5 +1,5 @@
 import type { ThemeColor } from '@/@core/types'
-import type { UsersType } from './userTypes'
+import type { BackEndUsersType } from './userTypes'
 
 //export type Attempt = {
 //  userId: number;
@@ -18,7 +18,7 @@ export type Quiz = {
   audio: QuizAudioData | null // Imagem of the quiz
   sociologicalData: QuizSociologicalData[] // List of sociological data in the quiz
   questions: QuizQuestion[] // List of questions in the quiz
-  owner: UsersType // Quiz owner
+  owner: BackEndUsersType // Quiz owner
   status?: string // Status of the quiz
 }
 
@@ -61,7 +61,7 @@ export type QuizSociologicalData = {
   id: number // Unique identifier for sociological data
   name: string // Sociological category name
   value: number // value for the category
-  color: ThemeColor // Associated color for the category
+  color: ThemeColor | string // Associated color for the category
 }
 
 // Sociological metadata for quizzes
