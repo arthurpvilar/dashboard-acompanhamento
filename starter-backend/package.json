@@ -26,6 +26,7 @@
     "db:create": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs db:create -d src/config/database/database.providers.ts && npm run migration:run && npm run seed:run",
     "db:drop": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-extension/bin/cli.cjs db:drop -d src/config/database/database.providers.ts && npm run db:create",
     "typeorm": "typeorm-ts-node-commonjs"
+    
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",

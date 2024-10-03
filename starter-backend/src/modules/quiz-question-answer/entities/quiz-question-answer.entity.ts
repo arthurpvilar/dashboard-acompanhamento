@@ -11,7 +11,10 @@ export class QuizQuestionAnswer {
   @PrimaryGeneratedColumn()
   index: number;
 
-  @ApiProperty({ description: 'Tentativa associada' })
+  @ApiProperty({ 
+    description: 'Tentativa associada',
+    type: () => [QuizAttempt]
+  })
   @ManyToOne(() => QuizAttempt, (attempt) => attempt.answers)
   @JoinColumn({ name: 'attemptId' })
   attempt: QuizAttempt;

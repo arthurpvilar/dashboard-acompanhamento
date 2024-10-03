@@ -48,6 +48,11 @@ export class CreateQuizQuestionTable1727457089258
             name: 'quizId',
             type: 'int',
           },
+          {
+            name: 'parentQuestionId',
+            type: 'int',
+            isNullable: true,
+          },
         ],
       }),
       true,

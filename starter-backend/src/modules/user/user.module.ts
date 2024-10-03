@@ -10,10 +10,11 @@ import { QuizQuestionAnswer } from '../quiz-question-answer/entities/quiz-questi
 import { QuizQuestionOption } from '../quiz-question-option/entities/quiz-question-option.entity';
 import { QuizQuestion } from '../quiz-question/entities/quiz-question.entity';
 import { Quiz } from '../quiz/entities/quiz.entity';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([QuizAttempt, Quiz, QuizQuestionAnswer, QuizQuestion, QuizQuestionOption]),
+    TypeOrmModule.forFeature([User, QuizAttempt, Quiz, QuizQuestionAnswer, QuizQuestion, QuizQuestionOption]),
     UserModule, // Certifique-se de que o UserModule está importado
     ConfigModule,
     forwardRef(() => QuizAttemptModule), // Include QuizAttemptModule if necessary
