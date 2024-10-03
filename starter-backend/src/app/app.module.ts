@@ -9,6 +9,7 @@ import { QuizModule } from '@App/modules/quiz/quiz.module';
 import { UserModule } from '@App/modules/user/user.module';
 import { ConfigProvidersModule } from '@App/providers/environment/environment.module';
 import { DatabaseModule } from '@App/providers/database/database.module';
+import { QuizQuestionAnswerModule } from '@App/modules/quiz-question-answer/quiz-question-answer.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { DatabaseModule } from '@App/providers/database/database.module';
     QuizAttemptModule,
     QuizQuestionModule,
     QuizQuestionOptionModule,
+    QuizQuestionAnswerModule,
     QuizSociologicalDataModule,
   ],
   controllers: [],

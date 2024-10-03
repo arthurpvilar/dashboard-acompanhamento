@@ -1,3 +1,4 @@
+import { QuizQuestionAnswer } from '@App/modules/quiz-question-answer/entities/quiz-question-answer.entity';
 import { QuizAttempt } from '../../modules/quiz-attempt/entities/quiz-attempt.entity';
 import { QuizQuestionOption } from '../../modules/quiz-question-option/entities/quiz-question-option.entity';
 import { QuizQuestion } from '../../modules/quiz-question/entities/quiz-question.entity';
@@ -11,5 +12,6 @@ export const entities = [
   QuizAttempt,
   QuizQuestion,
   QuizQuestionOption,
+  QuizQuestionAnswer,
   QuizSociologicalData,
 ];

@@ -67,7 +67,7 @@ const QuizListTable = (props: Props) => {
     let newData =
       quizData?.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
-
+        console.log(quizItem.type, quiz)
         return quizItem.type === quiz && !hideCompleted
       }) ?? []
 
@@ -108,9 +108,7 @@ const QuizListTable = (props: Props) => {
                 labelId='quiz-select'
               >
                 <MenuItem value='Todos'>Todos</MenuItem>
-                <MenuItem value='Pergunta Dissertativa e Resposta Dissertativa'>
-                  Pergunta Dissertativa e Resposta Dissertativa
-                </MenuItem>
+                <MenuItem value='Pergunta e Resposta Dissertativa'>Pergunta e Resposta Dissertativa</MenuItem>
                 <MenuItem value='Pergunta Auditiva e Resposta Dissertativa'>
                   Pergunta Auditiva e Resposta Dissertativa
                 </MenuItem>
@@ -127,7 +125,18 @@ const QuizListTable = (props: Props) => {
         {data.length > 0 ? (
           <Grid container spacing={6}>
             {data.slice(activePage * 6, activePage * 6 + 6).map((item, index) => (
-              <Grid item xs={12} sm={6} md={4} key={index}>
+              <Grid
+                item
+                xs={12}
+                sm={6}
+                md={4}
+                key={index}
+                style={{
+                  minHeight: '505px',
+                  height: '505px',
+                  overflow: 'hidden'
+                }}
+              >
                 <div className='border rounded bs-full'>
                   <div className='pli-2 pbs-2'>
                     <Link href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)} className='flex'>

@@ -111,20 +111,4 @@ export class QuizController {
   ) {
     return this.quizService.updateQuizOwner(quizId, updateQuizOwnerDto);
   }
-
-  @Post(':id/attempt')
-  async recordAttempt(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() attemptDto: RecordAttemptDto,
-  ) {
-    if (!attemptDto.userId && !attemptDto.email) {
-      throw new BadRequestException('Either userId or email must be provided');
-    }
-    return this.quizService.recordAttempt(
-      attemptDto.userId || null,
-      attemptDto.email || null,
-      id,
-      attemptDto.answers,
-    );
-  }
 }

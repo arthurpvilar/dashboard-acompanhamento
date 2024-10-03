@@ -6,42 +6,47 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { QuizAttemptService } from './quiz-attempt.service';
-import { CreateQuizAttemptDto } from './dto/create-quiz-attempt.dto';
+import { RecordAttemptDto } from './dto/record-attempt.dto';
 import {
   ApiTags,
   ApiResponse,
   ApiOperation,
-  ApiBody,
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { QuizAttempt } from './entities/quiz-attempt.entity';
 
-@ApiTags('quiz-attempts')
+@ApiTags('Quiz Attempts')
 @Controller('quiz-attempts')
 export class QuizAttemptController {
   constructor(private readonly quizAttemptService: QuizAttemptService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Create a new quiz attempt' })
+  @Post('record')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @ApiOperation({ summary: 'Registrar uma tentativa de quiz' })
   @ApiResponse({
     status: 201,
-    description: 'The quiz attempt has been successfully created.',
+    description: 'A tentativa de quiz foi registrada com sucesso.',
+    type: QuizAttempt,
   })
-  @ApiResponse({ status: 400, description: 'Bad Request.' })
-  @ApiBody({ type: CreateQuizAttemptDto })
-  async create(@Body() createQuizAttemptDto: CreateQuizAttemptDto) {
-    return this.quizAttemptService.createAttempt(createQuizAttemptDto);
+  @ApiResponse({ status: 400, description: 'Requisição inválida.' })
+  async recordAttempt(@Body() recordAttemptDto: RecordAttemptDto): Promise<QuizAttempt> {
+    const { userId, email, quizId, answers } = recordAttemptDto;
+    return await this.quizAttemptService.recordAttempt(userId, email, quizId, answers);
   }
 
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ summary: 'Get all quiz attempts' })
+  @ApiOperation({ summary: 'Obter todas as tentativas de quiz' })
   @ApiResponse({
     status: 200,
-    description: 'Quiz attempts retrieved successfully.',
+    description: 'Tentativas de quiz recuperadas com sucesso.',
+    type: [QuizAttempt],
   })
   findAll() {
     return this.quizAttemptService.findAll();
@@ -50,12 +55,13 @@ export class QuizAttemptController {
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ summary: 'Get a quiz attempt by ID' })
+  @ApiOperation({ summary: 'Obter uma tentativa de quiz pelo ID' })
   @ApiResponse({
     status: 200,
-    description: 'Quiz attempt retrieved successfully.',
+    description: 'Tentativa de quiz recuperada com sucesso.',
+    type: QuizAttempt,
   })
-  @ApiResponse({ status: 404, description: 'QuizAttempt not found.' })
+  @ApiResponse({ status: 404, description: 'Tentativa de quiz não encontrada.' })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.quizAttemptService.findOne(id);
   }

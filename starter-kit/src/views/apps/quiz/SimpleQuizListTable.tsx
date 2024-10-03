@@ -134,7 +134,6 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
                 {row.original.title}
               </Typography>
               <div className='flex items-center gap-2'>
-                //
                 <CustomAvatar src={'https://www.senaisolucoes.com.br/xp_images/TDAH.png'} size={22} />
                 <Typography variant='body2'>{row.original.owner?.fullName}</Typography>
               </div>
@@ -222,7 +221,7 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
   return (
     <Card>
       <CardHeader
-        title='Quizzes cadastrados no sistema'
+        title='Questionários cadastrados no sistema'
         action={
           <DebouncedInput
             value={globalFilter ?? ''}

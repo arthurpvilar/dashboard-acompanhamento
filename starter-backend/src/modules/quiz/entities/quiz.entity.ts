@@ -29,10 +29,10 @@ export class Quiz {
   @Column()
   type: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   category: string;
 
   @Column({ type: 'jsonb', nullable: true })

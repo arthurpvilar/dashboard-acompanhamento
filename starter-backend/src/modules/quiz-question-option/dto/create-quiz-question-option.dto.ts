@@ -12,32 +12,50 @@ import { QuizSociologicalOptionData } from '@App/modules/shared/types/quiz-socia
 import { Type } from 'class-transformer';
 
 export class CreateQuizQuestionOptionDto {
-  @ApiProperty({ description: 'Title of the option' })
+  @ApiProperty({
+    description: 'Título da opção',
+    example: 'Opção A',
+  })
   @IsString()
   title: string;
 
-  @ApiProperty({ description: 'Whether the option is checked by default' })
+  @ApiProperty({
+    description: 'Indica se a opção está marcada por padrão',
+    default: false,
+  })
   @IsBoolean()
   isChecked: boolean;
 
-  @ApiPropertyOptional({ description: 'Weight of the option in scoring' })
+  @ApiPropertyOptional({
+    description: 'Peso da opção na pontuação',
+    example: 10,
+  })
   @IsOptional()
   @IsNumber()
   weight?: number;
 
-  @ApiPropertyOptional({
-    description: 'Sociological data with id and name for the option',
+  @ApiProperty({
+    description: 'ID dos dados sociológicos associados',
+    example: 5,
   })
-  @ValidateNested({ each: true })
-  @Type(() => QuizSociologicalOptionData)
-  sociological?: QuizSociologicalOptionData;
-
-  @ApiProperty({ description: 'ID of the sociological data' })
   @IsInt()
   sociologicalId: number;
 
-  @ApiPropertyOptional({ description: 'Image URL for the option' })
+  @ApiPropertyOptional({
+    description: 'Dados sociológicos associados à opção',
+    type: () => QuizSociologicalOptionData,
+  })
   @ValidateNested()
+  @Type(() => QuizSociologicalOptionData)
+  @IsOptional()
+  sociological?: QuizSociologicalOptionData;
+
+  @ApiPropertyOptional({
+    description: 'Dados da imagem para a opção',
+    type: () => QuizImageData,
+  })
+  @ValidateNested()
+  @Type(() => QuizImageData)
   @IsOptional()
   image?: QuizImageData;
 }

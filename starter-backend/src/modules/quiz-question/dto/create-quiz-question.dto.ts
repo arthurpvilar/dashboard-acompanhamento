@@ -9,37 +9,54 @@ import {
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateQuizQuestionOptionDto } from '@App/modules/quiz-question-option/dto/create-quiz-question-option.dto';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
 import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
 
 export class CreateQuizQuestionDto {
-  @ApiProperty({ description: 'Type of the question' })
+  @ApiProperty({
+    description: 'Tipo da pergunta (ex: múltipla escolha, verdadeiro/falso)',
+    example: 'multiple-choice',
+  })
   @IsString()
   type: string;
 
-  @ApiPropertyOptional({ description: 'Question text' })
+  @ApiPropertyOptional({
+    description: 'Texto da pergunta',
+    example: 'Qual é a capital da França?',
+  })
   @IsOptional()
   @IsString()
   question?: string;
 
-  @ApiPropertyOptional({ description: 'Answer to the question' })
+  @ApiPropertyOptional({
+    description: 'Resposta correta da pergunta',
+    example: 'Paris',
+  })
   @IsOptional()
   @IsString()
   answer?: string;
 
-  @ApiPropertyOptional({ description: 'Image URL for the question' })
+  @ApiPropertyOptional({
+    description: 'Dados da imagem associados à pergunta',
+    type: () => QuizImageData,
+  })
   @ValidateNested()
+  @Type(() => QuizImageData)
   @IsOptional()
   image?: QuizImageData;
 
-  @ApiPropertyOptional({ description: 'Audio URL for the question' })
+  @ApiPropertyOptional({
+    description: 'Dados de áudio associados à pergunta',
+    type: () => QuizAudioData,
+  })
   @ValidateNested()
+  @Type(() => QuizAudioData)
   @IsOptional()
   audio?: QuizAudioData;
 
   @ApiPropertyOptional({
+    description: 'Opções disponíveis para a pergunta',
     type: [CreateQuizQuestionOptionDto],
-    description: 'Options for the question',
   })
   @IsOptional()
   @IsArray()
@@ -48,8 +65,8 @@ export class CreateQuizQuestionDto {
   options?: CreateQuizQuestionOptionDto[];
 
   @ApiPropertyOptional({
+    description: 'Sub-perguntas relacionadas a esta pergunta',
     type: [CreateQuizQuestionDto],
-    description: 'Sub-questions',
   })
   @IsOptional()
   @IsArray()
@@ -57,12 +74,18 @@ export class CreateQuizQuestionDto {
   @Type(() => CreateQuizQuestionDto)
   subQuestions?: CreateQuizQuestionDto[];
 
-  @ApiPropertyOptional({ description: 'Parent question ID' })
+  @ApiPropertyOptional({
+    description: 'ID da pergunta pai, se esta for uma sub-pergunta',
+    example: 1,
+  })
   @IsOptional()
   @IsNumber()
   parentQuestionId?: number;
 
-  @ApiPropertyOptional({ description: 'Quiz ID' })
+  @ApiPropertyOptional({
+    description: 'ID do quiz ao qual esta pergunta pertence',
+    example: 5,
+  })
   @IsOptional()
   @IsNumber()
   quizId?: number;

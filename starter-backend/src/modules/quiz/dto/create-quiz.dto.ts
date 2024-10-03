@@ -51,7 +51,7 @@ export class CreateQuizDto {
   questions: CreateQuizQuestionDto[];
 
   @IsString()
-  ownerId: string;
+  userId: string;
 
   @IsOptional()
   @IsIn(['draft', 'published', 'archived'])

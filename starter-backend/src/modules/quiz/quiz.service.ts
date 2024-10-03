@@ -34,8 +34,17 @@ export class QuizService {
     const existingQuiz = await this.quizRepository.findOne({
       where: { identifier: createQuizDto.identifier },
     });
+
     if (existingQuiz) {
       throw new ConflictException('Quiz identifier already exists');
+    }
+
+    let user: User;
+    if (createQuizDto.userId) {
+      user = await this.userRepository.findOne({ where: { index: createQuizDto.userId } });
+      if (!user) {
+        throw new NotFoundException(`Usuário com ID ${createQuizDto.userId} não encontrado.`);
+      }
     }
 
     // Handle sociological data
@@ -95,6 +104,7 @@ export class QuizService {
 
     // Create and save the new quiz, associando os dados sociológicos
     const quiz = this.quizRepository.create({
+      owner: user,
       ...quizData,
       sociologicalData,
       questions: processedQuestions,
@@ -246,56 +256,6 @@ export class QuizService {
     });
   }
 
-  async recordAttempt(
-    userId: string | null,
-    email: string | null,
-    quizId: number,
-    answers: any,
-  ): Promise<QuizAttempt> {
-    let user: User | null = null;
-    if (userId) {
-      user = await this.userRepository.findOne({ where: { index: userId } });
-    }
-
-    if (!user && !email) {
-      throw new BadRequestException('Either userId or email must be provided');
-    }
-
-    const quiz = await this.quizRepository.findOne({
-      where: { index: quizId },
-      relations: ['questions', 'questions.options'],
-    });
-
-    if (!quiz) {
-      throw new NotFoundException(`Quiz with ID ${quizId} not found`);
-    }
-
-    const score = this.calculateScore(quiz, answers);
-
-    const attempt = this.quizAttemptRepository.create({
-      user,
-      email,
-      quiz,
-      answers,
-      score,
-    });
-
-    return this.quizAttemptRepository.save(attempt);
-  }
-
-  private calculateScore(quiz: Quiz, answers: any): number {
-    let score = 0;
-
-    for (const question of quiz.questions) {
-      const userAnswer = answers[question.index];
-      if (question.answer && question.answer === userAnswer) {
-        score += 1; // Assign points as needed
-      }
-    }
-
-    return score;
-  }
-
   async findLatestQuiz(): Promise<Quiz> {
     const quiz = await this.quizRepository
       .createQueryBuilder('quiz')
@@ -310,8 +270,7 @@ export class QuizService {
     if (!quiz) {
       throw new NotFoundException('No quizzes found');
     }
-    //console.log(plainToClass(DetailedQuizResponseDto, quiz));
-    //return plainToClass(DetailedQuizResponseDto, quiz);
+
     return quiz;
   }
 }
