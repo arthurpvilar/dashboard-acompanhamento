@@ -61,9 +61,9 @@ export class Quiz {
   })
   sociologicalData: QuizSociologicalData[];
 
-  @OneToMany(() => QuizQuestion, (question) => question.quiz, { 
-    cascade: true
-   })
+  @OneToMany(() => QuizQuestion, (question) => question.quiz, {
+    cascade: true,
+  })
   questions: QuizQuestion[];
 
   @ManyToOne(() => User, (user) => user.quizzes)

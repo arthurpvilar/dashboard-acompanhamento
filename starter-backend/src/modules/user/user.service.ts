@@ -26,7 +26,7 @@ export class UserService {
 
   async findOne(id: string): Promise<User | undefined> {
     return this.userRepository.findOne({
-      where: { id },
+      where: { index: id },
     });
   }
 
@@ -61,7 +61,7 @@ export class UserService {
     updateUserDto: Partial<CreateUserDto>,
   ): Promise<User> {
     const user = await this.userRepository.findOne({
-      where: { id },
+      where: { index: id },
     });
 
     if (!user) {

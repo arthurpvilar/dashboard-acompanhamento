@@ -12,11 +12,8 @@ import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { Quiz } from './entities/quiz.entity';
 import { QuizSociologicalData } from '../quiz-sociological-data/entities/quiz-sociological-data.entity';
 import { CreateQuizSociologicalDataDto } from '../quiz-sociological-data/dto/create-quiz-sociological-data.dto';
-import { CreateQuizQuestionDto } from '../quiz-question/dto/create-quiz-question.dto';
 import { ConflictException } from '@nestjs/common';
 import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
-import { DetailedQuizResponseDto } from './dto/detailed-quiz.dto';
-import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class QuizService {
@@ -32,73 +29,79 @@ export class QuizService {
   ) {}
 
   // Criação do quiz, com verificação de usuário e dados sociológicos
-async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
-  // Handle identifier uniqueness
-  const existingQuiz = await this.quizRepository.findOne({
-    where: { identifier: createQuizDto.identifier },
-  });
-  if (existingQuiz) {
-    throw new ConflictException('Quiz identifier already exists');
+  async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
+    // Handle identifier uniqueness
+    const existingQuiz = await this.quizRepository.findOne({
+      where: { identifier: createQuizDto.identifier },
+    });
+    if (existingQuiz) {
+      throw new ConflictException('Quiz identifier already exists');
+    }
+
+    // Handle sociological data
+    const {
+      sociologicalData: sociologicalDataDto,
+      questions,
+      ...quizData
+    } = createQuizDto;
+    const sociologicalMap: Record<string, QuizSociologicalData> = {};
+
+    // Handle sociological data
+    const sociologicalData = await Promise.all(
+      sociologicalDataDto.map(async (data: CreateQuizSociologicalDataDto) => {
+        // Check if sociological data with the same name already exists
+        let existingData = await this.sociologicalDataRepository.findOne({
+          where: { name: data.name },
+        });
+
+        // If it doesn't exist, create a new entry
+        if (!existingData) {
+          existingData = this.sociologicalDataRepository.create(data);
+          await this.sociologicalDataRepository.save(existingData);
+        }
+
+        sociologicalMap[existingData.name] = existingData; // Usa o índice como chave
+        return existingData; // Retorna o dado sociológico existente ou criado
+      }),
+    );
+
+    // Handle each question and its options
+    const processedQuestions = await Promise.all(
+      questions.map(async (question) => {
+        const processedOptions = await Promise.all(
+          question.options.map(async (option) => {
+            const sociologicalData = sociologicalMap[option.sociological.name];
+            option.sociologicalId = sociologicalData.index;
+
+            if (!option.sociologicalId) {
+              throw new Error(
+                `Sociological data not found for ID: ${option.sociologicalId}`,
+              );
+            }
+
+            return {
+              ...option,
+              sociologicalData, // Certifique-se de que está passando o objeto completo aqui
+            };
+          }),
+        );
+
+        return {
+          ...question,
+          options: processedOptions,
+        };
+      }),
+    );
+
+    // Create and save the new quiz, associando os dados sociológicos
+    const quiz = this.quizRepository.create({
+      ...quizData,
+      sociologicalData,
+      questions: processedQuestions,
+    });
+
+    return this.quizRepository.save(quiz);
   }
-  
-  // Handle sociological data
-  const { sociologicalData: sociologicalDataDto, questions, ...quizData } = createQuizDto;
-  const sociologicalMap: Record<string, QuizSociologicalData> = {};
-
-  // Handle sociological data
-  const sociologicalData = await Promise.all(
-    sociologicalDataDto.map(async (data: CreateQuizSociologicalDataDto) => {
-      // Check if sociological data with the same name already exists
-      let existingData = await this.sociologicalDataRepository.findOne({
-        where: { name: data.name },
-      });
-
-      // If it doesn't exist, create a new entry
-      if (!existingData) {
-        existingData = this.sociologicalDataRepository.create(data);
-        await this.sociologicalDataRepository.save(existingData);
-      }
-
-      sociologicalMap[existingData.name] = existingData; // Usa o índice como chave
-      return existingData; // Retorna o dado sociológico existente ou criado
-    })
-  );
-
-  // Handle each question and its options
-  const processedQuestions = await Promise.all(
-    questions.map(async (question) => {
-      const processedOptions = await Promise.all(
-        question.options.map(async (option) => {
-          const sociologicalData = sociologicalMap[option.sociological.name];
-          option.sociologicalId = sociologicalData.index;
-    
-          if (!option.sociologicalId) {
-            throw new Error(`Sociological data not found for ID: ${option.sociologicalId}`);
-          }
-          
-          return {
-            ...option,
-            sociologicalData, // Certifique-se de que está passando o objeto completo aqui
-          };
-        })
-      );
-
-      return {
-        ...question,
-        options: processedOptions,
-      };
-    })
-  );
-
-  // Create and save the new quiz, associando os dados sociológicos
-  const quiz = this.quizRepository.create({
-    ...quizData,
-    sociologicalData,
-    questions: processedQuestions,
-  });
-
-  return this.quizRepository.save(quiz);
-}
 
   async updateQuizOwner(
     quizId: number,
@@ -115,7 +118,7 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
 
     // Verifica se o novo proprietário existe
     const owner = await this.userRepository.findOne({
-      where: { id: updateQuizOwnerDto.ownerId },
+      where: { index: updateQuizOwnerDto.ownerId },
     });
 
     if (!owner) {
@@ -175,7 +178,11 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
     const findOptions: FindManyOptions<Quiz> = {
       skip: (page - 1) * limit,
       take: limit,
-      relations: ['questions', 'questions.options', 'sociologicalData'/*, 'owner'*/],
+      relations: [
+        'questions',
+        'questions.options',
+        'sociologicalData' /*, 'owner'*/,
+      ],
       where: {},
     };
 
@@ -234,7 +241,7 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
 
   async findByOwner(ownerId: string): Promise<Quiz[]> {
     return this.quizRepository.find({
-      where: { owner: { id: ownerId } },
+      where: { owner: { index: ownerId } },
       relations: ['questions', 'sociologicalData'],
     });
   }
@@ -247,7 +254,7 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
   ): Promise<QuizAttempt> {
     let user: User | null = null;
     if (userId) {
-      user = await this.userRepository.findOne({ where: { id: userId } });
+      user = await this.userRepository.findOne({ where: { index: userId } });
     }
 
     if (!user && !email) {
@@ -299,7 +306,7 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
       .orderBy('quiz.createdAt', 'DESC')
       .take(1)
       .getOne();
-  
+
     if (!quiz) {
       throw new NotFoundException('No quizzes found');
     }
@@ -307,5 +314,4 @@ async create(createQuizDto: CreateQuizDto): Promise<Quiz> {
     //return plainToClass(DetailedQuizResponseDto, quiz);
     return quiz;
   }
-  
 }

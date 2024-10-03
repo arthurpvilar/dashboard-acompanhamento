@@ -18,7 +18,7 @@ export class QuizAttemptService {
   constructor(
     @InjectRepository(QuizAttempt)
     private quizAttemptRepository: Repository<QuizAttempt>,
-    private readonly userService: UserService, // Correctly inject UserService
+    private readonly userService: UserService,
     private readonly quizService: QuizService,
   ) {}
 

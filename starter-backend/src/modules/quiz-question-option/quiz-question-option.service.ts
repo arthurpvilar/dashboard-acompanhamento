@@ -58,7 +58,7 @@ export class QuizQuestionOptionService {
     if (!option) {
       throw new NotFoundException(`QuizQuestionOption with ID ${id} not found`);
     }
-    
+
     if (updateDto.sociologicalId) {
       const sociologicalData = await this.sociologicalDataRepository.findOne({
         where: { index: updateDto.sociologicalId },

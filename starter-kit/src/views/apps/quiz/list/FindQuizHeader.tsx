@@ -25,8 +25,8 @@ import type { Quiz } from '@/types/apps/quizTypes'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 type Props = {
-  mode: Mode
   quizData: Quiz[]
+  mode: Mode
 }
 
 const FindQuizHeader = (props: Props) => {

@@ -76,14 +76,20 @@ export class QuizQuestionService {
 
   async findAll(): Promise<QuizQuestion[]> {
     return this.quizQuestionRepository.find({
-      relations: ['options'/*, 'subQuestions'*/, 'quiz'/*, 'parentQuestion'*/],
+      relations: [
+        'options' /*, 'subQuestions'*/,
+        'quiz' /*, 'parentQuestion'*/,
+      ],
     });
   }
 
   async findOne(id: number): Promise<QuizQuestion> {
     const quizQuestion = await this.quizQuestionRepository.findOne({
       where: { index: id },
-      relations: ['options'/*, 'subQuestions'*/, 'quiz'/*, 'parentQuestion'*/],
+      relations: [
+        'options' /*, 'subQuestions'*/,
+        'quiz' /*, 'parentQuestion'*/,
+      ],
     });
     if (!quizQuestion) {
       throw new NotFoundException(`QuizQuestion with ID ${id} not found`);
@@ -107,7 +113,9 @@ export class QuizQuestionService {
     }
 
     if (options) {
-      await this.quizQuestionOptionRepository.delete({ question: { index: id } });
+      await this.quizQuestionOptionRepository.delete({
+        question: { index: id },
+      });
       const updatedOptions = options.map((optionDto) =>
         this.quizQuestionOptionRepository.create({
           ...optionDto,

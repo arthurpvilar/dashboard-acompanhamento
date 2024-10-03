@@ -6,8 +6,8 @@ import { getServerMode } from '@core/utils/serverHelpers'
 
 // Component Imports
 import { getQuizData } from '@/app/server/actions'
-import FindQuizHeader from '@/views/apps/quiz/FindQuizHeader'
 import QuizListTable from '@/views/apps/quiz/QuizListTable'
+import FindQuizHeader from '@/views/apps/quiz/list/FindQuizHeader'
 
 const QuizPage = async () => {
   // Vars
