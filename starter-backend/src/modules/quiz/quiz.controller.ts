@@ -30,10 +30,32 @@ export class QuizController {
   }
 
   @Get()
-  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number', example: 1 })
-  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page', example: 10 })
-  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search term' })
-  @ApiQuery({ name: 'status', required: false, enum: ['draft', 'published', 'archived'], description: 'Quiz status filter' })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page number',
+    example: 1,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Items per page',
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'search',
+    required: false,
+    type: String,
+    description: 'Search term',
+  })
+  @ApiQuery({
+    name: 'status',
+    required: false,
+    enum: ['draft', 'published', 'archived'],
+    description: 'Quiz status filter',
+  })
   findAll(
     @Query('page') page: string = '1',
     @Query('limit') limit: string = '10',
@@ -42,7 +64,7 @@ export class QuizController {
   ) {
     const parsedPage = Number(page);
     const parsedLimit = Number(limit);
-    
+
     return this.quizService.findAll({
       page: isNaN(parsedPage) ? 1 : parsedPage,
       limit: isNaN(parsedLimit) ? 10 : parsedLimit,

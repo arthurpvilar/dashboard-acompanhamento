@@ -11,7 +11,7 @@ const QuizDetailsPage = async (context: GetServerSidePropsContext) => {
   const { id } = context.params!
 
   // Vars
-  const data: Quiz = (await getQuizData()).quizzes.find((quiz: Quiz) => quiz.id === parseInt(id as string))!
+  const data: Quiz = (await getQuizData()).find((quiz: Quiz) => quiz.id === parseInt(id as string))!
 
   return (
     <Grid container spacing={6}>

@@ -11,11 +11,11 @@ import type { Mode } from '@core/types'
 
 // Component Imports
 import type { Quiz } from '@/types/apps/quizTypes'
-import ColoredCards from '../../academy/my-courses/ColoredCards'
-import Courses from '../../academy/my-courses/Courses'
-import FreeCourses from '../../academy/my-courses/FreeCourses'
-import FindQuizHeader from './FindQuizHeader'
-import QuizListTable from '../QuizListTable'
+
+//import ColoredCards from '../../academy/my-courses/ColoredCards'
+//import FreeCourses from '../../academy/my-courses/FreeCourses'
+import QuizListTable from './QuizListTable'
+import SearchQuizHeader from './SearchQuizHeader'
 
 type Props = {
   quizData: Quiz[]
@@ -29,16 +29,10 @@ const ServerQuizListPage = ({ quizData, mode }: Props) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <FindQuizHeader mode={mode} quizData={quizData} />
+        <SearchQuizHeader mode={mode} searchValue={searchValue} setSearchValue={setSearchValue} />
       </Grid>
       <Grid item xs={12}>
         <QuizListTable quizData={quizData} searchValue={searchValue} />
-      </Grid>
-      <Grid item xs={12}>
-        <ColoredCards />
-      </Grid>
-      <Grid item xs={12}>
-        <FreeCourses />
       </Grid>
     </Grid>
   )

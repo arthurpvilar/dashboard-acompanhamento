@@ -103,7 +103,7 @@ const DebouncedInput = ({
 // Column Definitions
 const columnHelper = createColumnHelper<QuizWithProgress>()
 
-const QuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
+const QuizListTableOld = ({ quizData }: { quizData?: Quiz[] }) => {
   const [data] = useState(...[quizData])
   const [filteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
@@ -337,4 +337,4 @@ const QuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
   )
 }
 
-export default QuizListTable
+export default QuizListTableOld

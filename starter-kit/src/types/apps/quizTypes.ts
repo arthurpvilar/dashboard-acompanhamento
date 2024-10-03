@@ -14,6 +14,7 @@ export type Quiz = {
   identifier: string // Identifier of the quiz
   type: string // Type of the quiz
   description: string // Description of the quiz
+  category: string // Categoria of the quiz
   image: QuizImageData | null // Imagem of the quiz
   audio: QuizAudioData | null // Imagem of the quiz
   sociologicalData: QuizSociologicalData[] // List of sociological data in the quiz

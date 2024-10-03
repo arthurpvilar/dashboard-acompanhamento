@@ -2,6 +2,7 @@
 
 // Next Imports
 import { useEffect, useState } from 'react'
+
 import dynamic from 'next/dynamic'
 
 // MUI Imports
@@ -10,11 +11,16 @@ import { useTheme } from '@mui/material/styles'
 
 // Third-party Imports
 import type { ApexOptions } from 'apexcharts'
-import { Quiz, QuizSociologicalData } from '@/types/apps/quizTypes'
-import CustomAvatar from '@/@core/components/mui/Avatar'
+
 import { Card, CardMedia, CardContent, Divider, CardHeader, Grid, Box, Button } from '@mui/material'
-import OptionMenu from '@/@core/components/option-menu'
+
 import classnames from 'classnames'
+
+import type { Quiz } from '@/types/apps/quizTypes'
+import { QuizSociologicalData } from '@/types/apps/quizTypes'
+import CustomAvatar from '@/@core/components/mui/Avatar'
+
+import OptionMenu from '@/@core/components/option-menu'
 
 // Styles Imports
 import styles from './styles.module.css'
