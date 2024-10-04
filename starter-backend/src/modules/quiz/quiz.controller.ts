@@ -9,15 +9,14 @@ import {
   Delete,
   Query,
   ParseIntPipe,
-  BadRequestException,
   Patch,
 } from '@nestjs/common';
-import { RecordAttemptDto } from '../quiz-attempt/dto/record-attempt.dto';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { UpdateQuizDto } from './dto/update-quiz.dto';
 import { QuizService } from './quiz.service';
 import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { QuizDetailsDto } from './dto/quiz-details.dto';
 
 @ApiTags('quizzes')
 @Controller('quizzes')
@@ -84,6 +83,11 @@ export class QuizController {
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.quizService.findOne(id);
+  }
+
+  @Get(':id/details')
+  async getQuizDetails(@Param('id') id: number): Promise<QuizDetailsDto> {
+    return await this.quizService.calculateQuizStatistics(id);
   }
 
   @Put(':id')

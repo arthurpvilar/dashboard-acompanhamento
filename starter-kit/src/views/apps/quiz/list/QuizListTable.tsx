@@ -68,6 +68,7 @@ const QuizListTable = (props: Props) => {
       quizData?.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
         console.log(quizItem.type, quiz)
+
         return quizItem.type === quiz && !hideCompleted
       }) ?? []
 
@@ -89,10 +90,6 @@ const QuizListTable = (props: Props) => {
     <Card>
       <CardContent className='flex flex-col gap-6'>
         <div className='flex flex-wrap items-center justify-between gap-4'>
-          <div>
-            <Typography variant='h5'>Questionários Cadastrados</Typography>
-            <Typography>Gerenciando {quizData?.length} itens</Typography>
-          </div>
           <div className='flex flex-wrap items-center gap-y-4 gap-x-6'>
             <FormControl fullWidth size='small' className='is-[250px] flex-auto'>
               <InputLabel id='quiz-select'>Tipo do Questionário</InputLabel>
@@ -120,6 +117,17 @@ const QuizListTable = (props: Props) => {
                 label='Esconder arquivados'
               />
             )}
+          </div>
+          <div>
+            <Button
+              variant='contained'
+              component={Link}
+              startIcon={<i className='ri-add-line' />}
+              href={getLocalizedUrl(`/quiz/create`, locale as Locale)}
+              className='is-full sm:is-auto'
+            >
+              Criar novo Questionário
+            </Button>
           </div>
         </div>
         {data.length > 0 ? (

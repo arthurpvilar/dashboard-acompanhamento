@@ -1,10 +1,8 @@
-import { CreateQuizQuestionOptionDto } from "@App/modules/quiz-question-option/dto/create-quiz-question-option.dto";
-import { QuizSociologicalData } from "@App/modules/quiz-sociological-data/entities/quiz-sociological-data.entity";
-import { QuizAudioData } from "@App/modules/shared/types/quiz-audio-data.interface";
-import { QuizImageData } from "@App/modules/shared/types/quiz-image-data.interface";
-import { QuizSociologicalOptionData } from "@App/modules/shared/types/quiz-social-option-data";
-import { User } from "@App/modules/user/entities/user.entity";
-import { Type } from "class-transformer";
+import { QuizSociologicalData } from '@App/modules/quiz-sociological-data/entities/quiz-sociological-data.entity';
+import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizSociologicalOptionData } from '@App/modules/shared/types/quiz-social-option-data';
+import { User } from '@App/modules/user/entities/user.entity';
 
 // Main Quiz Response DTO
 export class DetailedQuizResponseDto {

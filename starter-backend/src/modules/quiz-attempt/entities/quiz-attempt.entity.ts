@@ -49,7 +49,9 @@ export class QuizAttempt {
     description: 'Respostas fornecidas na tentativa',
     type: () => [QuizQuestionAnswer],
   })
-  @OneToMany(() => QuizQuestionAnswer, (answer) => answer.attempt, { cascade: true })
+  @OneToMany(() => QuizQuestionAnswer, (answer) => answer.attempt, {
+    cascade: true,
+  })
   answers: QuizQuestionAnswer[];
 
   @ApiProperty({

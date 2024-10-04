@@ -11,6 +11,7 @@ import { QuizController } from './quiz.controller';
 import { QuizService } from './quiz.service';
 import { QuizQuestionOptionModule } from '../quiz-question-option/quiz-question-option.module';
 import { QuizQuestionModule } from '../quiz-question/quiz-question.module';
+import { QuizQuestionAnswer } from '../quiz-question-answer/entities/quiz-question-answer.entity';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { QuizQuestionModule } from '../quiz-question/quiz-question.module';
       QuizQuestion,
       QuizQuestionOption,
       QuizSociologicalData,
+      QuizQuestionAnswer,
       QuizAttempt,
       User,
     ]),

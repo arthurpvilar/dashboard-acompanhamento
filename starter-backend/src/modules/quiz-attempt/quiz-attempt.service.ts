@@ -1,6 +1,10 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';  // Importação do Repository
+import { Repository } from 'typeorm';
 import { QuizAttempt } from './entities/quiz-attempt.entity';
 import { User } from '../user/entities/user.entity';
 import { Quiz } from '../quiz/entities/quiz.entity';
@@ -36,64 +40,65 @@ export class QuizAttemptService {
     userId: string | null,
     email: string | null,
     quizId: number,
-    answers: AnswerDto[], // Array de objetos contendo questionId, optionId, etc.
+    answers: AnswerDto[],
   ): Promise<QuizAttempt> {
-    if (!userId && !email) {
-      throw new BadRequestException('É necessário fornecer um userId ou email.');
-    }
-
     // Buscar ou criar a tentativa
     const attempt = await this.findOrCreateAttempt(quizId, userId, email);
+
+    // Buscar todas as perguntas e opções do quiz
+    const questions = await this.quizQuestionRepository.find({
+      where: { quiz: { index: quizId } },
+      relations: ['options'],
+    });
+
+    const questionMap = new Map<number, QuizQuestion>();
+    const optionMap = new Map<number, QuizQuestionOption>();
+
+    for (const question of questions) {
+      questionMap.set(question.index, question);
+      for (const option of question.options) {
+        optionMap.set(option.index, option);
+      }
+    }
 
     // Processar cada resposta
     for (const answerData of answers) {
       const { questionId, optionId, startedAt, completedAt } = answerData;
 
-      // Verificar se a pergunta existe
-      const question = await this.quizQuestionRepository.findOne({ where: { index: questionId } });
+      // Obter a pergunta do mapa
+      const question = questionMap.get(questionId);
       if (!question) {
-        throw new NotFoundException(`Pergunta com ID ${questionId} não encontrada.`);
+        throw new NotFoundException(
+          `Pergunta com ID ${questionId} não encontrada.`,
+        );
       }
 
-      // Verificar se a opção existe, se fornecida
+      // Obter a opção do mapa, se fornecida
       let option: QuizQuestionOption = null;
       if (optionId) {
-        option = await this.quizQuestionOptionRepository.findOne({ where: { index: optionId } });
+        option = optionMap.get(optionId);
         if (!option) {
-          throw new NotFoundException(`Opção com ID ${optionId} não encontrada.`);
+          throw new NotFoundException(
+            `Opção com ID ${optionId} não encontrada.`,
+          );
         }
       }
 
-      // Verificar se já existe uma resposta para essa pergunta nessa tentativa
-      let quizQuestionAnswer = await this.quizQuestionAnswerRepository.findOne({
-        where: {
-          attempt: { index: attempt.index },
-          question: { index: questionId },
-        },
+      // Criar ou atualizar a resposta
+      const quizQuestionAnswer = this.quizQuestionAnswerRepository.create({
+        attempt,
+        question,
+        option,
+        startedAt,
+        completedAt,
       });
-
-      if (!quizQuestionAnswer) {
-        // Criar nova resposta
-        quizQuestionAnswer = this.quizQuestionAnswerRepository.create({
-          attempt,
-          question,
-          option,
-          startedAt,
-          completedAt,
-        });
-      } else {
-        // Atualizar resposta existente
-        quizQuestionAnswer.option = option;
-        quizQuestionAnswer.startedAt = startedAt || quizQuestionAnswer.startedAt;
-        quizQuestionAnswer.completedAt = completedAt || quizQuestionAnswer.completedAt;
-      }
 
       // Salvar a resposta
       await this.quizQuestionAnswerRepository.save(quizQuestionAnswer);
     }
 
     // Verificar se a tentativa foi concluída
-    await this.checkCompletion(attempt.index);
+    await this.checkCompletion(attempt);
 
     return attempt;
   }
@@ -105,7 +110,9 @@ export class QuizAttemptService {
     email?: string,
   ): Promise<QuizAttempt> {
     if (!userId && !email) {
-      throw new BadRequestException('É necessário fornecer um userId ou email.');
+      throw new BadRequestException(
+        'É necessário fornecer um userId ou email.',
+      );
     }
 
     const whereCondition: any = {
@@ -126,7 +133,10 @@ export class QuizAttemptService {
 
     if (!attempt) {
       // Buscar a entidade Quiz
-      const quiz = await this.quizRepository.findOne({ where: { index: quizId } });
+      const quiz = await this.quizRepository.findOne({
+        where: { index: quizId },
+        relations: ['questions'],
+      });
       if (!quiz) {
         throw new NotFoundException(`Quiz com ID ${quizId} não encontrado.`);
       }
@@ -135,7 +145,9 @@ export class QuizAttemptService {
       if (userId) {
         user = await this.userRepository.findOne({ where: { index: userId } });
         if (!user) {
-          throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
+          throw new NotFoundException(
+            `Usuário com ID ${userId} não encontrado.`,
+          );
         }
       }
 
@@ -145,6 +157,7 @@ export class QuizAttemptService {
         email: email || null,
         attemptedAt: new Date(),
         isCompleted: false,
+        answers: [],
       });
       attempt = await this.quizAttemptRepository.save(attempt);
     }
@@ -153,14 +166,13 @@ export class QuizAttemptService {
   }
 
   // Método para verificar se a tentativa foi concluída
-  async checkCompletion(attemptId: number): Promise<void> {
-    const attempt = await this.quizAttemptRepository.findOne({
-      where: { index: attemptId },
-      relations: ['quiz', 'quiz.questions', 'answers'],
-    });
-
-    if (!attempt) {
-      throw new NotFoundException(`Tentativa com ID ${attemptId} não encontrada.`);
+  async checkCompletion(attempt: QuizAttempt): Promise<void> {
+    // Certifique-se de que as relações estão carregadas
+    if (!attempt.quiz || !attempt.quiz.questions || !attempt.answers) {
+      attempt = await this.quizAttemptRepository.findOne({
+        where: { index: attempt.index },
+        relations: ['quiz', 'quiz.questions', 'answers'],
+      });
     }
 
     const totalQuestions = attempt.quiz.questions.length;
@@ -188,7 +200,9 @@ export class QuizAttemptService {
     });
 
     if (!attempt) {
-      throw new NotFoundException(`Tentativa de quiz com ID ${id} não encontrada.`);
+      throw new NotFoundException(
+        `Tentativa de quiz com ID ${id} não encontrada.`,
+      );
     }
 
     return attempt;

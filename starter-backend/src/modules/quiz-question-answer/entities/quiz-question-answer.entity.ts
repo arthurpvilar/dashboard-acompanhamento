@@ -2,7 +2,13 @@
 import { QuizAttempt } from '@App/modules/quiz-attempt/entities/quiz-attempt.entity';
 import { QuizQuestionOption } from '@App/modules/quiz-question-option/entities/quiz-question-option.entity';
 import { QuizQuestion } from '@App/modules/quiz-question/entities/quiz-question.entity';
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  Column,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity()
@@ -11,9 +17,9 @@ export class QuizQuestionAnswer {
   @PrimaryGeneratedColumn()
   index: number;
 
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Tentativa associada',
-    type: () => [QuizAttempt]
+    type: () => [QuizAttempt],
   })
   @ManyToOne(() => QuizAttempt, (attempt) => attempt.answers)
   @JoinColumn({ name: 'attemptId' })
