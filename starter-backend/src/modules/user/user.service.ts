@@ -16,36 +16,48 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findByEmailOrUsername(
-    emailOrUsername: string,
-  ): Promise<User | undefined> {
-    return this.userRepository.findOne({
+  async findByEmailOrUsername(emailOrUsername: string): Promise<User | undefined> {
+    console.log('Buscando usuário com email ou username:', emailOrUsername);
+    const user = await this.userRepository.findOne({
       where: [{ email: emailOrUsername }, { username: emailOrUsername }],
     });
+
+    if (!user) {
+      console.log('Usuário não encontrado com email/username:', emailOrUsername);
+    } else {
+      console.log('Usuário encontrado:', user);
+    }
+
+    return user;
   }
 
-  async findOne(id: string): Promise<User | undefined> {
-    return this.userRepository.findOne({
-      where: { index: id },
+  async findOne(index: string): Promise<User | undefined> {
+    console.log('Buscando usuário com index:', index);
+    const user = await this.userRepository.findOne({
+      where: { index },
     });
+
+    if (!user) {
+      console.log(`Usuário com index ${index} não encontrado`);
+    }
+
+    return user;
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { username, email, password, fullName } = createUserDto;
 
-    // Check if user with email or username already exists
+    console.log('Criando usuário com email:', email);
     const existingUser = await this.userRepository.findOne({
       where: [{ email }, { username }],
     });
 
     if (existingUser) {
-      throw new BadRequestException(
-        'User with this email or username already exists.',
-      );
+      console.error('Usuário com este email ou username já existe:', email);
+      throw new BadRequestException('User with this email or username already exists.');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = this.userRepository.create({
       username,
       email,
@@ -57,15 +69,17 @@ export class UserService {
   }
 
   async updateUser(
-    id: string,
+    index: string,
     updateUserDto: Partial<CreateUserDto>,
   ): Promise<User> {
+    console.log('Atualizando usuário com index:', index);
     const user = await this.userRepository.findOne({
-      where: { index: id },
+      where: { index },
     });
 
     if (!user) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      console.error(`Usuário com index ${index} não encontrado`);
+      throw new NotFoundException(`User with index ${index} not found`);
     }
 
     if (updateUserDto.password) {
@@ -76,10 +90,12 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async deleteUser(id: string): Promise<void> {
-    const result = await this.userRepository.delete(id);
+  async deleteUser(index: string): Promise<void> {
+    console.log('Deletando usuário com index:', index);
+    const result = await this.userRepository.delete(index);
     if (result.affected === 0) {
-      throw new NotFoundException(`User with ID ${id} not found`);
+      console.error(`Usuário com index ${index} não encontrado`);
+      throw new NotFoundException(`User with index ${index} not found`);
     }
   }
 }

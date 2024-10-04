@@ -1,49 +1,67 @@
-'use client'
+"use client";
 
-// React Imports
-import { useState } from 'react'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Link from '@components/Link';
+import Logo from '@components/layout/shared/Logo';
+import Illustrations from '@components/Illustrations';
+import classnames from 'classnames';
+import { useImageVariant } from '@core/hooks/useImageVariant';
+import { useSettings } from '@core/hooks/useSettings';
 
-// Next Imports
-import { useRouter } from 'next/navigation'
+// Definição do tipo Mode
+import type { Mode } from '@core/types';
 
-// MUI Imports
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import InputAdornment from '@mui/material/InputAdornment'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
-import FormControlLabel from '@mui/material/FormControlLabel'
+interface LoginV2Props {
+  mode: Mode;
+}
 
-// Third-party Imports
-import classnames from 'classnames'
+const LoginV2 = ({ mode }: LoginV2Props) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isPasswordShown, setIsPasswordShown] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
+  const router = useRouter();
+  const { settings } = useSettings();
+  const authBackground = useImageVariant(mode, '/images/pages/auth-v2-mask-light.png', '/images/pages/auth-v2-mask-dark.png');
 
-// Type Imports
-import type { Mode } from '@core/types'
+  const handleClickShowPassword = () => setIsPasswordShown(show => !show);
 
-// Component Imports
-import Link from '@components/Link'
-import Logo from '@components/layout/shared/Logo'
-import Illustrations from '@components/Illustrations'
-
-// Hook Imports
-import { useImageVariant } from '@core/hooks/useImageVariant'
-import { useSettings } from '@core/hooks/useSettings'
-
-const LoginV2 = ({ mode }: { mode: Mode }) => {
-  // States
-  const [isPasswordShown, setIsPasswordShown] = useState(false)
-
-  // Vars
-  const darkImg = '/images/pages/auth-v2-mask-dark.png'
-  const lightImg = '/images/pages/auth-v2-mask-light.png'
-
-  // Hooks
-  const router = useRouter()
-  const { settings } = useSettings()
-  const authBackground = useImageVariant(mode, lightImg, darkImg)
-
-  const handleClickShowPassword = () => setIsPasswordShown(show => !show)
+  // Corrigir o tipo do parâmetro `e`
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError('');
+  
+    try {
+      // URL completa apontando para o backend rodando localmente na porta 4000
+      const response = await fetch('http://localhost:4000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }), // Dados de login
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('accessToken', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        router.push('/home');
+      } else {
+        setError('Credenciais inválidas. Tente novamente.');
+      }
+    } catch (err) {
+      console.error('Erro no fetch:', err);
+      setError('Erro ao tentar fazer login. Verifique sua conexão.');
+    }
+  };  
 
   return (
     <div className='flex bs-full justify-center'>
@@ -67,20 +85,21 @@ const LoginV2 = ({ mode }: { mode: Mode }) => {
             <Typography variant='h4'>{`Bem-vindo !!👋🏻`}</Typography>
             <Typography className='mbs-1'>Entre com suas credenciais de acesso</Typography>
           </div>
-          <form
-            noValidate
-            autoComplete='off'
-            onSubmit={e => {
-              e.preventDefault()
-              router.push('/')
-            }}
-            className='flex flex-col gap-5'
-          >
-            <TextField autoFocus fullWidth label='Email' />
+          <form noValidate autoComplete='off' onSubmit={handleSubmit} className='flex flex-col gap-5'>
+            {error && <Typography color='error'>{error}</Typography>}
+            <TextField
+              autoFocus
+              fullWidth
+              label='Email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <TextField
               fullWidth
               label='Senha'
               type={isPasswordShown ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
@@ -115,7 +134,7 @@ const LoginV2 = ({ mode }: { mode: Mode }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginV2
+export default LoginV2;
