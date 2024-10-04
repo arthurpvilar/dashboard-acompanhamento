@@ -1,4 +1,3 @@
-// src/user/user.controller.ts
 import {
   Controller,
   Get,
@@ -42,6 +41,17 @@ export class UserController {
     return this.userService.createUser(createUserDto);
   }
 
+  // Rota para a rota protegida deve vir antes das rotas com parâmetros dinâmicos
+  @Get('protected-route')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Protected route' })
+  @ApiResponse({ status: 200, description: 'Successfully accessed protected route.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  async getProtectedRoute(@Req() req) {
+    return { message: 'Protected route accessed', user: req.user };
+  }
+
   @Get(':id')
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
@@ -57,8 +67,7 @@ export class UserController {
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
-    const { ...result } = user;
-    return result;
+    return user;
   }
 
   @Put(':id')
@@ -77,7 +86,6 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @Req() req,
   ) {
-    // Optionally, check if the authenticated user is updating their own profile
     if (req.user.id !== id) {
       throw new BadRequestException('You can only update your own profile.');
     }
@@ -91,7 +99,6 @@ export class UserController {
   @ApiResponse({ status: 200, description: 'User deleted successfully.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
   async delete(@Param('id') id: string, @Req() req) {
-    // Optionally, check if the authenticated user is deleting their own account
     if (req.user.id !== id) {
       throw new BadRequestException('You can only delete your own account.');
     }

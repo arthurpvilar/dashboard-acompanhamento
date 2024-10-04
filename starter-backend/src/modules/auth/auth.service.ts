@@ -1,10 +1,8 @@
-// src/auth/auth.service.ts
-import { Injectable, Post, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { LoginDto } from './dto/login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Injectable()
 export class AuthService {
@@ -13,35 +11,32 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(emailOrUsername: string, pass: string): Promise<any> {
-    const user = await this.userService.findByEmailOrUsername(emailOrUsername);
-    if (user && bcrypt.compareSync(pass, user.password)) {
-      const { ...result } = user; // Exclude password from result
-      return result;
-    }
-    return null;
-  }
-
-  @Post('login')
-  @ApiOperation({ summary: 'Login with email/username and password' })
-  @ApiResponse({ status: 201, description: 'Successful login' })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async login(loginDto: LoginDto) {
+    console.log('Iniciando processo de login para email:', loginDto.email);
+    
     const user = await this.userService.findByEmailOrUsername(loginDto.email);
     if (!user) {
+      console.log('Usuário não encontrado para o email:', loginDto.email);
       throw new UnauthorizedException('Invalid credentials.');
     }
 
-    const isPasswordValid = bcrypt.compareSync(
-      loginDto.password,
-      user.password,
-    );
+    console.log('Usuário encontrado:', user);
+    console.log('Senha armazenada no banco:', user.password);
+
+    // Comparação de senha usando bcrypt.compareSync
+    const isPasswordValid = bcrypt.compareSync(loginDto.password, user.password);
+    console.log('Resultado da comparação de senha:', isPasswordValid);
+
     if (!isPasswordValid) {
+      console.error('Senha inválida para o email:', user.email);
       throw new UnauthorizedException('Invalid credentials.');
     }
 
+    // Alteração para utilizar index em vez de id no payload
     const payload = { index: user.index, email: user.email };
     const token = this.jwtService.sign(payload);
+
+    console.log('Token gerado com sucesso:', token);
 
     return {
       access_token: token,
