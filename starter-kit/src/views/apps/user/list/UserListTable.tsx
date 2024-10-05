@@ -336,7 +336,7 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
               className='is-full sm:is-auto'
             />
             <Button variant='contained' onClick={() => setAddUserOpen(!addUserOpen)} className='is-full sm:is-auto'>
-              Adicionar Usuário
+              + Criar novo Usuário
             </Button>
           </div>
         </div>

@@ -74,6 +74,19 @@ export type CardStatsVerticalProps = {
   moreOptions?: OptionsMenuType
 }
 
+export type DashboardCardStatsVerticalProps = {
+  title: string
+  stats: string
+  avatarIcon: string
+  subtitle?: string
+  avatarColor?: ThemeColor
+  trendNumber?: string
+  trend?: 'positive' | 'negative'
+  avatarSkin?: CustomAvatarProps['skin']
+  avatarSize?: number
+  moreOptions?: OptionsMenuType
+}
+
 export type CardStatsCharacterProps = {
   src: string
   title: string

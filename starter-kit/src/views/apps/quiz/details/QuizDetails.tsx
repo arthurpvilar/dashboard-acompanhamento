@@ -130,7 +130,7 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
             <Divider />
 
             <div className='flex flex-col gap-4'>
-              <Typography variant='h5'>Perguntas do Questionário</Typography>
+              <Typography variant='h5'>Perguntas</Typography>
               <QuizDetailsQuestionDisplay questions={quizData?.questions || []} />
             </div>
           </div>

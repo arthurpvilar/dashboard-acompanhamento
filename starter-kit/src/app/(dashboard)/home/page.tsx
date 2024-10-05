@@ -2,10 +2,11 @@
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
-import { getLatestQuizData, getQuizData } from '@/app/server/actions'
-import WelcomeCard from '@/views/apps/academy/dashboard/WelcomeCard'
+import { getQuizData } from '@/app/server/actions'
 import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
 import LatestQuizCreatedView from '@/views/apps/quiz/LatestQuizCreatedView'
+import UserWelcomeCard from '@/views/apps/dashboard/header/UserWelcomeCard'
+import DashboardCardVertical from '@/views/apps/dashboard/header/DashboardCardVertical'
 
 // Component Imports
 
@@ -36,8 +37,28 @@ const HomePage = async () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <WelcomeCard />
+      <Grid item xs={12} md={8} className='self-end'>
+        <UserWelcomeCard />
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <Grid container spacing={6}>
+          <Grid item xs={12} sm={6}>
+            <DashboardCardVertical
+              title='Total de questionários'
+              stats='2'
+              avatarIcon='ri-questionnaire-line'
+              avatarColor='success'
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <DashboardCardVertical
+              title='Total de usuários'
+              stats='1'
+              avatarIcon='ri-bank-card-line'
+              avatarColor='info'
+            />
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
         <LatestQuizCreatedView quizData={null} />

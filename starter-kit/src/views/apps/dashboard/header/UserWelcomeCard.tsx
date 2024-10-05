@@ -5,10 +5,9 @@ import { useEffect, useState } from 'react'
 
 // MUI Imports
 import Typography from '@mui/material/Typography'
-
 import { Card, CardContent, Grid } from '@mui/material'
 
-const WelcomeCard = () => {
+const UserWelcomeCard = () => {
   // Hooks e estados
   const [userName, setUserName] = useState('Usuário')
 
@@ -62,4 +61,4 @@ const WelcomeCard = () => {
   )
 }
 
-export default WelcomeCard
+export default UserWelcomeCard
