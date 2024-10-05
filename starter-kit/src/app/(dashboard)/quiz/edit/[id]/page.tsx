@@ -1,11 +1,5 @@
-import EditQuiz from '@/views/apps/quiz/EditQuiz'
-
 const EditQuizPage = () => {
-  return (
-    <div>
-      <EditQuiz />
-    </div>
-  )
+  return <div></div>
 }
 
 export default EditQuizPage

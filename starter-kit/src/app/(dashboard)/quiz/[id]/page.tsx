@@ -1,7 +1,6 @@
 import Grid from '@mui/material/Grid'
 import type { GetServerSidePropsContext } from 'next'
 
-import QuizDetails from '@/views/apps/academy/quiz-details/QuizDetails'
 import { getQuizById } from '@/libs/quiz/handlers'
 import type { Quiz } from '@/types/apps/quizTypes'
 
@@ -17,9 +16,11 @@ const QuizDetailsPage = async (context: GetServerSidePropsContext) => {
 
   return (
     <Grid container spacing={6}>
+      {/*
       <Grid item xs={12} md={8}>
         <QuizDetails />
       </Grid>
+      */}
     </Grid>
   )
 }

@@ -5,11 +5,10 @@ import Grid from '@mui/material/Grid'
 // Component Imports
 import type { GetServerSidePropsContext } from 'next'
 
-import QuizDetails from '@/views/apps/academy/quiz-details/QuizDetails'
-
 // Data Imports
-import { getQuizData } from '@/app/server/actions'
-import type { Quiz } from '@/types/apps/quizTypes'
+import QuizDetails from '@/views/apps/quiz/details/QuizDetails'
+import { getQuizDetailedData } from '@/app/server/actions'
+import type { QuizDetailsDto } from '@/types/apps/quizTypes'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -30,10 +29,10 @@ import type { Quiz } from '@/types/apps/quizTypes'
 } */
 
 const QuizDetailsPage = async (context: GetServerSidePropsContext) => {
-  const { id } = context.params!
+  const id = context.params?.id as string
 
   // Vars
-  const data: Quiz = (await getQuizData()).find((quiz: Quiz) => quiz.id === parseInt(id as string)) as Quiz
+  const data: QuizDetailsDto | undefined = await getQuizDetailedData(+id)
 
   return (
     <Grid container spacing={6}>
