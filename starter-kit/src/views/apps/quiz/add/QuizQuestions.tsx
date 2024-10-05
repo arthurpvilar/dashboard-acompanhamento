@@ -1125,12 +1125,9 @@ const QuizQuestions: React.FC = () => {
                           justifyContent: 'space-between',
                           paddingRight: 2
                         }}
-                        onClick={isAudioQuestion ? e => e.stopPropagation() : undefined} // Previne expansão ao clicar fora da seta para perguntas auditivas
+                        onClick={isAudioQuestion ? e => e.stopPropagation() : undefined}
                       >
-                        <div
-                          style={{ flexGrow: 1 }}
-                          onClick={isAudioQuestion ? e => e.stopPropagation() : undefined} // Previne expansão ao clicar fora da seta para perguntas auditivas
-                        >
+                        <div style={{ flexGrow: 1 }} onClick={isAudioQuestion ? e => e.stopPropagation() : undefined}>
                           {isAudioQuestion ? (
                             <AudioPlayer audioUrl={item.audio?.audioUrl || ''} />
                           ) : (

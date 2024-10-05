@@ -46,7 +46,10 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Protected route' })
-  @ApiResponse({ status: 200, description: 'Successfully accessed protected route.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully accessed protected route.',
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   async getProtectedRoute(@Req() req) {
     return { message: 'Protected route accessed', user: req.user };

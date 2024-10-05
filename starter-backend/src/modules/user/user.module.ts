@@ -14,7 +14,14 @@ import { User } from './entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, QuizAttempt, Quiz, QuizQuestionAnswer, QuizQuestion, QuizQuestionOption]),
+    TypeOrmModule.forFeature([
+      User,
+      QuizAttempt,
+      Quiz,
+      QuizQuestionAnswer,
+      QuizQuestion,
+      QuizQuestionOption,
+    ]),
     UserModule, // Certifique-se de que o UserModule está importado
     ConfigModule,
     forwardRef(() => QuizAttemptModule), // Include QuizAttemptModule if necessary

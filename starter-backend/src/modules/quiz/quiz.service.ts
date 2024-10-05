@@ -17,6 +17,7 @@ import {
   QuizQuestionDto,
   QuizQuestionOptionDto,
   QuizSociologicalDataDto,
+  QuizUserDetailsDto,
 } from './dto/quiz-details.dto';
 
 @Injectable()
@@ -290,6 +291,7 @@ export class QuizService {
     const quiz = await this.quizRepository.findOne({
       where: { index: quizId },
       relations: [
+        'owner',
         'questions',
         'questions.options',
         'questions.options.sociologicalData',
@@ -414,12 +416,20 @@ export class QuizService {
       } as QuizQuestionDto;
     });
 
+    const userDetails = {
+      id: quiz.owner.index,
+      email: quiz.owner.email,
+      username: quiz.owner.username,
+      fullName: quiz.owner.fullName,
+    } as QuizUserDetailsDto;
+
     // Montar o objeto QuizDetailsDto
     const quizDetails: QuizDetailsDto = {
       id: quiz.index,
       title: quiz.title,
       identifier: quiz.identifier,
       description: quiz.description,
+      category: quiz.category,
       image: quiz.image,
       audio: quiz.audio,
       sociologicalDataStatistics,
@@ -427,7 +437,8 @@ export class QuizService {
       averageWeight,
       completionRate,
       averageCompletionTime,
-      questions, // Incluindo as perguntas
+      questions,
+      owner: userDetails,
     };
 
     return quizDetails;

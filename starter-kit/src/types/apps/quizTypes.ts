@@ -74,3 +74,55 @@ export type QuizSociologicalOptionData = {
 export type QuizType = {
   quizzes: Quiz[]
 }
+
+// Novo DTO para os dados sociológicos
+export type QuizSociologicalDataDto = {
+  id: number
+  name: string
+  color: string
+}
+
+// Novo DTO para as opções das perguntas
+export type QuizQuestionOptionDto = {
+  id: number
+  title: string
+  isChecked: boolean
+  weight: number
+  image?: QuizImageData
+  sociologicalData?: QuizSociologicalDataDto
+}
+
+// Novo DTO para as perguntas
+export type QuizQuestionDto = {
+  id: number
+  type: string
+  question?: string
+  answer?: string
+  image?: QuizImageData
+  audio?: QuizAudioData
+  options?: QuizQuestionOptionDto[]
+}
+
+export type QuizDetailsDto = {
+  id: number
+  title: string
+  category: string
+  identifier: string
+  description?: string
+  image?: QuizImageData
+  audio?: QuizAudioData
+  sociologicalDataStatistics: QuizStatisticalSociologicalDataDto[]
+  totalAttempts: number
+  averageWeight: number
+  completionRate: number
+  averageCompletionTime: number
+  owner: BackEndUsersType
+  questions: QuizQuestionDto[]
+}
+
+export type QuizStatisticalSociologicalDataDto = {
+  id?: number
+  name: string
+  color: string
+  value?: number
+}

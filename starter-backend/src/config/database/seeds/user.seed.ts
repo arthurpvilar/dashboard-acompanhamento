@@ -14,7 +14,7 @@ export class UserSeed implements Seeder {
         fullName: 'Arthur Padilha Vilar Salvador',
         email: 'arthurpvilar@gmail.com',
         password:
-          '$2a$10$SqQk66ZLb7DURKR.3fkTju4BO2psiaRuUpmTT0wAzEJR1tdz/zpZC', // admin
+          '$2b$10$EfIUS7rG2DEn1PxZGC5WOOXkeIvCJR9mLyAxJuC.5pygd/dXg6Pg.', // admin
       },
     ]);
   }

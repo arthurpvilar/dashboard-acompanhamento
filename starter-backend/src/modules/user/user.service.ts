@@ -16,14 +16,19 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  async findByEmailOrUsername(emailOrUsername: string): Promise<User | undefined> {
+  async findByEmailOrUsername(
+    emailOrUsername: string,
+  ): Promise<User | undefined> {
     console.log('Buscando usuário com email ou username:', emailOrUsername);
     const user = await this.userRepository.findOne({
       where: [{ email: emailOrUsername }, { username: emailOrUsername }],
     });
 
     if (!user) {
-      console.log('Usuário não encontrado com email/username:', emailOrUsername);
+      console.log(
+        'Usuário não encontrado com email/username:',
+        emailOrUsername,
+      );
     } else {
       console.log('Usuário encontrado:', user);
     }
@@ -54,7 +59,9 @@ export class UserService {
 
     if (existingUser) {
       console.error('Usuário com este email ou username já existe:', email);
-      throw new BadRequestException('User with this email or username already exists.');
+      throw new BadRequestException(
+        'User with this email or username already exists.',
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

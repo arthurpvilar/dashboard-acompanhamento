@@ -8,7 +8,7 @@
 
 // Data Imports
 import { db as eCommerceData } from '@/fake-db/apps/ecommerce'
-import { db as quizData } from '@/fake-db/apps/quiz'
+import { db as quizData, dbDetailed as quizDataDetailed } from '@/fake-db/apps/quiz'
 import { db as academyData } from '@/fake-db/apps/academy'
 import { db as vehicleData } from '@/fake-db/apps/logistics'
 import { db as invoiceData } from '@/fake-db/apps/invoice'
@@ -29,6 +29,10 @@ export const getLatestQuizData = async () => {
   })
 
   return await response.json()
+}
+
+export const getQuizDetailedData = async (index: number) => {
+  return quizDataDetailed.find(quiz => quiz.id === index)
 }
 
 export const getQuizData = async () => {

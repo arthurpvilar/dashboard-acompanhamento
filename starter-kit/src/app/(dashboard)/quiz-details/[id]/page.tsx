@@ -3,20 +3,26 @@ import Grid from '@mui/material/Grid'
 
 import type { GetServerSidePropsContext } from 'next'
 
-import QuizDetails from '@/views/apps/academy/quiz-details/QuizDetails'
-import { getQuizData } from '@/app/server/actions'
-import type { Quiz } from '@/types/apps/quizTypes'
+import { getQuizDetailedData } from '@/app/server/actions'
+import type { QuizDetailsDto } from '@/types/apps/quizTypes'
+import QuizDetails from '@/views/apps/quiz/details/QuizDetails'
+import QuizDetailsSideBar from '@/views/apps/quiz/details/QuizDetailsSideBar'
 
 const QuizDetailsPage = async (context: GetServerSidePropsContext) => {
-  const { id } = context.params!
+  const id = context.params?.id as string
 
   // Vars
-  const data: Quiz = (await getQuizData()).find((quiz: Quiz) => quiz.id === parseInt(id as string))!
+  const data: QuizDetailsDto | undefined = await getQuizDetailedData(+id)
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={8}>
         <QuizDetails quizData={data} />
+      </Grid>
+      <Grid item xs={12} md={4}>
+        <div className='sticky top-[88px]'>
+          <QuizDetailsSideBar quizData={data} />
+        </div>
       </Grid>
     </Grid>
   )

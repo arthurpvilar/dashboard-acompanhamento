@@ -11,6 +11,8 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { QuizStatisticalSociologicalDataDto } from './quiz-statistical-sociological-data.dto';
+import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
 
 // Novo DTO para os dados sociológicos
 export class QuizSociologicalDataDto {
@@ -45,6 +47,10 @@ export class QuizQuestionOptionDto {
   @IsNumber()
   weight: number;
 
+  @ApiPropertyOptional({ description: 'Dados da imagem da opção' })
+  @IsOptional()
+  image?: QuizImageData;
+
   @ApiPropertyOptional({
     description: 'Dados sociológicos associados à opção',
     type: QuizSociologicalDataDto,
@@ -77,11 +83,11 @@ export class QuizQuestionDto {
 
   @ApiPropertyOptional({ description: 'Dados da imagem da pergunta' })
   @IsOptional()
-  image?: any; // Substitua pelo tipo adequado
+  image?: QuizImageData;
 
   @ApiPropertyOptional({ description: 'Dados de áudio da pergunta' })
   @IsOptional()
-  audio?: any; // Substitua pelo tipo adequado
+  audio?: QuizAudioData;
 
   @ApiPropertyOptional({
     description: 'Opções da pergunta',
@@ -112,14 +118,17 @@ export class QuizDetailsDto {
   @IsString()
   description?: string;
 
-  // Outros campos padrão do quiz
+  @ApiProperty({ description: 'Categoria do quiz' })
+  @IsString()
+  category: string;
+
   @ApiPropertyOptional({ description: 'Imagem do quiz' })
   @IsOptional()
-  image?: any; // Substitua pelo tipo adequado
+  image?: QuizImageData;
 
   @ApiPropertyOptional({ description: 'Áudio do quiz' })
   @IsOptional()
-  audio?: any; // Substitua pelo tipo adequado
+  audio?: QuizAudioData;
 
   @ApiProperty({
     description: 'Dados estatísticos sociológicos do quiz',
@@ -130,7 +139,6 @@ export class QuizDetailsDto {
   @Type(() => QuizStatisticalSociologicalDataDto)
   sociologicalDataStatistics: QuizStatisticalSociologicalDataDto[];
 
-  // Dados estatísticos
   @ApiProperty({ description: 'Número total de tentativas' })
   @IsNumber()
   totalAttempts: number;
@@ -160,4 +168,28 @@ export class QuizDetailsDto {
   @ValidateNested({ each: true })
   @Type(() => QuizQuestionDto)
   questions: QuizQuestionDto[];
+
+  @ApiPropertyOptional({ description: 'Dono do quiz' })
+  @IsOptional()
+  @IsString()
+  @Type(() => QuizUserDetailsDto)
+  owner?: QuizUserDetailsDto;
+}
+
+export class QuizUserDetailsDto {
+  @ApiProperty({ description: 'Identificador do usuário' })
+  @IsString()
+  id: string;
+
+  @ApiProperty({ description: 'Email do usuário' })
+  @IsString()
+  email: string;
+
+  @ApiProperty({ description: 'Username do usuário' })
+  @IsString()
+  username: string;
+
+  @ApiProperty({ description: 'Nome  completo do usuário' })
+  @IsString()
+  fullName: string;
 }
