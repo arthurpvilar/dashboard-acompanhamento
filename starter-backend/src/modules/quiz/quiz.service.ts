@@ -243,15 +243,24 @@ export class QuizService {
   }
 
   async update(id: number, updateQuizDto: UpdateQuizDto): Promise<Quiz> {
+    // Certifique-se de que o `updateQuizDto` possui pelo menos um valor para atualização
+    if (!updateQuizDto || Object.keys(updateQuizDto).length === 0) {
+      throw new Error('Nenhum valor de atualização fornecido.');
+    }
+  
+    // Precarregar o objeto com as novas informações
     const quiz = await this.quizRepository.preload({
       index: id,
       ...updateQuizDto,
     });
+  
     if (!quiz) {
-      throw new NotFoundException(`Quiz with ID ${id} not found`);
+      throw new NotFoundException(`Quiz com ID ${id} não encontrado.`);
     }
+  
     return this.quizRepository.save(quiz);
   }
+  
 
   async remove(id: number): Promise<void> {
     const result = await this.quizRepository.delete(id);

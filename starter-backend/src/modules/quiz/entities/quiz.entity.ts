@@ -46,27 +46,27 @@ export class Quiz {
 
   // Relação Many-to-Many entre Quiz e QuizSociologicalData
   @ManyToMany(() => QuizSociologicalData, (data) => data.quizzes, {
-    cascade: false, // Mantendo cascade como false para controlar manualmente
+    cascade: false,
   })
   @JoinTable({
     name: 'quiz_sociological_data_join',
     joinColumn: {
-      name: 'quizId',
+      name: 'quiz_id', // Nome correto da coluna no banco de dados
       referencedColumnName: 'index',
     },
     inverseJoinColumn: {
-      name: 'sociologicalDataId',
+      name: 'sociological_data_id', // Nome correto da coluna no banco de dados
       referencedColumnName: 'index',
     },
   })
-  sociologicalData: QuizSociologicalData[];
+  sociologicalData: QuizSociologicalData[];  
 
   @OneToMany(() => QuizQuestion, (question) => question.quiz, {
     cascade: true,
   })
   questions: QuizQuestion[];
 
-  @ManyToOne(() => User, (user) => user.quizzes)
+  @ManyToOne(() => User, (user) => user.quizzes, { nullable: false })
   @JoinColumn({ name: 'ownerId' })
   owner: User;
 

@@ -50,30 +50,23 @@ export class QuizQuestionOptionService {
     id: number,
     updateDto: UpdateQuizQuestionOptionDto,
   ): Promise<QuizQuestionOption> {
+    // Verificar se `updateDto` contém campos válidos
+    if (!updateDto || Object.keys(updateDto).length === 0) {
+      throw new Error('Nenhum valor de atualização fornecido.');
+    }
+  
     const option = await this.quizQuestionOptionRepository.preload({
       index: id,
       ...updateDto,
     });
-
+  
     if (!option) {
-      throw new NotFoundException(`QuizQuestionOption with ID ${id} not found`);
+      throw new NotFoundException(`QuizQuestionOption com ID ${id} não encontrado.`);
     }
-
-    if (updateDto.sociologicalId) {
-      const sociologicalData = await this.sociologicalDataRepository.findOne({
-        where: { index: updateDto.sociologicalId },
-      });
-      if (!sociologicalData) {
-        throw new NotFoundException(
-          `SociologicalData with ID ${updateDto.sociologicalId} not found`,
-        );
-      }
-      option.sociologicalData = sociologicalData;
-    }
-
+  
     return this.quizQuestionOptionRepository.save(option);
   }
-
+  
   async remove(id: number): Promise<void> {
     const result = await this.quizQuestionOptionRepository.delete(id);
     if (result.affected === 0) {

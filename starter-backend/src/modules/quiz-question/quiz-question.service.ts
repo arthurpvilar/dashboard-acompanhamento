@@ -101,46 +101,23 @@ export class QuizQuestionService {
     id: number,
     updateQuizQuestionDto: UpdateQuizQuestionDto,
   ): Promise<QuizQuestion> {
-    const { options, ...rest } = updateQuizQuestionDto;
-
+    // Verificar se `updateQuizQuestionDto` não está vazio
+    if (!updateQuizQuestionDto || Object.keys(updateQuizQuestionDto).length === 0) {
+      throw new Error('Nenhum valor de atualização fornecido.');
+    }
+  
     const quizQuestion = await this.quizQuestionRepository.preload({
       index: id,
-      ...rest,
+      ...updateQuizQuestionDto,
     });
-
+  
     if (!quizQuestion) {
-      throw new NotFoundException(`QuizQuestion with ID ${id} not found`);
+      throw new NotFoundException(`QuizQuestion com ID ${id} não encontrado.`);
     }
-
-    if (options) {
-      await this.quizQuestionOptionRepository.delete({
-        question: { index: id },
-      });
-      const updatedOptions = options.map((optionDto) =>
-        this.quizQuestionOptionRepository.create({
-          ...optionDto,
-          question: quizQuestion,
-        }),
-      );
-      quizQuestion.options =
-        await this.quizQuestionOptionRepository.save(updatedOptions);
-    }
-
-    /*
-    if (subQuestions) {
-      await this.quizQuestionRepository.delete({ parentQuestion: { id } });
-      const updatedSubQuestions = subQuestions.map((subQuestionDto) =>
-        this.quizQuestionRepository.create({
-          ...subQuestionDto,
-          parentQuestion: quizQuestion,
-        }),
-      );
-      quizQuestion.subQuestions =
-        await this.quizQuestionRepository.save(updatedSubQuestions);
-    }
-    */
+  
     return this.quizQuestionRepository.save(quizQuestion);
   }
+  
 
   async remove(id: number): Promise<void> {
     const result = await this.quizQuestionRepository.delete(id);

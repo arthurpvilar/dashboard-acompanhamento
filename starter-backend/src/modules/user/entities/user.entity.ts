@@ -5,6 +5,7 @@ import {
   PrimaryColumn,
   OneToMany,
   BeforeInsert,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { QuizAttempt } from '@App/modules/quiz-attempt/entities/quiz-attempt.entity';
@@ -13,7 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   index: string;
 
   @Column({ unique: true })
@@ -32,7 +33,7 @@ export class User {
   password: string;
 
   @OneToMany(() => Quiz, (quiz) => quiz.owner)
-  quizzes: Quiz[];
+  quizzes: Quiz[];  
 
   @OneToMany(() => QuizAttempt, (attempt) => attempt.user)
   attempts: QuizAttempt[];

@@ -130,9 +130,9 @@ export class QuizAttemptService {
       where: whereCondition,
       relations: ['quiz', 'answers'],
     });
-
+    
     if (!attempt) {
-      // Buscar a entidade Quiz
+      // Verificar se o `quiz` está corretamente carregado
       const quiz = await this.quizRepository.findOne({
         where: { index: quizId },
         relations: ['questions'],
@@ -140,17 +140,16 @@ export class QuizAttemptService {
       if (!quiz) {
         throw new NotFoundException(`Quiz com ID ${quizId} não encontrado.`);
       }
-
+    
       let user: User | null = null;
       if (userId) {
         user = await this.userRepository.findOne({ where: { index: userId } });
         if (!user) {
-          throw new NotFoundException(
-            `Usuário com ID ${userId} não encontrado.`,
-          );
+          throw new NotFoundException(`Usuário com ID ${userId} não encontrado.`);
         }
       }
-
+    
+      // Criar um novo `attempt` somente se `quiz` e `user` estão corretos
       attempt = this.quizAttemptRepository.create({
         quiz,
         user,
@@ -159,8 +158,10 @@ export class QuizAttemptService {
         isCompleted: false,
         answers: [],
       });
+    
       attempt = await this.quizAttemptRepository.save(attempt);
     }
+    
 
     return attempt;
   }
