@@ -63,6 +63,7 @@ const HomePage = async () => {
       <Grid item xs={12}>
         <LatestQuizCreatedView quizData={null} />
       </Grid>
+
       <Grid item xs={12}>
         <SimpleQuizListTable quizData={data} />
       </Grid>
@@ -71,3 +72,10 @@ const HomePage = async () => {
 }
 
 export default HomePage
+
+/*
+
+      <Grid item xs={12}>
+        <SimpleQuizListTable quizData={data} />
+      </Grid>
+*/

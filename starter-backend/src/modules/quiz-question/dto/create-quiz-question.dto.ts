@@ -17,6 +17,7 @@ export class CreateQuizQuestionDto {
     description: 'Tipo da pergunta (ex: múltipla escolha, verdadeiro/falso)',
     example: 'multiple-choice',
   })
+  @IsOptional()
   @IsString()
   type: string;
 

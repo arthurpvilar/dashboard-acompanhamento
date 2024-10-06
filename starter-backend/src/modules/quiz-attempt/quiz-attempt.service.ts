@@ -132,7 +132,7 @@ export class QuizAttemptService {
     });
 
     if (!attempt) {
-      // Buscar a entidade Quiz
+      // Verificar se o `quiz` está corretamente carregado
       const quiz = await this.quizRepository.findOne({
         where: { index: quizId },
         relations: ['questions'],
@@ -151,6 +151,7 @@ export class QuizAttemptService {
         }
       }
 
+      // Criar um novo `attempt` somente se `quiz` e `user` estão corretos
       attempt = this.quizAttemptRepository.create({
         quiz,
         user,

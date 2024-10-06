@@ -37,7 +37,6 @@ export class UserService {
   }
 
   async findOne(index: string): Promise<User | undefined> {
-    console.log('Buscando usuário com index:', index);
     const user = await this.userRepository.findOne({
       where: { index },
     });

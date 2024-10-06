@@ -17,7 +17,7 @@ export type UsersType = {
 }
 
 export type BackEndUsersType = {
-  id: string
+  index: string
   username: string
   fullName: string
   email: string

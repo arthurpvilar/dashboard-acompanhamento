@@ -1,8 +1,6 @@
 'use client'
 
 // Next Imports
-import { useEffect, useState } from 'react'
-
 import dynamic from 'next/dynamic'
 
 // MUI Imports
@@ -17,7 +15,6 @@ import { Card, CardMedia, CardContent, Divider, CardHeader, Grid, Box, Button } 
 import classnames from 'classnames'
 
 import type { Quiz } from '@/types/apps/quizTypes'
-import { QuizSociologicalData } from '@/types/apps/quizTypes'
 import CustomAvatar from '@/@core/components/mui/Avatar'
 
 import OptionMenu from '@/@core/components/option-menu'
@@ -56,6 +53,7 @@ const data2: DataType[] = [
 
 const labels = ['Interesse', 'Confiança', 'Frustração', 'Ansiedade', 'Curiosidade', 'Satisfação']
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
   // Hooks
   const theme = useTheme()
@@ -195,7 +193,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
             <Divider />
             <div className='flex flex-col gap-2'>
               <div className='flex gap-2'>
-                <Typography className='flex flex-col gap-2'>
+                <Typography component='div' className='flex flex-col gap-2'>
                   <Typography color='text.primary' className='font-medium'>
                     Descrição
                   </Typography>

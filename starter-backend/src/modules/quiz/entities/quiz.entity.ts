@@ -66,7 +66,7 @@ export class Quiz {
   })
   questions: QuizQuestion[];
 
-  @ManyToOne(() => User, (user) => user.quizzes)
+  @ManyToOne(() => User, (user) => user.quizzes, { nullable: false })
   @JoinColumn({ name: 'ownerId' })
   owner: User;
 

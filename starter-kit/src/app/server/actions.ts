@@ -19,8 +19,64 @@ import { db as faqData } from '@/fake-db/pages/faq'
 import { db as pricingData } from '@/fake-db/pages/pricing'
 import { db as statisticsData } from '@/fake-db/pages/widget-examples'
 
+// Types to send to the server
+import type { CreateQuizDto } from '@/types/apps/quizTypes'
+
+// Custom response type
+export type RequestResponse = {
+  success: boolean
+  message: string
+  statusCode: number
+}
+
 export const getEcommerceData = async () => {
   return eCommerceData
+}
+
+// Função para salvar o quiz no servidor
+export const saveQuizToServer = async (accessToken: string, quizData: CreateQuizDto): Promise<RequestResponse> => {
+  try {
+    const response = await fetch('http://localhost:4000/quizzes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`
+      },
+      body: JSON.stringify(quizData)
+    })
+
+    const statusCode = response.status
+
+    // Verificar se a resposta foi bem-sucedida
+    if (!response.ok) {
+      const errorData = await response.json()
+
+      // Retornar a mensagem que o backend enviou
+      return {
+        success: false,
+        message: errorData.message || 'Erro desconhecido ao publicar o quiz.',
+        statusCode
+      }
+    }
+
+    const data = await response.json()
+
+    console.log('Quiz publicado com sucesso:', data)
+
+    return {
+      success: true,
+      message: 'Quiz publicado com sucesso!',
+      statusCode
+    }
+  } catch (error: any) {
+    console.error('Erro ao publicar o quiz:', error.message)
+
+    return {
+      success: false,
+      message: error.message || 'Erro ao publicar o quiz. Tente novamente.',
+      statusCode: 500
+    }
+  }
 }
 
 export const getLatestQuizData = async () => {

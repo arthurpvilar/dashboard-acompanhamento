@@ -978,7 +978,7 @@ export const dbDetailed: QuizDetailsDto[] = [
       }
     ],
     owner: {
-      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       email: 'arthurpvilar@gmail.com',
       username: 'arthurpvilar',
       fullName: 'Arthur Padilha Vilar Salvador'
@@ -1957,7 +1957,7 @@ export const dbDetailed: QuizDetailsDto[] = [
       }
     ],
     owner: {
-      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       email: 'arthurpvilar@gmail.com',
       username: 'arthurpvilar',
       fullName: 'Arthur Padilha Vilar Salvador'
@@ -2820,7 +2820,7 @@ export const db: Quiz[] = [
     ],
     status: 'published',
     owner: {
-      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       username: 'arthurpvilar',
       fullName: 'Arthur Padilha Vilar Salvador',
       email: 'arthurpvilar@gmail.com'
@@ -3676,7 +3676,7 @@ export const db: Quiz[] = [
     ],
     status: 'published',
     owner: {
-      id: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       username: 'arthurpvilar',
       fullName: 'Arthur Padilha Vilar Salvador',
       email: 'arthurpvilar@gmail.com'

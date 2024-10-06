@@ -56,7 +56,9 @@ export class QuizQuestionOptionService {
     });
 
     if (!option) {
-      throw new NotFoundException(`QuizQuestionOption with ID ${id} not found`);
+      throw new NotFoundException(
+        `QuizQuestionOption com ID ${id} não encontrado.`,
+      );
     }
 
     if (updateDto.sociologicalId) {

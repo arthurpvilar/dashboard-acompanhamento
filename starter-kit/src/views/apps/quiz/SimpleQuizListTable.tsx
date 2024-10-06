@@ -172,7 +172,7 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
           </div>
         )
       }),
-      columnHelper.accessor('title', {
+      columnHelper.accessor('type', {
         header: 'Acessos',
         cell: ({ row }) => (
           <div className='flex items-center justify-between gap-5'>

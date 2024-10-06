@@ -7,6 +7,51 @@ import type { BackEndUsersType } from './userTypes'
 //  date: string;
 //};
 
+//#region DTO para criação de Quiz
+export type CreateQuizDto = {
+  title: string
+  identifier: string
+  type: string
+  description: string
+  category: string
+  image?: QuizImageData
+  audio?: QuizAudioData
+  sociologicalData: CreateQuizSociologicalDataDto[]
+  questions: CreateQuizQuestionDto[]
+  userId: string
+  status?: 'draft' | 'published' | 'archived'
+}
+
+// Sociological metadata for quizzes
+export type CreateQuizSociologicalDataDto = {
+  id: number // Unique identifier for sociological data
+  name: string // Sociological category name
+  color: ThemeColor | string // Associated color for the category
+}
+
+export type CreateQuizQuestionDto = {
+  type: string
+  question?: string
+  answer?: string
+  image?: QuizImageData
+  audio?: QuizAudioData
+  options?: CreateQuizQuestionOptionDto[]
+  subQuestions?: CreateQuizQuestionDto[]
+  parentQuestionId?: number
+  quizId?: number
+}
+
+export type CreateQuizQuestionOptionDto = {
+  title: string
+  isChecked: boolean
+  weight: number
+  sociologicalId: number
+  sociological?: QuizSociologicalOptionData
+  image?: QuizImageData
+}
+
+//#endregion
+
 // Blueprint for a quiz
 export type Quiz = {
   id: number // Unique identifier

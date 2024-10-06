@@ -30,9 +30,8 @@ export class CreateQuizQuestionOptionDto {
     description: 'Peso da opção na pontuação',
     example: 10,
   })
-  @IsOptional()
   @IsNumber()
-  weight?: number;
+  weight: number;
 
   @ApiProperty({
     description: 'ID dos dados sociológicos associados',

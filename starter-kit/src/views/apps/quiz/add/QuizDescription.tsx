@@ -1,5 +1,8 @@
 'use client'
 
+// React imports
+import { useEffect } from 'react'
+
 // MUI Imports
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
@@ -105,7 +108,7 @@ const EditorToolbar = ({ editor }: { editor: Editor | null }) => {
 
 const QuizDescription = () => {
   const { quizName, setQuizName, quizIdentifier, setQuizIdentifier, quizDescription, setQuizDescription } =
-    useSociologicalData() // Acessando o contexto
+    useSociologicalData()
 
   const editor = useEditor({
     extensions: [
@@ -118,13 +121,20 @@ const QuizDescription = () => {
       }),
       Underline
     ],
-    content: quizDescription, // Preencher o conteúdo inicial com o estado global
+    content: quizDescription,
     onUpdate: ({ editor }) => {
-      setQuizDescription(editor.getHTML()) // Atualizar o estado global com a descrição
+      setQuizDescription(editor.getHTML())
     },
     immediatelyRender: false,
     shouldRerenderOnTransaction: false
   })
+
+  // Efeito para limpar o conteúdo do editor quando a descrição for resetada
+  useEffect(() => {
+    if (editor && quizDescription === '') {
+      editor.commands.setContent('') // Limpa o conteúdo do editor quando o estado de descrição está vazio
+    }
+  }, [quizDescription, editor])
 
   return (
     <Card>
