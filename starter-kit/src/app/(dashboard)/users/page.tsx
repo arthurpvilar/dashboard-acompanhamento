@@ -3,7 +3,8 @@
 import UserList from '@views/apps/user/list'
 
 // Data Imports
-import { getUserData } from '@/app/server/actions'
+import { getUsersDataFromServer, getUserStatistics } from '@/app/server/actions'
+import type { UserStatisticsDto } from '@/types/apps/userTypes'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the
@@ -25,9 +26,10 @@ import { getUserData } from '@/app/server/actions'
 
 const UserListApp = async () => {
   // Vars
-  const data = await getUserData()
+  const data = await getUsersDataFromServer()
+  const statics = await getUserStatistics()
 
-  return <UserList userData={data} />
+  return <UserList userData={data} userStatistics={statics.data as UserStatisticsDto} />
 }
 
 export default UserListApp

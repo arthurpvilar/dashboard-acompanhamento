@@ -1,6 +1,6 @@
 import { QuizQuestion } from '@App/modules/quiz-question/entities/quiz-question.entity';
 import { QuizSociologicalData } from '@App/modules/quiz-sociological-data/entities/quiz-sociological-data.entity';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
 import {
   Entity,
   PrimaryGeneratedColumn,

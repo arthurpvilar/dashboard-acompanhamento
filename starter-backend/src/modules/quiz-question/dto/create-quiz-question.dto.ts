@@ -9,8 +9,8 @@ import {
 import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateQuizQuestionOptionDto } from '@App/modules/quiz-question-option/dto/create-quiz-question-option.dto';
-import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizAudioData } from '@App/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
 
 export class CreateQuizQuestionDto {
   @ApiProperty({

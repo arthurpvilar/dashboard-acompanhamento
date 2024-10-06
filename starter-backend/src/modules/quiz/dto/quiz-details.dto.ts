@@ -11,8 +11,8 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { QuizStatisticalSociologicalDataDto } from './quiz-statistical-sociological-data.dto';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
-import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
+import { QuizAudioData } from '@App/shared/types/quiz-audio-data.interface';
 
 // Novo DTO para os dados sociológicos
 export class QuizSociologicalDataDto {

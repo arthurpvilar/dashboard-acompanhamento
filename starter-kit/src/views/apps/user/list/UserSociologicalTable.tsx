@@ -2,7 +2,7 @@
 'use client'
 
 // React Imports
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 
 // Next Imports
 import Link from 'next/link'
@@ -13,13 +13,11 @@ import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Chip from '@mui/material/Chip'
 import Checkbox from '@mui/material/Checkbox'
 import IconButton from '@mui/material/IconButton'
 import TablePagination from '@mui/material/TablePagination'
-import type { TextFieldProps } from '@mui/material/TextField'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -41,26 +39,22 @@ import type { RankingInfo } from '@tanstack/match-sorter-utils'
 
 // Type Imports
 import type { ThemeColor } from '@core/types'
-
 import type { Locale } from '@configs/i18n'
-
-import OptionMenu from '@core/components/option-menu'
-
-import CustomAvatar from '@core/components/mui/Avatar'
-
-import tableStyles from '@core/styles/table.module.css'
-
-import type { UsersType } from '@/types/apps/userTypes'
+import type { BackEndUsersType } from '@/types/apps/userTypes'
 
 // Component Imports
-import TableFilters from './TableFilters'
-import AddUserDrawer from './AddUserDrawer'
+import OptionMenu from '@core/components/option-menu'
+import CustomAvatar from '@core/components/mui/Avatar'
+import tableStyles from '@core/styles/table.module.css'
+import TableSociologicalUserFilters from './TableSociologicalUserFilters'
+import AddSociologicalUserDrawer from './AddSociologicalUserDrawer'
 
 // Util Imports
 import { getInitials } from '@/utils/getInitials'
 import { getLocalizedUrl } from '@/utils/i18n'
 
-// Style Imports
+// Actions Import
+import { deleteUserOnServer } from '@/app/server/actions'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -71,7 +65,7 @@ declare module '@tanstack/table-core' {
   }
 }
 
-type UsersTypeWithAction = UsersType & {
+type BackEndUsersTypeWithAction = BackEndUsersType & {
   action?: string
 }
 
@@ -80,45 +74,11 @@ type UserStatusType = {
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-  // Rank the item
   const itemRank = rankItem(row.getValue(columnId), value)
 
-  // Store the itemRank info
-  addMeta({
-    itemRank
-  })
+  addMeta({ itemRank })
 
-  // Return if the item should be filtered in/out
   return itemRank.passed
-}
-
-const DebouncedInput = ({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<TextFieldProps, 'onChange'>) => {
-  // States
-  const [value, setValue] = useState(initialValue)
-
-  useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
-
-  return <TextField {...props} value={value} onChange={e => setValue(e.target.value)} size='small' />
 }
 
 const userStatusObj: UserStatusType = {
@@ -128,20 +88,18 @@ const userStatusObj: UserStatusType = {
 }
 
 // Column Definitions
-const columnHelper = createColumnHelper<UsersTypeWithAction>()
+const columnHelper = createColumnHelper<BackEndUsersTypeWithAction>()
 
-const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
-  // States
+const UserSociologicalTable = ({ tableData }: { tableData?: BackEndUsersType[] }) => {
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [rowSelection, setRowSelection] = useState({})
-  const [data, setData] = useState(...[tableData])
+  const [data, setData] = useState(tableData || [])
   const [filteredData, setFilteredData] = useState(data)
   const [globalFilter, setGlobalFilter] = useState('')
 
-  // Hooks
   const { lang: locale } = useParams()
 
-  const columns = useMemo<ColumnDef<UsersTypeWithAction, any>[]>(
+  const columns = useMemo<ColumnDef<BackEndUsersTypeWithAction, any>[]>(
     () => [
       {
         id: 'select',
@@ -183,40 +141,6 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         header: 'Email',
         cell: ({ row }) => <Typography>{row.original.email}</Typography>
       }),
-
-      /*
-      columnHelper.accessor('role', {
-        header: 'Role',
-        cell: ({ row }) => (
-          <div className='flex items-center gap-2'>
-            <Icon
-              className={userRoleObj[row.original.role].icon}
-              sx={{ color: `var(--mui-palette-${userRoleObj[row.original.role].color}-main)`, fontSize: '1.375rem' }}
-            />
-            <Typography className='capitalize' color='text.primary'>
-              {row.original.role}
-            </Typography>
-          </div>
-        )
-      }),
-      columnHelper.accessor('currentPlan', {
-        header: 'Plan',
-        cell: ({ row }) => (
-          <Typography className='capitalize' color='text.primary'>
-            {row.original.currentPlan}
-          </Typography>
-        )
-      }),
-
-        cell: ({ row }) => (
-          <div className='flex items-center justify-between gap-5'>
-            <div className='flex items-center gap-1.5 ml-auto pr-4'>
-              <i className='ri-group-line text-primary' />
-              <Typography>{row.original.users.length}</Typography>
-            </div>
-          </div>
-        ),
-      */
       columnHelper.accessor('status', {
         header: 'Status',
         cell: ({ row }) => (
@@ -236,7 +160,19 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         cell: ({ row }) => (
           <div className='flex items-center'>
             <div className='flex items-center gap-1.5 ml-auto pr-4'>
-              <IconButton onClick={() => setData(data?.filter(product => product.id !== row.original.id))}>
+              <IconButton
+                onClick={async () => {
+                  const accessToken = localStorage.getItem('accessToken') as string
+                  const userId = row.original.index as string
+                  const response = await deleteUserOnServer(accessToken, userId)
+
+                  if (response.success) {
+                    setData(data?.filter(user => user.index !== userId))
+                  } else {
+                    console.error('Erro ao excluir usuário:', response.message)
+                  }
+                }}
+              >
                 <i className='ri-delete-bin-7-line text-textSecondary' />
               </IconButton>
               <IconButton>
@@ -266,27 +202,16 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
         enableSorting: false
       })
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, filteredData]
+    [data, locale]
   )
 
   const table = useReactTable({
-    data: filteredData as UsersType[],
+    data: filteredData as BackEndUsersType[],
     columns,
-    filterFns: {
-      fuzzy: fuzzyFilter
-    },
-    state: {
-      rowSelection,
-      globalFilter
-    },
-    initialState: {
-      pagination: {
-        pageSize: 10
-      }
-    },
-    enableRowSelection: true, //enable row selection for all rows
-    // enableRowSelection: row => row.original.age > 18, // or enable row selection conditionally per row
+    filterFns: { fuzzy: fuzzyFilter },
+    state: { rowSelection, globalFilter },
+    initialState: { pagination: { pageSize: 10 } },
+    enableRowSelection: true,
     globalFilterFn: fuzzyFilter,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
@@ -299,25 +224,23 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues()
   })
 
-  const getAvatar = (params: Pick<UsersType, 'avatar' | 'fullName'>) => {
+  const getAvatar = (params: Pick<BackEndUsersType, 'avatar' | 'fullName'>) => {
     const { avatar, fullName } = params
 
-    if (avatar) {
-      return <CustomAvatar src={avatar} skin='light' size={34} />
-    } else {
-      return (
-        <CustomAvatar skin='light' size={34}>
-          {getInitials(fullName as string)}
-        </CustomAvatar>
-      )
-    }
+    return avatar ? (
+      <CustomAvatar src={avatar} skin='light' size={34} />
+    ) : (
+      <CustomAvatar skin='light' size={34}>
+        {getInitials(fullName as string)}
+      </CustomAvatar>
+    )
   }
 
   return (
     <>
       <Card>
         <CardHeader title='Filtros' />
-        <TableFilters setData={setFilteredData} tableData={data} />
+        <TableSociologicalUserFilters setData={setFilteredData} tableData={data} />
         <Divider />
         <div className='flex justify-between p-5 gap-4 flex-col items-start sm:flex-row sm:items-center'>
           <Button
@@ -329,12 +252,6 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
             Exportar
           </Button>
           <div className='flex items-center gap-x-4 is-full gap-4 flex-col sm:is-auto sm:flex-row'>
-            <DebouncedInput
-              value={globalFilter ?? ''}
-              onChange={value => setGlobalFilter(String(value))}
-              placeholder='Procurar por Usuário'
-              className='is-full sm:is-auto'
-            />
             <Button variant='contained' onClick={() => setAddUserOpen(!addUserOpen)} className='is-full sm:is-auto'>
               + Criar novo Usuário
             </Button>
@@ -348,51 +265,45 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
                   {headerGroup.headers.map(header => (
                     <th key={header.id}>
                       {header.isPlaceholder ? null : (
-                        <>
-                          <div
-                            className={classnames({
-                              'flex items-center': header.column.getIsSorted(),
-                              'cursor-pointer select-none': header.column.getCanSort()
-                            })}
-                            onClick={header.column.getToggleSortingHandler()}
-                          >
-                            {flexRender(header.column.columnDef.header, header.getContext())}
-                            {{
-                              asc: <i className='ri-arrow-up-s-line text-xl' />,
-                              desc: <i className='ri-arrow-down-s-line text-xl' />
-                            }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
-                          </div>
-                        </>
+                        <div
+                          className={classnames({
+                            'flex items-center': header.column.getIsSorted(),
+                            'cursor-pointer select-none': header.column.getCanSort()
+                          })}
+                          onClick={header.column.getToggleSortingHandler()}
+                        >
+                          {flexRender(header.column.columnDef.header, header.getContext())}
+                          {{
+                            asc: <i className='ri-arrow-up-s-line text-xl' />,
+                            desc: <i className='ri-arrow-down-s-line text-xl' />
+                          }[header.column.getIsSorted() as 'asc' | 'desc'] ?? null}
+                        </div>
                       )}
                     </th>
                   ))}
                 </tr>
               ))}
             </thead>
-            {table.getFilteredRowModel().rows.length === 0 ? (
-              <tbody>
+            <tbody>
+              {table.getFilteredRowModel().rows.length === 0 ? (
                 <tr>
                   <td colSpan={table.getVisibleFlatColumns().length} className='text-center'>
                     Nenhum dado disponível
                   </td>
                 </tr>
-              </tbody>
-            ) : (
-              <tbody>
-                {table
+              ) : (
+                table
                   .getRowModel()
                   .rows.slice(0, table.getState().pagination.pageSize)
-                  .map(row => {
-                    return (
-                      <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
-                        {row.getVisibleCells().map(cell => (
-                          <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-                        ))}
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            )}
+                  .map(row => (
+                    <tr key={row.id} className={classnames({ selected: row.getIsSelected() })}>
+                      {row.getVisibleCells().map(cell => (
+                        <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                      ))}
+                    </tr>
+                  ))
+              )}
+            </tbody>
           </table>
         </div>
         <TablePagination
@@ -411,7 +322,7 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
           onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
         />
       </Card>
-      <AddUserDrawer
+      <AddSociologicalUserDrawer
         open={addUserOpen}
         handleClose={() => setAddUserOpen(!addUserOpen)}
         userData={data}
@@ -421,4 +332,4 @@ const UserListTable = ({ tableData }: { tableData?: UsersType[] }) => {
   )
 }
 
-export default UserListTable
+export default UserSociologicalTable

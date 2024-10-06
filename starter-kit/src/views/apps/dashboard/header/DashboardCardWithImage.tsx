@@ -7,7 +7,7 @@ import Chip from '@mui/material/Chip'
 // Types Imports
 import type { CardStatsCharacterProps } from '@/types/pages/widgetTypes'
 
-const CardStatWithImage = (props: CardStatsCharacterProps) => {
+const DashboardCardWithImage = (props: CardStatsCharacterProps) => {
   // Props
   const { title, src, stats, trendNumber, trend, chipText, chipColor } = props
 
@@ -25,11 +25,11 @@ const CardStatWithImage = (props: CardStatsCharacterProps) => {
             </Typography>
           )}
         </div>
-        <Chip label={chipText} color={chipColor} variant='tonal' size='small' />
+        {chipText && <Chip label={chipText} color={chipColor} variant='tonal' size='small' />}
         <img src={src} alt={title} className='absolute block-end-0 inline-end-4 bs-44' />
       </CardContent>
     </Card>
   )
 }
 
-export default CardStatWithImage
+export default DashboardCardWithImage

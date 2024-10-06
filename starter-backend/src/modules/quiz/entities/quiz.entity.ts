@@ -1,8 +1,8 @@
 import { QuizAttempt } from '@App/modules/quiz-attempt/entities/quiz-attempt.entity';
 import { QuizQuestion } from '@App/modules/quiz-question/entities/quiz-question.entity';
 import { QuizSociologicalData } from '@App/modules/quiz-sociological-data/entities/quiz-sociological-data.entity';
-import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizAudioData } from '@App/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
 import { User } from '@App/modules/user/entities/user.entity';
 import {
   Entity,

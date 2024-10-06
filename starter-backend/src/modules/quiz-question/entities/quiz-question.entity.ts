@@ -10,8 +10,8 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizAudioData } from '@App/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
 
 @Entity()
 export class QuizQuestion {

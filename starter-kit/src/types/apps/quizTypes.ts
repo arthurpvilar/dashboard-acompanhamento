@@ -14,8 +14,8 @@ export type CreateQuizDto = {
   type: string
   description: string
   category: string
-  image?: QuizImageData
-  audio?: QuizAudioData
+  image?: QuizImageData | null
+  audio?: QuizAudioData | null
   sociologicalData: CreateQuizSociologicalDataDto[]
   questions: CreateQuizQuestionDto[]
   userId: string

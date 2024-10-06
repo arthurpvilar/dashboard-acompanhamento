@@ -9,8 +9,8 @@ import {
 import { Type } from 'class-transformer';
 import { CreateQuizQuestionDto } from '@App/modules/quiz-question/dto/create-quiz-question.dto';
 import { CreateQuizSociologicalDataDto } from '@App/modules/quiz-sociological-data/dto/create-quiz-sociological-data.dto';
-import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
+import { QuizAudioData } from '@App/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
 
 export class CreateQuizDto {
   @IsString()

@@ -17,7 +17,8 @@ async function bootstrap() {
     .setTitle('Quiz Social Data API')
     .setDescription('API de desenvolvimento')
     .setVersion('1.0')
-    .addTag('SocialData')
+    .addTag('auth', 'Rota de autenticação')
+    //.addTag('SocialData')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

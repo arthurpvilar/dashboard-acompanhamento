@@ -63,7 +63,6 @@ const HomePage = async () => {
       <Grid item xs={12}>
         <LatestQuizCreatedView quizData={null} />
       </Grid>
-
       <Grid item xs={12}>
         <SimpleQuizListTable quizData={data} />
       </Grid>

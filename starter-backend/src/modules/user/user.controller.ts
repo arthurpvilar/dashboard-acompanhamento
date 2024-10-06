@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserStatisticsDto } from './dto/user-statistics.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -50,9 +51,32 @@ export class UserController {
     status: 200,
     description: 'Successfully accessed protected route.',
   })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized user.' })
   async getProtectedRoute(@Req() req) {
     return { message: 'Protected route accessed', user: req.user };
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Retrieve all users' })
+  @ApiResponse({
+    status: 200,
+    description: 'Users retrieved successfully.',
+    type: [CreateUserDto], // Retorna uma lista de usuários
+  })
+  async findAll() {
+    return this.userService.findAllUsers();
+  }
+
+  @Get('statistics')
+  @ApiOperation({ summary: 'Get user statistics' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Statistics of user roles and statuses retrieved successfully.',
+    type: UserStatisticsDto,
+  })
+  async getUserStatistics(): Promise<UserStatisticsDto> {
+    return this.userService.getUserStatistics();
   }
 
   @Get(':id')
@@ -97,12 +121,12 @@ export class UserController {
 
   @Delete(':id')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt')) // Depois colocamos a proteção
   @ApiOperation({ summary: 'Delete user account' })
   @ApiResponse({ status: 200, description: 'User deleted successfully.' })
   @ApiResponse({ status: 404, description: 'User not found.' })
   async delete(@Param('id') id: string, @Req() req) {
-    if (req.user.id !== id) {
+    if (req.user.index === id) {
       throw new BadRequestException('You can only delete your own account.');
     }
     return this.userService.deleteUser(id);

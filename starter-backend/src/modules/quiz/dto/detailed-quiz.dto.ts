@@ -1,7 +1,7 @@
 import { QuizSociologicalData } from '@App/modules/quiz-sociological-data/entities/quiz-sociological-data.entity';
-import { QuizAudioData } from '@App/modules/shared/types/quiz-audio-data.interface';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
-import { QuizSociologicalOptionData } from '@App/modules/shared/types/quiz-social-option-data';
+import { QuizAudioData } from '@App/shared/types/quiz-audio-data.interface';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
+import { QuizSociologicalOptionData } from '@App/shared/types/quiz-social-option-data';
 import { User } from '@App/modules/user/entities/user.entity';
 
 // Main Quiz Response DTO

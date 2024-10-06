@@ -7,8 +7,8 @@ import {
   IsInt,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { QuizImageData } from '@App/modules/shared/types/quiz-image-data.interface';
-import { QuizSociologicalOptionData } from '@App/modules/shared/types/quiz-social-option-data';
+import { QuizImageData } from '@App/shared/types/quiz-image-data.interface';
+import { QuizSociologicalOptionData } from '@App/shared/types/quiz-social-option-data';
 import { Type } from 'class-transformer';
 
 export class CreateQuizQuestionOptionDto {

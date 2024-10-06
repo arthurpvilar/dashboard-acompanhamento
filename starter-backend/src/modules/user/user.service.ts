@@ -7,7 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { User } from './entities/user.entity';
+import { User, UserRole, UserStatus } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -48,10 +48,18 @@ export class UserService {
     return user;
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { username, email, password, fullName } = createUserDto;
+  async findAllUsers(): Promise<User[]> {
+    const users = await this.userRepository.find();
+    if (!users.length) {
+      console.log('Nenhum usuário encontrado');
+      throw new NotFoundException('Nenhum usuário encontrado.');
+    }
+    return users;
+  }
 
-    console.log('Criando usuário com email:', email);
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const { username, email, password } = createUserDto;
+
     const existingUser = await this.userRepository.findOne({
       where: [{ email }, { username }],
     });
@@ -65,9 +73,7 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = this.userRepository.create({
-      username,
-      email,
-      fullName,
+      ...createUserDto,
       password: hashedPassword,
     });
 
@@ -103,5 +109,37 @@ export class UserService {
       console.error(`Usuário com index ${index} não encontrado`);
       throw new NotFoundException(`User with index ${index} not found`);
     }
+  }
+
+  // Nova função para retornar as estatísticas dos usuários
+  async getUserStatistics() {
+    const studentCount = await this.userRepository.count({
+      where: { role: UserRole.STUDENT },
+    });
+    const teacherCount = await this.userRepository.count({
+      where: { role: UserRole.TEACHER },
+    });
+    const adminCount = await this.userRepository.count({
+      where: { role: UserRole.ADMINISTRATOR },
+    });
+
+    const activeCount = await this.userRepository.count({
+      where: { status: UserStatus.ATIVO },
+    });
+    const pendingCount = await this.userRepository.count({
+      where: { status: UserStatus.PENDENTE },
+    });
+    const inactiveCount = await this.userRepository.count({
+      where: { status: UserStatus.INATIVO },
+    });
+
+    return {
+      students: studentCount,
+      teachers: teacherCount,
+      administrators: adminCount,
+      active: activeCount,
+      pending: pendingCount,
+      inactive: inactiveCount,
+    };
   }
 }

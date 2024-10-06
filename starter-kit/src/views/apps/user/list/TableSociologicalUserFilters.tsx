@@ -10,11 +10,18 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 
 // Type Imports
-import type { UsersType } from '@/types/apps/userTypes'
+import type { BackEndUsersType } from '@/types/apps/userTypes'
+import { UserStatus } from '@/types/apps/userTypes'
 
-const TableFilters = ({ setData, tableData }: { setData: (data: UsersType[]) => void; tableData?: UsersType[] }) => {
+const TableSociologicalUserFilters = ({
+  setData,
+  tableData
+}: {
+  setData: (data: BackEndUsersType[]) => void
+  tableData?: BackEndUsersType[]
+}) => {
   // States
-  const [status, setStatus] = useState<UsersType['status']>('')
+  const [status, setStatus] = useState<UserStatus | ''>('')
 
   useEffect(() => {
     const filteredData = tableData?.filter(user => {
@@ -37,14 +44,14 @@ const TableFilters = ({ setData, tableData }: { setData: (data: UsersType[]) => 
               id='select-status'
               label='Selecione o Status'
               value={status}
-              onChange={e => setStatus(e.target.value)}
+              onChange={e => setStatus(e.target.value as UserStatus)}
               labelId='status-select'
               inputProps={{ placeholder: 'Selecione o Status' }}
             >
               <MenuItem value=''>Selecione o Status</MenuItem>
-              <MenuItem value='Pendente'>Ativação Pendente</MenuItem>
-              <MenuItem value='Ativo'>Ativo</MenuItem>
-              <MenuItem value='Inativo'>Inativo</MenuItem>
+              <MenuItem value={UserStatus.PENDENTE}>Pendente</MenuItem>
+              <MenuItem value={UserStatus.ATIVO}>Ativo</MenuItem>
+              <MenuItem value={UserStatus.INATIVO}>Inativo</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -53,4 +60,4 @@ const TableFilters = ({ setData, tableData }: { setData: (data: UsersType[]) => 
   )
 }
 
-export default TableFilters
+export default TableSociologicalUserFilters
