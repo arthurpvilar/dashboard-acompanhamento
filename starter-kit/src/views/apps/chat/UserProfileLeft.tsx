@@ -24,11 +24,7 @@ import Button from '@mui/material/Button'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 // Type Imports
-import type { AppDispatch } from '@/redux-store'
 import type { ProfileUserType, StatusType } from '@/types/apps/chatTypes'
-
-// Slice Imports
-import { setUserStatus } from '@/redux-store/slices/chat'
 
 // Component Imports
 import AvatarWithBadge from './AvatarWithBadge'
@@ -38,7 +34,7 @@ type Props = {
   userSidebar: boolean
   setUserSidebar: (open: boolean) => void
   profileUserData: ProfileUserType
-  dispatch: AppDispatch
+  //dispatch: AppDispatch
   isBelowLgScreen: boolean
   isBelowSmScreen: boolean
 }
@@ -53,7 +49,7 @@ const ScrollWrapper = ({ children, isBelowLgScreen }: { children: ReactNode; isB
 
 const UserProfileLeft = (props: Props) => {
   // Props
-  const { userSidebar, setUserSidebar, profileUserData, dispatch, isBelowLgScreen, isBelowSmScreen } = props
+  const { userSidebar, setUserSidebar, profileUserData, isBelowLgScreen, isBelowSmScreen } = props
 
   // States
   const [twoStepVerification, setTwoStepVerification] = useState<boolean>(true)
@@ -65,10 +61,6 @@ const UserProfileLeft = (props: Props) => {
 
   const handleNotification = () => {
     setNotification(!notification)
-  }
-
-  const handleUserStatus = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUserStatus({ status: e.target.value as StatusType }))
   }
 
   return profileUserData ? (
@@ -115,7 +107,6 @@ const UserProfileLeft = (props: Props) => {
               <RadioGroup
                 value={profileUserData.status}
                 name='radio-buttons-group'
-                onChange={handleUserStatus}
                 aria-labelledby='status-radio-buttons-group-label'
               >
                 <FormControlLabel value='online' control={<Radio color='success' />} label='Online' />

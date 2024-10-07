@@ -46,6 +46,7 @@ type Props = {
 }
 
 const chipColor: { [key: string]: ChipColorType } = {
+  Geral: { color: 'warning' },
   'Start Lab': { color: 'primary' },
   'Escola do Volante': { color: 'success' }
 }
@@ -165,9 +166,8 @@ const QuizListTable = (props: Props) => {
                   <div className='flex flex-col gap-4 p-5'>
                     <div className='flex items-center justify-between'>
                       <Chip label={item.category} variant='tonal' size='small' color={chipColor[item.category].color} />
-                      <div className='flex items-start'>
-                        <Typography className='font-medium mie-1'>{4}</Typography>
-                        <i className='ri-star-fill text-warning mie-2' />
+                      <div className='flex items-center'>
+                        <i className='ri-star-fill text-warning mie-2' style={{ fontSize: '16px' }} />
                         <Typography>{`(${70})`}</Typography>
                       </div>
                     </div>

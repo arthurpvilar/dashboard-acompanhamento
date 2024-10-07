@@ -1,7 +1,1367 @@
 // Type Imports
 import type { Quiz, QuizDetailsDto } from '@/types/apps/quizTypes'
+import { UserRole, UserStatus } from '@/types/apps/userTypes'
 
 export const dbDetailed: QuizDetailsDto[] = [
+  {
+    id: 5,
+    title: 'Questionário da aula 01 até aula 03',
+    identifier: 'START0103LAB',
+    description:
+      '<p style="text-align: justify">Essas perguntas são voltadas para avaliar a compreensão técnica, o raciocínio lógico e a aplicação de conceitos fundamentais em áreas como engenharia, robótica e estruturas físicas. Elas exploram temas como a importância de encaixes precisos, a funcionalidade de robôs, o papel das alavancas e dos centros de equilíbrio, além de conceitos estruturais em construções. As questões incentivam os participantes a refletirem sobre a relação entre segurança, estabilidade, eficiência e cooperação, proporcionando uma base sólida para o entendimento prático e teórico desses tópicos essenciais.</p>',
+    category: 'Geral',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/STARTLABENCAIXE.png',
+      blobData: null
+    },
+    audio: undefined,
+    sociologicalDataStatistics: [
+      {
+        id: 1,
+        name: 'Reposta Certa',
+        value: 50,
+        color: '#2EC'
+      },
+      {
+        id: 2,
+        name: 'Resposta Errada',
+        value: 63,
+        color: '#EB3D63'
+      }
+    ],
+    totalAttempts: 528,
+    averageWeight: 2.8,
+    completionRate: 92.5,
+    averageCompletionTime: 32,
+    questions: [
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual das seguintes opções melhor descreve um encaixe perfeito?</p>',
+        options: [
+          {
+            id: 1,
+            title: '<p>Duas peças se unem perfeitamente, sem deixar espaços entre elas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 2,
+            title: '<p>Duas peças se unem, mas há pequenos espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 3,
+            title: '<p>Duas peças se separam, mas não deixam espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Robôs possuem várias peças como braços, motores e circuitos. Para que o robô funcione bem, essas peças devem:</p>',
+        options: [
+          {
+            id: 4,
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, encaixadas perfeitamente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 5,
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 6,
+            title: '<p>Estar separadas e com folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que é um encaixe?</p>',
+        options: [
+          {
+            id: 7,
+            title: '<p>Um encaixe é quando duas peças se unem perfeitamente, sem deixar espaços entre elas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 8,
+            title: '<p>Um encaixe é quando duas peças se unem, deixando espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 9,
+            title: '<p>Um encaixe é quando duas peças se separam, sem deixar espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Robôs possuem várias peças como braços, motores e circuitos. Para que o robô funcione bem, essas peças devem:</p>',
+        options: [
+          {
+            id: 10,
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, encaixadas perfeitamente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 11,
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 12,
+            title: '<p>Estar separadas e com folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual das seguintes afirmações é verdadeira sobre o funcionamento de um robô?</p>',
+        options: [
+          {
+            id: 13,
+            title:
+              '<p>As peças do robô devem estar bem unidas e sem folga para garantir um funcionamento eficiente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 14,
+            title:
+              '<p>As peças do robô devem estar separadas e com folga para garantir um funcionamento eficiente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 15,
+            title: '<p>As peças do robô devem estar desencaixadas para garantir um funcionamento eficiente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que pode acontecer se as peças de um robô não estiverem encaixadas perfeitamente?</p>',
+        options: [
+          {
+            id: 16,
+            title: '<p>O robô pode funcionar de maneira mais eficiente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 17,
+            title: '<p>O robô pode apresentar falhas ou mau funcionamento.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 18,
+            title: '<p>O robô pode se tornar mais fácil de desmontar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Ao nosso redor existem diversos objetos que foram construídos com o encaixem de peças, como carros, móveis, casas e robôs. Por que as peças desses objetos devem ser encaixadas perfeitamente?</p>',
+        options: [
+          {
+            id: 19,
+            title: '<p>Para que eles fiquem apenas bonitos</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 20,
+            title: '<p>Para que eles não desmontem e funcionem bem</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 21,
+            title: '<p>Para que eles desmontem e não funcionem bem</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Qual é a consequência de um encaixe imperfeito em objetos como carros, móveis, casas e robôs?</p>',
+        options: [
+          {
+            id: 22,
+            title: '<p>Eles podem desmontar e não funcionar bem.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 23,
+            title: '<p>Eles podem funcionar melhor</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 24,
+            title: '<p>Eles podem ficar mais bonitos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Como o encaixe perfeito das peças contribui para a segurança e durabilidade de objetos como carros e casas?</p>',
+        options: [
+          {
+            id: 25,
+            title: '<p>Garante que as peças fiquem firmes e seguras, evitando acidentes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 26,
+            title: '<p>Facilita a desmontagem das peças.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 27,
+            title: '<p>Torna os objetos mais fáceis de mover.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Como e por quem os ambientes públicos como parquinhos e praças podem ser utilizados?</p>',
+        options: [
+          {
+            id: 28,
+            title: '<p>De forma individual apenas por pessoas que podem pagar a entrada.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 29,
+            title: '<p>De forma individual apenas por pessoas que entrarem primeiro</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 30,
+            title:
+              '<p style="text-align: justify">Por todas as pessoas que desejarem, desde que compartilhem o ambiente de forma harmoniosa, pois tudo que é público, é de todos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual é a principal característica dos ambientes públicos?</p>',
+        options: [
+          {
+            id: 31,
+            title: '<p>Eles são exclusivos para grupos específicos de pessoas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 32,
+            title:
+              '<p style="text-align: justify">Eles são abertos e acessíveis para todos, independentemente de quem chega primeiro ou de quem pode pagar.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 33,
+            title: '<p>Eles são utilizados apenas para eventos privados.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que é uma gangorra?</p>',
+        options: [
+          {
+            id: 34,
+            title: '<p>É um brinquedo formado por duas rodas colocadas em um centro de desequilíbrio.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 35,
+            title: '<p>É um brinquedo formado por uma haste colocada em um centro de equilíbrio.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 36,
+            title: '<p>É um brinquedo formado por uma roda colocada em um centro de equilíbrio.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual das opções melhor descreve como uma gangorra funciona?</p>',
+        options: [
+          {
+            id: 37,
+            title: '<p>Um brinquedo que se move apenas de um lado para o outro sem alternar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 38,
+            title:
+              '<p style="text-align: justify">Um brinquedo que permite que duas pessoas alternem entre subir e descer, dependendo da força aplicada em cada.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 39,
+            title: '<p>Um brinquedo que gira em círculo completo quando usado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que é um centro de equilíbrio de um objeto?</p>',
+        options: [
+          {
+            id: 40,
+            title:
+              '<p style="text-align: justify">É um ponto, localizado geralmente no centro de um objeto, onde o peso do objeto fica perfeitamente distribuído, portanto, equilibrado.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 41,
+            title:
+              '<p style="text-align: justify">É uma haste, localizada geralmente na ponta direita de um objeto, onde o peso do objeto fica perfeitamente distribuído, portanto, equilibrado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 42,
+            title:
+              '<p>É um ponto, localizado geralmente no centro de um objeto, onde o peso do objeto fica não distribuído, portanto, não equilibrado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Por que o centro de equilíbrio é importante para o funcionamento de objetos como a gangorra?</p>',
+        options: [
+          {
+            id: 43,
+            title:
+              '<p>Porque ele permite que o peso seja distribuído de maneira desigual, o que melhora o funcionamento da gangorra.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 44,
+            title:
+              '<p>Porque ele permite que o peso seja distribuído de maneira equilibrada, garantindo que a gangorra funcione corretamente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 45,
+            title:
+              '<p>Porque ele está localizado na ponta direita da gangorra, o que é essencial para o funcionamento.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 16,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual a relação entre o centro de equilíbrio e o peso de um robô com rodas?</p>',
+        options: [
+          {
+            id: 46,
+            title: '<p>O centro de equilíbrio determina o ponto onde o peso do robô deve estar distribuído.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 47,
+            title: '<p>O centro de equilíbrio determina o ponto onde o peso do robô deve estar desequilibrado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 48,
+            title: '<p>O peso do robô indica onde é o centro de equilíbrio.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 17,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Por que é importante que o centro de equilíbrio esteja corretamente distribuído em um robô com rodas?</p>',
+        options: [
+          {
+            id: 49,
+            title:
+              '<p style="text-align: justify">Porque isso permite que o robô mantenha sua estabilidade e funcione corretamente durante o movimento.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 50,
+            title: '<p>Porque isso permite que o robô fique sempre em movimento, mesmo em repouso.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 51,
+            title:
+              '<p>Porque isso faz o robô se desequilibrar facilmente, o que é essencial para seu funcionamento.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 18,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Objetos como carrinhos de mão devem ser bem construídos. Com que os construtores devem tomar muito cuidado na construção de um objeto?</p>',
+        options: [
+          {
+            id: 52,
+            title:
+              '<p>Com nada, pois não importa a forma como ele foi construído, ele sempre será um objeto indestrutível.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 53,
+            title:
+              '<p>Com o local onde eles são construídos, pois se o local não estiver limpo os objetos podem quebrar.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 54,
+            title:
+              '<p>Com a estrutura dos objetos, pois uma estrutura bem feita poderá manter o objeto firme sem quebrar com facilidade.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 19,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Por que a estrutura de um carrinho de mão é importante para seu funcionamento?</p>',
+        options: [
+          {
+            id: 55,
+            title:
+              '<p>Porque uma estrutura bem feita garante durabilidade e eficiência no transporte de materiais.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 56,
+            title: '<p>Porque uma estrutura frágil facilita o uso do carrinho de mão.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 57,
+            title: '<p>Porque a estrutura do carrinho de mão não tem impacto no seu desempenho.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 20,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que prédios, carros e pontes possuem em comum?</p>',
+        options: [
+          {
+            id: 58,
+            title:
+              '<p>São objetos que podemos encontrar em nossas cidades e que possuem uma estrutura que os deixam firmes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 59,
+            title:
+              '<p>São objetos que podemos encontrar apenas em cidades grandes e que possuem uma estrutura que os deixam firmes.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 60,
+            title:
+              '<p>São objetos que podemos encontrar apenas em cidades grandes e que não possuem uma estrutura que os deixam firmes.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 21,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Por que é importante que prédios, carros e pontes tenham estruturas firmes?</p>',
+        options: [
+          {
+            id: 61,
+            title: '<p>Porque isso garante a segurança e a durabilidade desses objetos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 62,
+            title: '<p>Porque estruturas frágeis são mais fáceis de construir.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 63,
+            title: '<p>Porque a firmeza da estrutura não influencia na utilização.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 22,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Objetos podem ser construídos com dois tipos de estruturas: as rígidas e as flexíveis. Qual alternativa fala sobre as estruturas rígidas?</p>',
+        options: [
+          {
+            id: 64,
+            title:
+              '<p>As estruturas rígidas geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas distribuem o peso de forma uniforme.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 65,
+            title:
+              '<p>As estruturas rígidas geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas não distribuem o peso de forma uniforme</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 66,
+            title:
+              '<p>As estruturas rígidas geralmente possuem formas de quadrados (ou quadrangulares), porque elas distribuem o peso de forma uniforme.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 23,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual é a vantagem de utilizar estruturas triangulares em construções rígidas?</p>',
+        options: [
+          {
+            id: 67,
+            title:
+              '<p>Elas aumentam a estabilidade e a resistência da construção ao distribuir o peso de forma uniforme.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 68,
+            title: '<p>Elas reduzem a durabilidade da construção ao concentrar o peso em pontos específicos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 69,
+            title: '<p>Elas são mais fáceis de construir, mas não oferecem muita resistência.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 24,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Objetos podem ser construídos com dois tipos de estruturas: as rígidas e as flexíveis. Qual alternativa fala sobre as estruturas flexíveis?</p>',
+        options: [
+          {
+            id: 70,
+            title:
+              '<p style="text-align: justify">As estruturas flexíveis geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas distribuem o peso de forma uniforme.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 71,
+            title:
+              '<p style="text-align: justify">As estruturas flexíveis geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas não distribuem o peso de forma uniforme.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 72,
+            title:
+              '<p style="text-align: justify">As estruturas flexíveis geralmente possuem formas de quadrados (ou quadrangulares), porque elas podem oferecer flexibilidade ao objeto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 25,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quais são algumas vantagens de utilizar estruturas flexíveis em comparação com estruturas rígidas?</p>',
+        options: [
+          {
+            id: 73,
+            title:
+              '<p style="text-align: justify">Estruturas flexíveis são mais resistentes a impactos e tensões, permitindo que o objeto se adapte a diferentes forças.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 74,
+            title:
+              '<p style="text-align: justify">Estruturas flexíveis são menos duráveis e menos adaptáveis às forças externas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 75,
+            title:
+              '<p style="text-align: justify">Estruturas flexíveis distribuem o peso de maneira uniforme como as rígidas, mas não têm outras vantagens significativas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 26,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Por que as estruturas rígidas e flexíveis estão presentes no corpo de um robô móvel?</p>',
+        options: [
+          {
+            id: 76,
+            title:
+              '<p style="text-align: justify">Porque a combinação dessas estruturas faz com que os robôs tenham firmeza para ficar em pé, mas que possam também executar tarefas que exijam flexibilidade.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 77,
+            title:
+              '<p style="text-align: justify">Porque a combinação dessas estruturas faz com que os robôs tenham firmeza para ficar em pé, mas que possam também executar apenas tarefas rígidas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 78,
+            title:
+              '<p style="text-align: justify">Robôs são construídos apenas com estruturas flexíveis, pois eles devem sempre executar tarefas que exijam flexibilidade.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      },
+      {
+        id: 27,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Qual é a principal vantagem de um robô móvel possuir tanto estruturas rígidas quanto flexíveis?</p>',
+        options: [
+          {
+            id: 79,
+            title:
+              '<p style="text-align: justify">Isso permite que o robô tenha estabilidade e ao mesmo tempo flexibilidade para se adaptar a diferentes tarefas e ambientes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociologicalData: {
+              id: 1,
+              name: 'Reposta Certa',
+              color: '#2EC'
+            }
+          },
+          {
+            id: 80,
+            title: '<p style="text-align: justify">Isso faz com que o robô seja mais pesado e difícil de manobrar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          },
+          {
+            id: 81,
+            title:
+              '<p style="text-align: justify">Isso é importante apenas para robôs que precisam executar tarefas estáticas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociologicalData: {
+              id: 2,
+              name: 'Resposta Errada',
+              color: '#EB3D63'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: undefined
+      }
+    ],
+    owner: {
+      index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      email: 'arthurpvilar@gmail.com',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      role: UserRole.ADMINISTRATOR,
+      status: UserStatus.ATIVO
+    }
+  },
   {
     id: 1,
     title: 'Transtorno do Déficit de Atenção e Hiperatividade',
@@ -981,7 +2341,9 @@ export const dbDetailed: QuizDetailsDto[] = [
       index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       email: 'arthurpvilar@gmail.com',
       username: 'arthurpvilar',
-      fullName: 'Arthur Padilha Vilar Salvador'
+      fullName: 'Arthur Padilha Vilar Salvador',
+      role: UserRole.ADMINISTRATOR,
+      status: UserStatus.ATIVO
     }
   },
   {
@@ -1960,12 +3322,1208 @@ export const dbDetailed: QuizDetailsDto[] = [
       index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       email: 'arthurpvilar@gmail.com',
       username: 'arthurpvilar',
-      fullName: 'Arthur Padilha Vilar Salvador'
+      fullName: 'Arthur Padilha Vilar Salvador',
+      role: UserRole.ADMINISTRATOR,
+      status: UserStatus.ATIVO
     }
   }
 ]
 
 export const db: Quiz[] = [
+  {
+    id: 5,
+    title: 'Questionário da aula 01 até aula 03',
+    identifier: 'START0103LAB',
+    type: 'Pergunta e Resposta Dissertativa',
+    description:
+      '<p style="text-align: justify">Essas perguntas são voltadas para avaliar a compreensão técnica, o raciocínio lógico e a aplicação de conceitos fundamentais em áreas como engenharia, robótica e estruturas físicas. Elas exploram temas como a importância de encaixes precisos, a funcionalidade de robôs, o papel das alavancas e dos centros de equilíbrio, além de conceitos estruturais em construções. As questões incentivam os participantes a refletirem sobre a relação entre segurança, estabilidade, eficiência e cooperação, proporcionando uma base sólida para o entendimento prático e teórico desses tópicos essenciais.</p>',
+    category: 'Start Lab',
+    image: {
+      imageFile: null,
+      imageUrl: 'https://www.senaisolucoes.com.br/xp_images/STARTLABENCAIXE.png',
+      blobData: null
+    },
+    audio: null,
+    sociologicalData: [
+      {
+        id: 1,
+        name: 'Reposta Certa',
+        value: 50,
+        color: '#2EC'
+      },
+      {
+        id: 2,
+        name: 'Resposta Errada',
+        value: 63,
+        color: '#EB3D63'
+      }
+    ],
+    questions: [
+      {
+        id: 2,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual das seguintes opções melhor descreve um encaixe perfeito?</p>',
+        options: [
+          {
+            title: '<p>Duas peças se unem perfeitamente, sem deixar espaços entre elas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Duas peças se unem, mas há pequenos espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Duas peças se separam, mas não deixam espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Robôs possuem várias peças como braços, motores e circuitos. Para que o robô funcione bem, essas peças devem:</p>',
+        options: [
+          {
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, encaixadas perfeitamente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Estar separadas e com folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 3,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que é um encaixe?</p>',
+        options: [
+          {
+            title: '<p>Um encaixe é quando duas peças se unem perfeitamente, sem deixar espaços entre elas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Um encaixe é quando duas peças se unem, deixando espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Um encaixe é quando duas peças se separam, sem deixar espaços entre elas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 4,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Robôs possuem várias peças como braços, motores e circuitos. Para que o robô funcione bem, essas peças devem:</p>',
+        options: [
+          {
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, encaixadas perfeitamente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Estar muito bem unidas e sem folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Estar separadas e com folga, ou seja, desencaixadas perfeitamente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 5,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual das seguintes afirmações é verdadeira sobre o funcionamento de um robô?</p>',
+        options: [
+          {
+            title:
+              '<p>As peças do robô devem estar bem unidas e sem folga para garantir um funcionamento eficiente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p>As peças do robô devem estar separadas e com folga para garantir um funcionamento eficiente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>As peças do robô devem estar desencaixadas para garantir um funcionamento eficiente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 6,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que pode acontecer se as peças de um robô não estiverem encaixadas perfeitamente?</p>',
+        options: [
+          {
+            title: '<p>O robô pode funcionar de maneira mais eficiente.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>O robô pode apresentar falhas ou mau funcionamento.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>O robô pode se tornar mais fácil de desmontar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 7,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Ao nosso redor existem diversos objetos que foram construídos com o encaixem de peças, como carros, móveis, casas e robôs. Por que as peças desses objetos devem ser encaixadas perfeitamente?</p>',
+        options: [
+          {
+            title: '<p>Para que eles fiquem apenas bonitos</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Para que eles não desmontem e funcionem bem</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Para que eles desmontem e não funcionem bem</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 8,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Qual é a consequência de um encaixe imperfeito em objetos como carros, móveis, casas e robôs?</p>',
+        options: [
+          {
+            title: '<p>Eles podem desmontar e não funcionar bem.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Eles podem funcionar melhor</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Eles podem ficar mais bonitos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 9,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Como o encaixe perfeito das peças contribui para a segurança e durabilidade de objetos como carros e casas?</p>',
+        options: [
+          {
+            title: '<p>Garante que as peças fiquem firmes e seguras, evitando acidentes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Facilita a desmontagem das peças.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Torna os objetos mais fáceis de mover.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 10,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Como e por quem os ambientes públicos como parquinhos e praças podem ser utilizados?</p>',
+        options: [
+          {
+            title: '<p>De forma individual apenas por pessoas que podem pagar a entrada.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>De forma individual apenas por pessoas que entrarem primeiro</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Por todas as pessoas que desejarem, desde que compartilhem o ambiente de forma harmoniosa, pois tudo que é público, é de todos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 11,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual é a principal característica dos ambientes públicos?</p>',
+        options: [
+          {
+            title: '<p>Eles são exclusivos para grupos específicos de pessoas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Eles são abertos e acessíveis para todos, independentemente de quem chega primeiro ou de quem pode pagar.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Eles são utilizados apenas para eventos privados.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 12,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que é uma gangorra?</p>',
+        options: [
+          {
+            title: '<p>É um brinquedo formado por duas rodas colocadas em um centro de desequilíbrio.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>É um brinquedo formado por uma haste colocada em um centro de equilíbrio.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>É um brinquedo formado por uma roda colocada em um centro de equilíbrio.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 13,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual das opções melhor descreve como uma gangorra funciona?</p>',
+        options: [
+          {
+            title: '<p>Um brinquedo que se move apenas de um lado para o outro sem alternar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Um brinquedo que permite que duas pessoas alternem entre subir e descer, dependendo da força aplicada em cada.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Um brinquedo que gira em círculo completo quando usado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 14,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que é um centro de equilíbrio de um objeto?</p>',
+        options: [
+          {
+            title:
+              '<p style="text-align: justify">É um ponto, localizado geralmente no centro de um objeto, onde o peso do objeto fica perfeitamente distribuído, portanto, equilibrado.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">É uma haste, localizada geralmente na ponta direita de um objeto, onde o peso do objeto fica perfeitamente distribuído, portanto, equilibrado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p>É um ponto, localizado geralmente no centro de um objeto, onde o peso do objeto fica não distribuído, portanto, não equilibrado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 15,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Por que o centro de equilíbrio é importante para o funcionamento de objetos como a gangorra?</p>',
+        options: [
+          {
+            title:
+              '<p>Porque ele permite que o peso seja distribuído de maneira desigual, o que melhora o funcionamento da gangorra.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p>Porque ele permite que o peso seja distribuído de maneira equilibrada, garantindo que a gangorra funcione corretamente.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p>Porque ele está localizado na ponta direita da gangorra, o que é essencial para o funcionamento.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 16,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual a relação entre o centro de equilíbrio e o peso de um robô com rodas?</p>',
+        options: [
+          {
+            title: '<p>O centro de equilíbrio determina o ponto onde o peso do robô deve estar distribuído.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>O centro de equilíbrio determina o ponto onde o peso do robô deve estar desequilibrado.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>O peso do robô indica onde é o centro de equilíbrio.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 17,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Por que é importante que o centro de equilíbrio esteja corretamente distribuído em um robô com rodas?</p>',
+        options: [
+          {
+            title:
+              '<p style="text-align: justify">Porque isso permite que o robô mantenha sua estabilidade e funcione corretamente durante o movimento.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Porque isso permite que o robô fique sempre em movimento, mesmo em repouso.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p>Porque isso faz o robô se desequilibrar facilmente, o que é essencial para seu funcionamento.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 18,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Objetos como carrinhos de mão devem ser bem construídos. Com que os construtores devem tomar muito cuidado na construção de um objeto?</p>',
+        options: [
+          {
+            title:
+              '<p>Com nada, pois não importa a forma como ele foi construído, ele sempre será um objeto indestrutível.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p>Com o local onde eles são construídos, pois se o local não estiver limpo os objetos podem quebrar.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p>Com a estrutura dos objetos, pois uma estrutura bem feita poderá manter o objeto firme sem quebrar com facilidade.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 19,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Por que a estrutura de um carrinho de mão é importante para seu funcionamento?</p>',
+        options: [
+          {
+            title:
+              '<p>Porque uma estrutura bem feita garante durabilidade e eficiência no transporte de materiais.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Porque uma estrutura frágil facilita o uso do carrinho de mão.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Porque a estrutura do carrinho de mão não tem impacto no seu desempenho.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 20,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>O que prédios, carros e pontes possuem em comum?</p>',
+        options: [
+          {
+            title:
+              '<p>São objetos que podemos encontrar em nossas cidades e que possuem uma estrutura que os deixam firmes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p>São objetos que podemos encontrar apenas em cidades grandes e que possuem uma estrutura que os deixam firmes.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p>São objetos que podemos encontrar apenas em cidades grandes e que não possuem uma estrutura que os deixam firmes.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 21,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Por que é importante que prédios, carros e pontes tenham estruturas firmes?</p>',
+        options: [
+          {
+            title: '<p>Porque isso garante a segurança e a durabilidade desses objetos.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Porque estruturas frágeis são mais fáceis de construir.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Porque a firmeza da estrutura não influencia na utilização.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 22,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Objetos podem ser construídos com dois tipos de estruturas: as rígidas e as flexíveis. Qual alternativa fala sobre as estruturas rígidas?</p>',
+        options: [
+          {
+            title:
+              '<p>As estruturas rígidas geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas distribuem o peso de forma uniforme.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p>As estruturas rígidas geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas não distribuem o peso de forma uniforme</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p>As estruturas rígidas geralmente possuem formas de quadrados (ou quadrangulares), porque elas distribuem o peso de forma uniforme.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 23,
+        type: 'Pergunta e Resposta Dissertativa',
+        question: '<p>Qual é a vantagem de utilizar estruturas triangulares em construções rígidas?</p>',
+        options: [
+          {
+            title:
+              '<p>Elas aumentam a estabilidade e a resistência da construção ao distribuir o peso de forma uniforme.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p>Elas reduzem a durabilidade da construção ao concentrar o peso em pontos específicos.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title: '<p>Elas são mais fáceis de construir, mas não oferecem muita resistência.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 24,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Objetos podem ser construídos com dois tipos de estruturas: as rígidas e as flexíveis. Qual alternativa fala sobre as estruturas flexíveis?</p>',
+        options: [
+          {
+            title:
+              '<p style="text-align: justify">As estruturas flexíveis geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas distribuem o peso de forma uniforme.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">As estruturas flexíveis geralmente possuem formas de um triângulo (chamadas de triangulares), porque elas não distribuem o peso de forma uniforme.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">As estruturas flexíveis geralmente possuem formas de quadrados (ou quadrangulares), porque elas podem oferecer flexibilidade ao objeto.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 25,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Quais são algumas vantagens de utilizar estruturas flexíveis em comparação com estruturas rígidas?</p>',
+        options: [
+          {
+            title:
+              '<p style="text-align: justify">Estruturas flexíveis são mais resistentes a impactos e tensões, permitindo que o objeto se adapte a diferentes forças.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Estruturas flexíveis são menos duráveis e menos adaptáveis às forças externas.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Estruturas flexíveis distribuem o peso de maneira uniforme como as rígidas, mas não têm outras vantagens significativas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 26,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p style="text-align: justify">Por que as estruturas rígidas e flexíveis estão presentes no corpo de um robô móvel?</p>',
+        options: [
+          {
+            title:
+              '<p style="text-align: justify">Porque a combinação dessas estruturas faz com que os robôs tenham firmeza para ficar em pé, mas que possam também executar tarefas que exijam flexibilidade.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Porque a combinação dessas estruturas faz com que os robôs tenham firmeza para ficar em pé, mas que possam também executar apenas tarefas rígidas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Robôs são construídos apenas com estruturas flexíveis, pois eles devem sempre executar tarefas que exijam flexibilidade.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      },
+      {
+        id: 27,
+        type: 'Pergunta e Resposta Dissertativa',
+        question:
+          '<p>Qual é a principal vantagem de um robô móvel possuir tanto estruturas rígidas quanto flexíveis?</p>',
+        options: [
+          {
+            title:
+              '<p style="text-align: justify">Isso permite que o robô tenha estabilidade e ao mesmo tempo flexibilidade para se adaptar a diferentes tarefas e ambientes.</p>',
+            isChecked: true,
+            weight: 1,
+            sociological: {
+              id: 1,
+              name: 'Reposta Certa'
+            }
+          },
+          {
+            title: '<p style="text-align: justify">Isso faz com que o robô seja mais pesado e difícil de manobrar.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          },
+          {
+            title:
+              '<p style="text-align: justify">Isso é importante apenas para robôs que precisam executar tarefas estáticas.</p>',
+            isChecked: false,
+            weight: 1,
+            sociological: {
+              id: 2,
+              name: 'Resposta Errada'
+            }
+          }
+        ],
+        answer: '',
+        image: {
+          imageFile: null,
+          imageUrl: 'https://www.senaisolucoes.com.br/xp_images/TDAH.png',
+          blobData: null
+        },
+        audio: null
+      }
+    ],
+    owner: {
+      index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
+      email: 'arthurpvilar@gmail.com',
+      username: 'arthurpvilar',
+      fullName: 'Arthur Padilha Vilar Salvador',
+      role: UserRole.ADMINISTRATOR,
+      status: UserStatus.ATIVO
+    }
+  },
   {
     id: 1,
     title: 'Transtorno do Déficit de Atenção e Hiperatividade',
@@ -2823,7 +5381,9 @@ export const db: Quiz[] = [
       index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       username: 'arthurpvilar',
       fullName: 'Arthur Padilha Vilar Salvador',
-      email: 'arthurpvilar@gmail.com'
+      email: 'arthurpvilar@gmail.com',
+      role: UserRole.ADMINISTRATOR,
+      status: UserStatus.ATIVO
     }
   },
   {
@@ -3679,7 +6239,9 @@ export const db: Quiz[] = [
       index: '80759d4e-39eb-4c5a-aaf9-a030094092fc',
       username: 'arthurpvilar',
       fullName: 'Arthur Padilha Vilar Salvador',
-      email: 'arthurpvilar@gmail.com'
+      email: 'arthurpvilar@gmail.com',
+      role: UserRole.ADMINISTRATOR,
+      status: UserStatus.ATIVO
     }
   }
 ]

@@ -166,7 +166,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
             <div>
               <CardMedia
                 className='bs-[162px]'
-                image='https://www.senaisolucoes.com.br/xp_images/TDAH.png'
+                image='https://www.senaisolucoes.com.br/xp_images/STARTLABENCAIXE.png'
                 sx={{
                   borderTopRightRadius: '12px',
                   borderBottomRightRadius: '12px',
@@ -178,14 +178,14 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
           <CardContent className='flex flex-col gap-5'>
             <div className='flex items-center gap-4'>
               <CustomAvatar variant='rounded' skin='light' color='primary' size={58} className='flex flex-col'>
-                <Typography color='primary'>Out</Typography>
+                <Typography color='primary'>Set</Typography>
                 <Typography variant='h5' color='primary'>
-                  02
+                  01
                 </Typography>
               </CustomAvatar>
               <div className='flex flex-col gap-1'>
                 <Typography color='text.primary' className='font-medium'>
-                  Conhecimentos Gerais
+                  Questionário da aula 01 até aula 03
                 </Typography>
                 <Typography variant='body2'>Start Lab</Typography>
               </div>
@@ -198,10 +198,10 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
                     Descrição
                   </Typography>
                   <span className={classnames(styles.tableBody)}>
-                    Esse quiz é uma atividade interativa projetada para testar e expandir a amplitude de conhecimento de
-                    um indivíduo em diversas áreas. Esse tipo de quiz pode ser utilizado tanto em ambientes educacionais
-                    quanto em situações de lazer, proporcionando uma maneira divertida e desafiadora de aprender e
-                    revisar informações.
+                    Essas perguntas são voltadas para avaliar a compreensão técnica, o raciocínio lógico e a aplicação
+                    de conceitos fundamentais em áreas como engenharia, robótica e estruturas físicas. Elas exploram
+                    temas como a importância de encaixes precisos, a funcionalidade de robôs, o papel das alavancas e
+                    dos centros de equilíbrio, além de conceitos estruturais em construções.
                   </span>
                 </Typography>
               </div>

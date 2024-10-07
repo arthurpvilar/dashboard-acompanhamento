@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 // MUI Imports
 import { useTheme } from '@mui/material/styles'
+import { useEffect, useState } from 'react'
 
 // Third-party Imports
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -20,6 +21,7 @@ import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNav
 // Style Imports
 import menuItemStyles from '@core/styles/vertical/menuItemStyles'
 import menuSectionStyles from '@core/styles/vertical/menuSectionStyles'
+import { BackEndUsersType, UserRole } from '@/types/apps/userTypes'
 
 type RenderExpandIconProps = {
   open?: boolean
@@ -42,14 +44,23 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
   const verticalNavOptions = useVerticalNav()
   const { isBreakpointReached } = useVerticalNav()
 
+  // State para armazenar o usuário logado
+  const [loggedUser, setLoggedUser] = useState<BackEndUsersType | null>(null)
+
+  // useEffect para definir o usuário logado somente no lado do cliente
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user')
+      setLoggedUser(user ? JSON.parse(user) : null)
+    }
+  }, [])
+
   // Vars
   const { transitionDuration } = verticalNavOptions
 
   const ScrollWrapper = isBreakpointReached ? 'div' : PerfectScrollbar
 
   return (
-    // eslint-disable-next-line lines-around-comment
-    /* Custom scrollbar instead of browser scroll, remove if you want browser scroll only */
     <ScrollWrapper
       {...(isBreakpointReached
         ? {
@@ -61,8 +72,6 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
             onScrollY: container => scrollMenu(container, true)
           })}
     >
-      {/* Incase you also want to scroll NavHeader to scroll with Vertical Menu, remove NavHeader from above and paste it below this comment */}
-      {/* Vertical Menu */}
       <Menu
         popoutMenuOffset={{ mainAxis: 10 }}
         menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
@@ -76,19 +85,19 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
         <MenuItem href='/users' icon={<i className='ri-user-line' />}>
           Usuários
         </MenuItem>
-        <MenuItem href='/quiz' icon={<i className='ri-user-line' />}>
-          Questionários
-        </MenuItem>
+
+        {loggedUser?.role === UserRole.TEACHER || loggedUser?.role === UserRole.ADMINISTRATOR ? (
+          <MenuItem href='/quiz' icon={<i className='ri-logout-box-r-line' />}>
+            Questionários
+          </MenuItem>
+        ) : null}
+
+        {loggedUser?.role === UserRole.STUDENT || loggedUser?.role === UserRole.ADMINISTRATOR ? (
+          <MenuItem href='/my-quizzes' icon={<i className='ri-file-list-line' />}>
+            Meus Questionários
+          </MenuItem>
+        ) : null}
       </Menu>
-      {/* <Menu
-        popoutMenuOffset={{ mainAxis: 10 }}
-        menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
-        renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
-        renderExpandedMenuItemIcon={{ icon: <i className='ri-circle-line' /> }}
-        menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
-      >
-        <GenerateVerticalMenu menuData={menuData(dictionary)} />
-      </Menu> */}
     </ScrollWrapper>
   )
 }

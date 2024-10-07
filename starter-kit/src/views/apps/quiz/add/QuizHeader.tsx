@@ -96,7 +96,8 @@ const QuizHeader = () => {
       userId: loggedUser.index
     } as CreateQuizDto
 
-    console.log('Publicando quiz com os seguintes dados:', quizData)
+    console.log('Publicando quiz com os seguintes dados:')
+    console.log(quizData)
 
     // Pegar access token do localStorage
     const accessToken = localStorage.getItem('accessToken') as string
