@@ -1,5 +1,7 @@
-/* eslint-disable import/no-unresolved */
 'use client'
+
+// Next.js Imports
+import { useRouter } from 'next/navigation'
 
 // MUI Imports
 import Card from '@mui/material/Card'
@@ -19,6 +21,10 @@ import CustomIconButton from '@core/components/mui/IconButton'
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 
+// Server-side Data Import
+import { getQuizData } from '@/app/server/actions'
+
+// Props Types
 type Props = {
   mode: Mode
   searchValue: string
@@ -36,6 +42,27 @@ const SearchQuizHeader = (props: Props) => {
   // Hooks
   const theme = useTheme()
   const leftIllustration = useImageVariant(mode, lightIllustration, darkIllustration)
+  const router = useRouter() // Use the Next.js router hook
+
+  // Função para buscar o quiz pelo título e redirecionar para a página correta
+  const handleSearch = async () => {
+    if (searchValue.trim()) {
+      // Busca os dados dos quizzes
+      const quizzes = await getQuizData()
+
+      // Procura o quiz pelo título fornecido
+      const selectedQuiz = quizzes.find(
+        (quiz) => quiz.title.toLowerCase() === searchValue.trim().toLowerCase()
+      )
+
+      // Se encontrar o quiz, redireciona para a página com o ID correspondente
+      if (selectedQuiz) {
+        router.push(`/quiz-questions/${selectedQuiz.id}`)
+      } else {
+        alert('Quiz não encontrado. Por favor, verifique o título e tente novamente.')
+      }
+    }
+  }
 
   return (
     <Card className='relative flex justify-center'>
@@ -50,13 +77,13 @@ const SearchQuizHeader = (props: Props) => {
         </Typography>
         <div className='flex items-center gap-4 max-sm:is-full'>
           <TextField
-            placeholder='Texto a ser procurado...'
+            placeholder='Título do questionário a ser respondido...'
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
             size='small'
             className='sm:is-[350px] max-sm:flex-1'
           />
-          <CustomIconButton variant='contained' color='primary'>
+          <CustomIconButton variant='contained' color='primary' onClick={handleSearch}>
             <i className='ri-search-2-line' />
           </CustomIconButton>
         </div>
