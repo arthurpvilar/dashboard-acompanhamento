@@ -11,28 +11,28 @@ import type { Mode } from '@core/types'
 
 // Component Imports
 import type { Quiz } from '@/types/apps/quizTypes'
-import QuizListTable from '../../quiz/list/QuizListTable'
-import SearchQuizHeader from '../../quiz/list/SearchQuizHeader'
+import AnswerQuizHeader from './AnswerQuizHeader'
+import MyQuizListTable from './MyQuizListTable'
 
 type Props = {
   quizData: Quiz[]
   mode: Mode
 }
 
-const ServerQuizListPage = ({ quizData, mode }: Props) => {
+const ServerMyQuizListPage = ({ quizData, mode }: Props) => {
   // States
   const [searchValue, setSearchValue] = useState('')
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <SearchQuizHeader mode={mode} searchValue={searchValue} setSearchValue={setSearchValue} />
+        <AnswerQuizHeader mode={mode} searchValue={searchValue} setSearchValue={setSearchValue} />
       </Grid>
       <Grid item xs={12}>
-        <QuizListTable quizData={quizData} searchValue={searchValue} />
+        <MyQuizListTable quizData={quizData} searchValue={searchValue} />
       </Grid>
     </Grid>
   )
 }
 
-export default ServerQuizListPage
+export default ServerMyQuizListPage

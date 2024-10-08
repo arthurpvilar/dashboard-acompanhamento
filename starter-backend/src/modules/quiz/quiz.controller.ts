@@ -80,6 +80,11 @@ export class QuizController {
     return this.quizService.findLatestQuiz();
   }
 
+  @Get('/details')
+  async getAllQuizzesDetails(): Promise<QuizDetailsDto[]> {
+    return await this.quizService.getAllQuizzesDetails();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.quizService.findOne(id);

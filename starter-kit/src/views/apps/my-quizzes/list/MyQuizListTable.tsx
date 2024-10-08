@@ -51,7 +51,7 @@ const chipColor: { [key: string]: ChipColorType } = {
   'Escola do Volante': { color: 'success' }
 }
 
-const QuizListTable = (props: Props) => {
+const MyQuizListTable = (props: Props) => {
   // Props
   const { quizData, searchValue } = props
 
@@ -123,17 +123,6 @@ const QuizListTable = (props: Props) => {
                 label='Esconder arquivados'
               />
             )}
-          </div>
-          <div>
-            <Button
-              variant='contained'
-              component={Link}
-              startIcon={<i className='ri-add-line' />}
-              href={getLocalizedUrl(`/quiz/create`, locale as Locale)}
-              className='is-full sm:is-auto'
-            >
-              Criar novo Questionário
-            </Button>
           </div>
         </div>
         {data.length > 0 ? (
@@ -260,4 +249,4 @@ const QuizListTable = (props: Props) => {
   )
 }
 
-export default QuizListTable
+export default MyQuizListTable

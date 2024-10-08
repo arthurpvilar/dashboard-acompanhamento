@@ -9,7 +9,7 @@ export const dbDetailed: QuizDetailsDto[] = [
     identifier: 'START0103LAB',
     description:
       '<p style="text-align: justify">Essas perguntas são voltadas para avaliar a compreensão técnica, o raciocínio lógico e a aplicação de conceitos fundamentais em áreas como engenharia, robótica e estruturas físicas. Elas exploram temas como a importância de encaixes precisos, a funcionalidade de robôs, o papel das alavancas e dos centros de equilíbrio, além de conceitos estruturais em construções. As questões incentivam os participantes a refletirem sobre a relação entre segurança, estabilidade, eficiência e cooperação, proporcionando uma base sólida para o entendimento prático e teórico desses tópicos essenciais.</p>',
-    category: 'Geral',
+    category: 'Start Lab',
     image: {
       imageFile: null,
       imageUrl: 'https://www.senaisolucoes.com.br/xp_images/STARTLABENCAIXE.png',

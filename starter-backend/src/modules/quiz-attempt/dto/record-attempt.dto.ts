@@ -1,8 +1,17 @@
 // src/dto/record-attempt.dto.ts
-import { IsOptional, IsEmail, IsNotEmpty, IsString, IsArray, IsNumber, ValidateNested, IsDate, Validate, ValidateIf } from 'class-validator';
+import {
+  IsOptional,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsArray,
+  IsNumber,
+  ValidateNested,
+  IsDate,
+  ValidateIf,
+} from 'class-validator';
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { UserOrEmailConstraint } from '@App/common/validators/UserOrEmailConstraint';
 
 export class AnswerDto {
   @ApiProperty({ description: 'ID da pergunta', example: 1 })
@@ -15,13 +24,19 @@ export class AnswerDto {
   @IsNumber()
   optionId?: number;
 
-  @ApiPropertyOptional({ description: 'Data e hora de início', example: '2023-01-01T12:00:00Z' })
+  @ApiPropertyOptional({
+    description: 'Data e hora de início',
+    example: '2023-01-01T12:00:00Z',
+  })
   @IsOptional()
   @Type(() => Date)
   @IsDate()
   startedAt?: Date;
 
-  @ApiPropertyOptional({ description: 'Data e hora de conclusão', example: '2023-01-01T12:05:00Z' })
+  @ApiPropertyOptional({
+    description: 'Data e hora de conclusão',
+    example: '2023-01-01T12:05:00Z',
+  })
   @IsOptional()
   @Type(() => Date)
   @IsDate()
@@ -35,7 +50,7 @@ export class RecordAttemptDto {
   })
   @IsOptional()
   @IsString()
-  @ValidateIf(o => !o.email)
+  @ValidateIf((o) => !o.email)
   userId?: string;
 
   @ApiPropertyOptional({
@@ -44,7 +59,7 @@ export class RecordAttemptDto {
   })
   @IsOptional()
   @IsEmail()
-  @ValidateIf(o => !o.userId)
+  @ValidateIf((o) => !o.userId)
   email?: string;
 
   @ApiProperty({

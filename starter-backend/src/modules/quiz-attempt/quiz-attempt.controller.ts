@@ -34,9 +34,16 @@ export class QuizAttemptController {
     type: QuizAttempt,
   })
   @ApiResponse({ status: 400, description: 'Requisição inválida.' })
-  async recordAttempt(@Body() recordAttemptDto: RecordAttemptDto): Promise<QuizAttempt> {
+  async recordAttempt(
+    @Body() recordAttemptDto: RecordAttemptDto,
+  ): Promise<QuizAttempt> {
     const { userId, email, quizId, answers } = recordAttemptDto;
-    return await this.quizAttemptService.recordAttempt(userId, email, quizId, answers);
+    return await this.quizAttemptService.recordAttempt(
+      userId,
+      email,
+      quizId,
+      answers,
+    );
   }
 
   @Get()
@@ -61,7 +68,10 @@ export class QuizAttemptController {
     description: 'Tentativa de quiz recuperada com sucesso.',
     type: QuizAttempt,
   })
-  @ApiResponse({ status: 404, description: 'Tentativa de quiz não encontrada.' })
+  @ApiResponse({
+    status: 404,
+    description: 'Tentativa de quiz não encontrada.',
+  })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.quizAttemptService.findOne(id);
   }

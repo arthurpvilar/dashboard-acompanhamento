@@ -14,6 +14,8 @@ const QuizPage = async () => {
   const mode = getServerMode()
   const data = await getQuizData()
 
+  //const data = await getQuizData()
+
   return <ServerQuizListPage mode={mode} quizData={data} />
 }
 
