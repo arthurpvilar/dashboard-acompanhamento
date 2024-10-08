@@ -17,6 +17,7 @@ import { QuizService } from './quiz.service';
 import { UpdateQuizOwnerDto } from './dto/update-quiz-owner.dto';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { QuizDetailsDto } from './dto/quiz-details.dto';
+import { SimplifiedQuizListDto } from './dto/simplified-quiz-list.dto';
 
 @ApiTags('quizzes')
 @Controller('quizzes')
@@ -76,13 +77,18 @@ export class QuizController {
   @ApiResponse({ status: 200, description: 'Returns the latest quiz.' })
   @ApiResponse({ status: 404, description: 'Quiz not found.' })
   @Get('latest')
-  findLatestQuiz() {
+  findLatestQuiz(): Promise<QuizDetailsDto> {
     return this.quizService.findLatestQuiz();
   }
 
   @Get('/details')
   async getAllQuizzesDetails(): Promise<QuizDetailsDto[]> {
     return await this.quizService.getAllQuizzesDetails();
+  }
+
+  @Get('/details/simplified')
+  async getAllQuizzesSimplified(): Promise<SimplifiedQuizListDto[]> {
+    return await this.quizService.getAllQuizzesSimplified();
   }
 
   @Get(':id')

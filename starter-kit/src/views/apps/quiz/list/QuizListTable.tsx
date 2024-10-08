@@ -56,7 +56,7 @@ const QuizListTable = (props: Props) => {
   const { quizData, searchValue } = props
 
   // States
-  const [quiz, setQuiz] = useState<Quiz['type']>('Todos')
+  const [quiz, setQuiz] = useState<Quiz['category']>('Start Lab')
   const [hideCompleted, setHideCompleted] = useState(false)
   const [data, setData] = useState<Quiz[]>([])
   const [activePage, setActivePage] = useState(0)
@@ -68,9 +68,9 @@ const QuizListTable = (props: Props) => {
     let newData =
       quizData?.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
-        console.log(quizItem.type, quiz)
+        console.log(quizItem.category, quiz)
 
-        return quizItem.type === quiz && !hideCompleted
+        return quizItem.category === quiz && !hideCompleted
       }) ?? []
 
     if (searchValue) {
@@ -98,7 +98,7 @@ const QuizListTable = (props: Props) => {
         <div className='flex flex-wrap items-center justify-between gap-4'>
           <div className='flex flex-wrap items-center gap-y-4 gap-x-6'>
             <FormControl fullWidth size='small' className='is-[250px] flex-auto'>
-              <InputLabel id='quiz-select'>Tipo do Questionário</InputLabel>
+              <InputLabel id='quiz-select'>Categoria do Questionário</InputLabel>
               <Select
                 fullWidth
                 id='select-quiz'
@@ -107,14 +107,12 @@ const QuizListTable = (props: Props) => {
                   setQuiz(e.target.value)
                   setActivePage(0)
                 }}
-                label='Tipo do Questionário'
+                label='Categoria do Questionário'
                 labelId='quiz-select'
               >
                 <MenuItem value='Todos'>Todos</MenuItem>
-                <MenuItem value='Pergunta e Resposta Dissertativa'>Pergunta e Resposta Dissertativa</MenuItem>
-                <MenuItem value='Pergunta Auditiva e Resposta Dissertativa'>
-                  Pergunta Auditiva e Resposta Dissertativa
-                </MenuItem>
+                <MenuItem value='Start Lab'>Start Lab</MenuItem>
+                <MenuItem value='Escola do Volante'>Escola do Volante</MenuItem>
               </Select>
             </FormControl>
             {false && (
@@ -159,6 +157,7 @@ const QuizListTable = (props: Props) => {
                         alt={item.title}
                         className='is-full'
                         style={{
+                          minHeight: '135px',
                           borderTopLeftRadius: '12px',
                           borderTopRightRadius: '12px',
                           borderBottomLeftRadius: '12px',
@@ -242,7 +241,7 @@ const QuizListTable = (props: Props) => {
             ))}
           </Grid>
         ) : (
-          <Typography className='text-center'>No courses found</Typography>
+          <Typography className='text-center'>Nenhum questionário cadastrado</Typography>
         )}
         <div className='flex justify-center'>
           <Pagination

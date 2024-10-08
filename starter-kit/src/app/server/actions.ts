@@ -20,7 +20,7 @@ import { db as pricingData } from '@/fake-db/pages/pricing'
 import { db as statisticsData } from '@/fake-db/pages/widget-examples'
 
 // Types to send to the server
-import type { CreateQuizDto } from '@/types/apps/quizTypes'
+import type { CreateQuizDto, Quiz, QuizDetailsDto, SimplifiedQuizListDto } from '@/types/apps/quizTypes'
 import type { BackEndUsersType } from '@/types/apps/userTypes'
 
 // API URL
@@ -84,8 +84,8 @@ export const saveQuizToServer = async (accessToken: string, quizData: CreateQuiz
   }
 }
 
-export const getLatestQuizData = async () => {
-  const response = await fetch('http://localhost:4000/quizzes/latest', {
+export const getLatestQuizData = async (): Promise<QuizDetailsDto> => {
+  const response = await fetch(`${API_URL}/quizzes/latest`, {
     cache: 'no-store'
   })
 
@@ -115,6 +115,21 @@ export const getUsersDataFromServer = async (): Promise<BackEndUsersType[]> => {
     return users
   } catch (error: any) {
     console.error('Erro ao buscar usuários:', error.message)
+
+    return []
+  }
+}
+
+export const getAllQuizzesSimplified = async (): Promise<SimplifiedQuizListDto[]> => {
+  try {
+    const response = await fetch(`${API_URL}/quizzes/details/simplified`, {
+      cache: 'no-store'
+    })
+    const quizzes: SimplifiedQuizListDto[] = await response.json()
+
+    return quizzes
+  } catch (error: any) {
+    console.error('Erro ao buscar quizzes:', error.message)
 
     return []
   }

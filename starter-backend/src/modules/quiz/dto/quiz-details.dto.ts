@@ -174,6 +174,9 @@ export class QuizDetailsDto {
   @IsString()
   @Type(() => QuizUserDetailsDto)
   owner?: QuizUserDetailsDto;
+
+  @ApiPropertyOptional({ description: 'Data de criação do quiz' })
+  createdAt?: Date;
 }
 
 export class QuizUserDetailsDto {

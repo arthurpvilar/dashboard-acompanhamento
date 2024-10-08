@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Next Imports
 import { usePathname } from 'next/navigation'
@@ -96,11 +96,15 @@ const DebouncedColorPicker = (props: DebouncedColorPickerProps) => {
   )
 }
 
+const LOCAL_STORAGE_KEY = 'user-layout-settings'
+
 const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }: CustomizerProps) => {
   // States
   const [isOpen, setIsOpen] = useState(false)
   const [direction, setDirection] = useState(dir)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isFirstLoad, setIsFirstLoad] = useState(true) // Estado para controlar se é a primeira execução
+  const hasLoadedFromStorage = useRef(false) // Uso de ref para manter estado entre re-renders
 
   // Refs
   const anchorRef = useRef<HTMLDivElement | null>(null)
@@ -110,6 +114,33 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
   const pathName = usePathname()
   const { settings, updateSettings, resetSettings, isSettingsChanged } = useSettings()
   const isSystemDark = useMedia('(prefers-color-scheme: dark)', false)
+
+  // Load settings from localStorage on component mount
+  useEffect(() => {
+    if (!hasLoadedFromStorage.current) {
+      const savedSettings = localStorage.getItem(LOCAL_STORAGE_KEY)
+      if (savedSettings) {
+        const parsedSettings = JSON.parse(savedSettings)
+        // Verifica se os settings armazenados são diferentes dos atuais antes de atualizá-los
+        if (JSON.stringify(parsedSettings) !== JSON.stringify(settings)) {
+          updateSettings(parsedSettings)
+          console.log('Settings loaded from localStorage:', JSON.stringify(parsedSettings), JSON.stringify(settings))
+        }
+      }
+      hasLoadedFromStorage.current = true // Marca que o carregamento já ocorreu
+    }
+  }, [updateSettings])
+
+  // Save settings to localStorage whenever they change
+  useEffect(() => {
+    if (!isFirstLoad) {
+      // Só salva se não for a primeira execução
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(settings))
+      console.log('Settings saved to localStorage:', JSON.stringify(settings))
+    } else {
+      setIsFirstLoad(false) // Marca que a primeira execução foi concluída
+    }
+  }, [settings])
 
   // Vars
   let breakpointValue: CustomizerProps['breakpoint']
@@ -150,12 +181,13 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
 
   // Update Settings
   const handleChange = (field: keyof Settings | 'direction', value: Settings[keyof Settings] | Direction) => {
-    // Update direction state
     if (field === 'direction') {
       setDirection(value as Direction)
     } else {
-      // Update settings in cookie
-      updateSettings({ [field]: value })
+      // Verifica se há uma diferença real antes de atualizar as settings
+      if (settings[field] !== value) {
+        updateSettings({ [field]: value })
+      }
     }
   }
 
@@ -180,8 +212,8 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
         </div>
         <div className={styles.header}>
           <div className='flex flex-col'>
-            <h6 className={styles.customizerTitle}>Theme Customizer</h6>
-            <p className={styles.customizerSubtitle}>Customize & Preview in Real Time</p>
+            <h6 className={styles.customizerTitle}>Personalizador de Tema</h6>
+            <p className={styles.customizerSubtitle}>Personalize e visualize em tempo real</p>
           </div>
           <div className='flex gap-4'>
             <div onClick={resetSettings} className='relative flex cursor-pointer'>
@@ -198,9 +230,9 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
         >
           <div className={styles.customizerBody}>
             <div className='flex flex-col gap-6'>
-              <Chip label='Theming' size='small' color='primary' variant='tonal' className='self-start rounded-sm' />
+              <Chip label='Tema' size='small' color='primary' variant='tonal' className='self-start rounded-sm' />
               <div className='flex flex-col gap-2.5'>
-                <p className='font-medium'>Primary Color</p>
+                <p className='font-medium'>Cor Primária</p>
                 <div className='flex items-center justify-between'>
                   {primaryColorConfig.map(item => (
                     <div
@@ -261,7 +293,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                 </div>
               </div>
               <div className='flex flex-col gap-2.5'>
-                <p className='font-medium'>Mode</p>
+                <p className='font-medium'>Modo</p>
                 <div className='flex items-center justify-between'>
                   <div className='flex flex-col items-start gap-0.5'>
                     <div
@@ -273,7 +305,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                       <i className='ri-sun-line text-[30px]' />
                     </div>
                     <p className={styles.itemLabel} onClick={() => handleChange('mode', 'light')}>
-                      Light
+                      Claro
                     </p>
                   </div>
                   <div className='flex flex-col items-start gap-0.5'>
@@ -286,7 +318,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                       <i className='ri-moon-clear-line text-[30px]' />
                     </div>
                     <p className={styles.itemLabel} onClick={() => handleChange('mode', 'dark')}>
-                      Dark
+                      Escuro
                     </p>
                   </div>
                   <div className='flex flex-col items-start gap-0.5'>
@@ -299,7 +331,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                       <i className='ri-computer-line text-[30px]' />
                     </div>
                     <p className={styles.itemLabel} onClick={() => handleChange('mode', 'system')}>
-                      System
+                      Sistema
                     </p>
                   </div>
                 </div>
@@ -315,7 +347,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                       <SkinDefault />
                     </div>
                     <p className={styles.itemLabel} onClick={() => handleChange('skin', 'default')}>
-                      Default
+                      Padrão
                     </p>
                   </div>
                   <div className='flex flex-col items-start gap-0.5'>
@@ -326,7 +358,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                       <SkinBordered />
                     </div>
                     <p className={styles.itemLabel} onClick={() => handleChange('skin', 'bordered')}>
-                      Bordered
+                      Sem Borda
                     </p>
                   </div>
                 </div>
@@ -371,7 +403,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                       <LayoutCollapsed />
                     </div>
                     <p className={styles.itemLabel} onClick={() => handleChange('layout', 'collapsed')}>
-                      Collapsed
+                      Compactado
                     </p>
                   </div>
                   <div className='flex flex-col items-start gap-0.5'>
@@ -388,7 +420,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                 </div>
               </div>
               <div className='flex flex-col gap-2.5'>
-                <p className='font-medium'>Content</p>
+                <p className='font-medium'>Conteúdo</p>
                 <div className='flex items-center gap-4'>
                   <div className='flex flex-col items-start gap-0.5'>
                     <div
@@ -415,7 +447,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                         })
                       }
                     >
-                      Compact
+                      Compacto
                     </p>
                   </div>
                   <div className='flex flex-col items-start gap-0.5'>
@@ -433,7 +465,7 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
                         updateSettings({ navbarContentWidth: 'wide', contentWidth: 'wide', footerContentWidth: 'wide' })
                       }
                     >
-                      Wide
+                      Expandido
                     </p>
                   </div>
                 </div>

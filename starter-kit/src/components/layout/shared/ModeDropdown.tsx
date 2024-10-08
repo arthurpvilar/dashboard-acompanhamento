@@ -92,7 +92,7 @@ const ModeDropdown = () => {
                     selected={settings.mode === 'light'}
                   >
                     <i className='ri-sun-line' />
-                    Light
+                    Claro
                   </MenuItem>
                   <MenuItem
                     className='gap-3'
@@ -100,7 +100,7 @@ const ModeDropdown = () => {
                     selected={settings.mode === 'dark'}
                   >
                     <i className='ri-moon-clear-line' />
-                    Dark
+                    Escuro
                   </MenuItem>
                   <MenuItem
                     className='gap-3'
@@ -108,7 +108,7 @@ const ModeDropdown = () => {
                     selected={settings.mode === 'system'}
                   >
                     <i className='ri-computer-line' />
-                    System
+                    Sistema
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>

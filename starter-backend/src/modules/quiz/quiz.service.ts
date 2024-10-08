@@ -19,6 +19,7 @@ import {
   QuizSociologicalDataDto,
   QuizUserDetailsDto,
 } from './dto/quiz-details.dto';
+import { SimplifiedQuizListDto } from './dto/simplified-quiz-list.dto';
 
 @Injectable()
 export class QuizService {
@@ -267,9 +268,11 @@ export class QuizService {
     });
   }
 
-  async findLatestQuiz(): Promise<Quiz> {
+  async findLatestQuiz(): Promise<QuizDetailsDto> {
+    // Buscar o último quiz adicionado diretamente
     const quiz = await this.quizRepository
       .createQueryBuilder('quiz')
+      .leftJoinAndSelect('quiz.owner', 'owner')
       .leftJoinAndSelect('quiz.sociologicalData', 'quizSociologicalData')
       .leftJoinAndSelect('quiz.questions', 'questions')
       .leftJoinAndSelect('questions.options', 'options')
@@ -277,13 +280,192 @@ export class QuizService {
       .orderBy('quiz.createdAt', 'DESC')
       .take(1)
       .getOne();
-
+  
     if (!quiz) {
-      throw new NotFoundException('No quizzes found');
+      throw new NotFoundException('Nenhum quiz encontrado.');
+    }
+  
+    // **Correção no cálculo de totalAttempts**
+    const totalAttempts = await this.quizAttemptRepository.count({
+      where: { quiz: { index: quiz.index } },
+    });
+  
+    // **Cálculo de completedAttempts e completionRate**
+    const completedAttempts = await this.quizAttemptRepository.count({
+      where: { quiz: { index: quiz.index }, isCompleted: true },
+    });
+  
+    const completionRate =
+      totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
+  
+    // **Cálculo de averageCompletionTime**
+    const completedAttemptsData = await this.quizAttemptRepository.find({
+      where: { quiz: { index: quiz.index }, isCompleted: true },
+      select: ['attemptedAt', 'completedAt'],
+    });
+  
+    let totalCompletionTime = 0;
+    const numberOfCompletedAttempts = completedAttemptsData.length;
+  
+    for (const attempt of completedAttemptsData) {
+      if (attempt.attemptedAt && attempt.completedAt) {
+        const timeDiff =
+          attempt.completedAt.getTime() - attempt.attemptedAt.getTime();
+        totalCompletionTime += timeDiff;
+      }
+    }
+  
+    const averageCompletionTime =
+      numberOfCompletedAttempts > 0
+        ? totalCompletionTime / numberOfCompletedAttempts
+        : 0;
+  
+    // Obter todas as respostas para o quiz
+    const answers = await this.quizQuestionAnswerRepository.find({
+      where: { question: { quiz: { index: quiz.index } } },
+      relations: ['option', 'option.sociologicalData'],
+    });
+  
+    // Inicializar variáveis para cálculos
+    let totalWeight = 0;
+    let totalResponses = 0;
+  
+    // Mapa para armazenar os dados sociológicos e seus valores
+    const sociologicalDataMap = new Map<number, QuizStatisticalSociologicalDataDto>();
+  
+    for (const answer of answers) {
+      if (answer.option) {
+        totalWeight += answer.option.weight;
+        totalResponses++;
+  
+        // Dados sociológicos associados à opção
+        const sociologicalData = answer.option.sociologicalData;
+  
+        if (sociologicalData) {
+          let dataDto = sociologicalDataMap.get(sociologicalData.index);
+          if (!dataDto) {
+            dataDto = {
+              id: sociologicalData.index,
+              name: sociologicalData.name,
+              color: sociologicalData.color,
+              value: 0,
+            };
+            sociologicalDataMap.set(sociologicalData.index, dataDto);
+          }
+          dataDto.value += answer.option.weight;
+        }
+      }
+    }
+  
+    const averageWeight = totalResponses > 0 ? totalWeight / totalResponses : 0;
+  
+    const sociologicalDataStatistics = Array.from(sociologicalDataMap.values());
+  
+    // Mapear as perguntas para QuizQuestionDto
+    const questions: QuizQuestionDto[] = quiz.questions.map((question) => {
+      const options: QuizQuestionOptionDto[] = question.options.map((option) => {
+        const sociologicalData: QuizSociologicalDataDto = option.sociologicalData
+          ? {
+              id: option.sociologicalData.index,
+              name: option.sociologicalData.name,
+              color: option.sociologicalData.color,
+            }
+          : null;
+  
+        return {
+          id: option.index,
+          title: option.title,
+          isChecked: option.isChecked,
+          weight: option.weight,
+          sociologicalData,
+        } as QuizQuestionOptionDto;
+      });
+  
+      return {
+        id: question.index,
+        type: question.type,
+        question: question.question,
+        answer: question.answer,
+        image: question.image,
+        audio: question.audio,
+        options,
+      } as QuizQuestionDto;
+    });
+    
+    const userDetails = {
+      id: quiz.owner.index,
+      email: quiz.owner.email,
+      username: quiz.owner.username,
+      fullName: quiz.owner.fullName,
+    } as QuizUserDetailsDto;
+  
+    // Montar o objeto QuizDetailsDto
+    const quizDetails: QuizDetailsDto = {
+      id: quiz.index,
+      title: quiz.title,
+      identifier: quiz.identifier,
+      description: quiz.description,
+      category: quiz.category,
+      image: quiz.image,
+      audio: quiz.audio,
+      sociologicalDataStatistics,
+      totalAttempts,
+      averageWeight,
+      completionRate,
+      averageCompletionTime,
+      questions,
+      owner: userDetails,
+      createdAt: quiz.createdAt,
+    };
+  
+    return quizDetails;
+  }
+  
+  async getAllQuizzesSimplified(): Promise<SimplifiedQuizListDto[]> {
+    // Buscar os últimos quizzes adicionados
+    const quizzes = await this.quizRepository
+      .createQueryBuilder('quiz')
+      .leftJoinAndSelect('quiz.owner', 'owner')
+      .orderBy('quiz.createdAt', 'DESC')
+      .getMany();
+
+    if (!quizzes.length) {
+      throw new NotFoundException('Nenhum quiz encontrado.');
     }
 
-    return quiz;
+    // Iterar sobre cada quiz para calcular as métricas necessárias
+    const quizDetailsList = await Promise.all(
+      quizzes.map(async (quiz) => {
+        // **Correção no cálculo de totalAttempts**
+        const totalAttempts = await this.quizAttemptRepository.count({
+          where: { quiz: { index: quiz.index } },
+        });
+
+        // **Cálculo de completedAttempts**
+        const completedAttempts = await this.quizAttemptRepository.count({
+          where: { quiz: { index: quiz.index }, isCompleted: true },
+        });
+
+        const incompleteAttempts = totalAttempts - completedAttempts;
+
+        // **Cálculo da média de conclusão (completionRate)**
+        const completionRate = totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
+
+        // Retornar o objeto com os dados requisitados
+        return {
+            index: quiz.index,
+            title: quiz.title,
+            identifier: quiz.identifier,
+            completion_rate: parseFloat(completionRate.toFixed(2)),
+            total_attempts: completedAttempts + incompleteAttempts,
+            owner_name: quiz.owner.fullName,
+          } as SimplifiedQuizListDto;
+        })
+    );
+
+    return quizDetailsList;
   }
+
 
   // Função para calcular as estatísticas do quiz
   async calculateQuizStatistics(quizId: number): Promise<QuizDetailsDto> {

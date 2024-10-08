@@ -2,11 +2,13 @@
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
-import { getQuizData } from '@/app/server/actions'
+import { getAllQuizzesSimplified, getLatestQuizData, getQuizData } from '@/app/server/actions'
 import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
 import LatestQuizCreatedView from '@/views/apps/quiz/LatestQuizCreatedView'
 import UserWelcomeCard from '@/views/apps/dashboard/header/UserWelcomeCard'
 import DashboardCardVertical from '@/views/apps/dashboard/header/DashboardCardVertical'
+import { Quiz, QuizDetailsDto, SimplifiedQuizListDto } from '@/types/apps/quizTypes'
+import data from '@/views/react-table/data'
 
 // Component Imports
 
@@ -32,8 +34,10 @@ import DashboardCardVertical from '@/views/apps/dashboard/header/DashboardCardVe
 
 const HomePage = async () => {
   // Vars
-  // const data = await getLatestQuizData()
-  const data = await getQuizData()
+  const dataSimplified = (await getAllQuizzesSimplified()) as SimplifiedQuizListDto[]
+  const dataDetailed = (await getLatestQuizData()) as QuizDetailsDto
+
+  console.log('detailed data:', dataSimplified)
 
   return (
     <Grid container spacing={6}>
@@ -61,20 +65,13 @@ const HomePage = async () => {
         </Grid>
       </Grid>
       <Grid item xs={12}>
-        <LatestQuizCreatedView quizData={null} />
+        <LatestQuizCreatedView quizData={dataDetailed} />
       </Grid>
       <Grid item xs={12}>
-        <SimpleQuizListTable quizData={data} />
+        <SimpleQuizListTable dataSimplified={dataSimplified} />
       </Grid>
     </Grid>
   )
 }
 
 export default HomePage
-
-/*
-
-      <Grid item xs={12}>
-        <SimpleQuizListTable quizData={data} />
-      </Grid>
-*/

@@ -14,13 +14,14 @@ import { Card, CardMedia, CardContent, Divider, CardHeader, Grid, Box, Button } 
 
 import classnames from 'classnames'
 
-import type { Quiz } from '@/types/apps/quizTypes'
+import type { Quiz, QuizDetailsDto } from '@/types/apps/quizTypes'
 import CustomAvatar from '@/@core/components/mui/Avatar'
 
 import OptionMenu from '@/@core/components/option-menu'
 
 // Styles Imports
 import styles from './styles.module.css'
+import { useState, useEffect } from 'react'
 
 // Styled Component Imports
 // eslint-disable-next-line import/no-unresolved
@@ -54,9 +55,10 @@ const data2: DataType[] = [
 const labels = ['Interesse', 'Confiança', 'Frustração', 'Ansiedade', 'Curiosidade', 'Satisfação']
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
+const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
   // Hooks
   const theme = useTheme()
+  const [richTextContent, setRichTextContent] = useState<string | null>(null)
 
   // Vars
   const options: ApexOptions = {
@@ -153,6 +155,12 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
     }
   }
 
+  useEffect(() => {
+    if (quizData?.description) {
+      setRichTextContent(quizData.description)
+    }
+  }, [quizData])
+
   return (
     <Card>
       <CardHeader
@@ -166,7 +174,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
             <div>
               <CardMedia
                 className='bs-[162px]'
-                image='https://www.senaisolucoes.com.br/xp_images/STARTLABENCAIXE.png'
+                image={quizData?.image?.imageUrl || ''}
                 sx={{
                   borderTopRightRadius: '12px',
                   borderBottomRightRadius: '12px',
@@ -178,14 +186,20 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
           <CardContent className='flex flex-col gap-5'>
             <div className='flex items-center gap-4'>
               <CustomAvatar variant='rounded' skin='light' color='primary' size={58} className='flex flex-col'>
-                <Typography color='primary'>Set</Typography>
+                <Typography color='primary'>
+                  {new Date(quizData.createdAt)
+                    .toLocaleDateString('pt-BR', { month: 'short' })
+                    .charAt(0)
+                    .toUpperCase() +
+                    new Date(quizData.createdAt).toLocaleDateString('pt-BR', { month: 'short' }).slice(1)}
+                </Typography>
                 <Typography variant='h5' color='primary'>
-                  01
+                  {new Date(quizData.createdAt).getDate()}
                 </Typography>
               </CustomAvatar>
               <div className='flex flex-col gap-1'>
                 <Typography color='text.primary' className='font-medium'>
-                  Questionário da aula 01 até aula 03
+                  {quizData.title}
                 </Typography>
                 <Typography variant='body2'>Start Lab</Typography>
               </div>
@@ -197,12 +211,10 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: Quiz | null }) => {
                   <Typography color='text.primary' className='font-medium'>
                     Descrição
                   </Typography>
-                  <span className={classnames(styles.tableBody)}>
-                    Essas perguntas são voltadas para avaliar a compreensão técnica, o raciocínio lógico e a aplicação
-                    de conceitos fundamentais em áreas como engenharia, robótica e estruturas físicas. Elas exploram
-                    temas como a importância de encaixes precisos, a funcionalidade de robôs, o papel das alavancas e
-                    dos centros de equilíbrio, além de conceitos estruturais em construções.
-                  </span>
+                  <Typography
+                    sx={{ textAlign: 'justify' }}
+                    dangerouslySetInnerHTML={{ __html: richTextContent || '' }}
+                  />
                 </Typography>
               </div>
             </div>

@@ -48,7 +48,8 @@ import tableStyles from '@core/styles/table.module.css'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Style Imports
-import type { Quiz } from '@/types/apps/quizTypes'
+import type { Quiz, SimplifiedQuizListDto } from '@/types/apps/quizTypes'
+import { useSettings } from '@/@core/hooks/useSettings'
 
 declare module '@tanstack/table-core' {
   interface FilterFns {
@@ -57,10 +58,6 @@ declare module '@tanstack/table-core' {
   interface FilterMeta {
     itemRank: RankingInfo
   }
-}
-
-type QuizWithProgress = Quiz & {
-  progressValue?: string
 }
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
@@ -106,37 +103,41 @@ const DebouncedInput = ({
 }
 
 // Column Definitions
-const columnHelper = createColumnHelper<QuizWithProgress>()
+const columnHelper = createColumnHelper<SimplifiedQuizListDto>()
 
-const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
+const SimpleQuizListTable = ({ dataSimplified }: { dataSimplified: SimplifiedQuizListDto[] }) => {
+  // Hooks
+  const { settings } = useSettings()
+
   // States
   const [rowSelection, setRowSelection] = useState({})
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [data, setData] = useState(...[quizData])
+  const [data, setData] = useState<SimplifiedQuizListDto[]>(dataSimplified)
   const [globalFilter, setGlobalFilter] = useState('')
 
   // Hooks
   const { lang: locale } = useParams()
 
-  const columns = useMemo<ColumnDef<QuizWithProgress, any>[]>(
+  const columns = useMemo<ColumnDef<SimplifiedQuizListDto, any>[]>(
     () => [
       columnHelper.accessor('title', {
         header: 'Nome do Questionário',
         cell: ({ row }) => (
           <div className='flex items-center gap-4'>
-            <CustomAvatar variant='rounded' skin='light' color={'success'}></CustomAvatar>
+            <CustomAvatar variant='rounded' skin='light' color='primary'>
+              <i className='ri-file-list-line' />
+            </CustomAvatar>
             <div className='flex flex-col gap-0.5'>
               <Typography
                 component={Link}
-                href={getLocalizedUrl(`/quiz-details/${row.original.id}`, locale as Locale)}
+                href={getLocalizedUrl(`/quiz-details/${row.original.index}`, locale as Locale)}
                 className='font-medium hover:text-primary'
                 color='text.primary'
               >
                 {row.original.title}
               </Typography>
               <div className='flex items-center gap-2'>
-                <CustomAvatar src={'https://www.senaisolucoes.com.br/xp_images/TDAH.png'} size={22} />
-                <Typography variant='body2'>{row.original.owner?.fullName}</Typography>
+                <Typography variant='body2'>{row.original.owner_name}</Typography>
               </div>
             </div>
           </div>
@@ -145,41 +146,32 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
       columnHelper.accessor('identifier', {
         header: 'Identificador',
         cell: ({ row }) => (
-          <Typography className='font-medium' color='text.primary'>
+          <Typography style={{ fontSize: '14px' }} className='font-medium' color='text.primary'>
             {row.original.identifier}
           </Typography>
         ),
         enableSorting: false
       }),
-      columnHelper.accessor('progressValue', {
+      columnHelper.accessor('completion_rate', {
         header: 'Média de Conclusão',
-        sortingFn: (rowA, rowB) => {
-          //if (
-          //  !Math.floor((rowA.original.completedQuiz / rowA.original.totalQuiz) * 100) ||
-          //  !Math.floor((rowB.original.completedQuiz / rowB.original.totalQuiz) * 100)
-          //)
-          return 0
-
-          //return (
-          //  Number(Math.floor((rowA.original.completedQuiz / rowA.original.totalQuiz) * 100)) -
-          //  Number(Math.floor((rowB.original.completedQuiz / rowB.original.totalQuiz) * 100))
-          //)
-        },
         cell: ({ row }) => (
           <div className='flex items-center gap-4 min-is-48'>
-            <Typography className='font-medium' color='text.primary'>{`75%`}</Typography>
-            <LinearProgress color={'success'} value={100} variant='determinate' className='is-full bs-2' />
-            <Typography variant='body2'>{`5`}</Typography>
+            <LinearProgress
+              color={'primary'}
+              value={row.original.completion_rate}
+              variant='determinate'
+              className='is-full bs-2'
+            />
           </div>
         )
       }),
-      columnHelper.accessor('type', {
+      columnHelper.accessor('total_attempts', {
         header: 'Acessos',
         cell: ({ row }) => (
           <div className='flex items-center justify-between gap-5'>
             <div className='flex items-center gap-1.5 ml-auto pr-4'>
               <i className='ri-group-line text-primary' />
-              <Typography>{3}</Typography>
+              <Typography>{row.original.total_attempts}</Typography>
             </div>
           </div>
         ),
@@ -191,7 +183,7 @@ const SimpleQuizListTable = ({ quizData }: { quizData?: Quiz[] }) => {
   )
 
   const table = useReactTable({
-    data: data as Quiz[],
+    data: data as SimplifiedQuizListDto[],
     columns,
     filterFns: {
       fuzzy: fuzzyFilter

@@ -1,5 +1,6 @@
 import type { ThemeColor } from '@/@core/types'
 import type { BackEndUsersType } from './userTypes'
+import { type } from 'os'
 
 //export type Attempt = {
 //  userId: number;
@@ -66,6 +67,7 @@ export type Quiz = {
   questions: QuizQuestion[] // List of questions in the quiz
   owner: BackEndUsersType // Quiz owner
   status?: string // Status of the quiz
+  createdAt: Date
 }
 
 // Represents an individual question in a quiz
@@ -163,6 +165,7 @@ export type QuizDetailsDto = {
   averageCompletionTime: number
   owner: BackEndUsersType
   questions: QuizQuestionDto[]
+  createdAt: Date
 }
 
 export type QuizStatisticalSociologicalDataDto = {
@@ -170,4 +173,13 @@ export type QuizStatisticalSociologicalDataDto = {
   name: string
   color: string
   value?: number
+}
+
+export type SimplifiedQuizListDto = {
+  index: number
+  title: string
+  identifier: string
+  completion_rate: number
+  total_attempts: number
+  owner_name: string
 }

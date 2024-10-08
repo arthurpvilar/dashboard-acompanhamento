@@ -23,6 +23,8 @@ import verticalMenuItemStyles from '@core/styles/vertical/menuItemStyles'
 import verticalMenuSectionStyles from '@core/styles/vertical/menuSectionStyles'
 
 import VerticalNavContent from './VerticalNavContent'
+import { BackEndUsersType, UserRole } from '@/types/apps/userTypes'
+import { useState, useEffect } from 'react'
 
 type RenderExpandIconProps = {
   level?: number
@@ -55,6 +57,17 @@ const HorizontalMenu = () => {
   const { skin } = settings
   const { transitionDuration } = verticalNavOptions
 
+  // State para armazenar o usuário logado
+  const [loggedUser, setLoggedUser] = useState<BackEndUsersType | null>(null)
+
+  // useEffect para definir o usuário logado somente no lado do cliente
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user')
+      setLoggedUser(user ? JSON.parse(user) : null)
+    }
+  }, [])
+
   return (
     <HorizontalNav
       switchToVertical
@@ -83,12 +96,24 @@ const HorizontalMenu = () => {
           menuSectionStyles: verticalMenuSectionStyles(verticalNavOptions, theme)
         }}
       >
-        <MenuItem href='/' icon={<i className='ri-home-smile-line' />}>
+        <MenuItem href='/home' icon={<i className='ri-home-smile-line' />}>
           Home
         </MenuItem>
-        <MenuItem href='/about' icon={<i className='ri-information-line' />}>
-          About
+        <MenuItem href='/users' icon={<i className='ri-user-line' />}>
+          Usuários
         </MenuItem>
+
+        {loggedUser?.role === UserRole.TEACHER || loggedUser?.role === UserRole.ADMINISTRATOR ? (
+          <MenuItem href='/quiz' icon={<i className='ri-logout-box-r-line' />}>
+            Questionários
+          </MenuItem>
+        ) : null}
+
+        {loggedUser?.role === UserRole.STUDENT || loggedUser?.role === UserRole.ADMINISTRATOR ? (
+          <MenuItem href='/my-quizzes' icon={<i className='ri-file-list-line' />}>
+            Meus Questionários
+          </MenuItem>
+        ) : null}
       </Menu>
 
       {/* <Menu

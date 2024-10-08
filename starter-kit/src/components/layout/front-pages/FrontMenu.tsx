@@ -5,10 +5,8 @@ import { useEffect } from 'react'
 
 // Next Imports
 import { usePathname } from 'next/navigation'
-import Link from 'next/link'
 
 // MUI Imports
-import Typography from '@mui/material/Typography'
 import Drawer from '@mui/material/Drawer'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import type { Theme } from '@mui/material/styles'
@@ -19,12 +17,6 @@ import classnames from 'classnames'
 
 // Type Imports
 import type { Mode } from '@core/types'
-
-// Hook Imports
-import { useIntersection } from '@/hooks/useIntersection'
-
-// Component Imports
-import DropdownMenu from './DropdownMenu'
 
 type Props = {
   mode: Mode
@@ -77,7 +69,7 @@ const FrontMenu = (props: Props) => {
   // Hooks
   const pathname = usePathname()
   const isBelowLgScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
-  const { intersections } = useIntersection()
+  // const { intersections } = useIntersection()
 
   useEffect(() => {
     if (!isBelowLgScreen && isDrawerOpen) {
@@ -86,80 +78,7 @@ const FrontMenu = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isBelowLgScreen])
 
-  return (
-    <Wrapper isBelowLgScreen={isBelowLgScreen} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen}>
-      <Typography
-        component={Link}
-        href='/front-pages/landing-page'
-        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary':
-            !intersections.features &&
-            !intersections.team &&
-            !intersections.faq &&
-            !intersections['contact-us'] &&
-            pathname === '/front-pages/landing-page'
-        })}
-        color='text.primary'
-      >
-        Home
-      </Typography>
-      <Typography
-        component={Link}
-        href='/front-pages/landing-page#features'
-        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections.features
-        })}
-        color='text.primary'
-      >
-        Features
-      </Typography>
-      <Typography
-        component={Link}
-        href='/front-pages/landing-page#team'
-        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections.team
-        })}
-        color='text.primary'
-      >
-        Team
-      </Typography>
-      <Typography
-        component={Link}
-        href='/front-pages/landing-page#faq'
-        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections.faq
-        })}
-        color='text.primary'
-      >
-        FAQ
-      </Typography>
-      <Typography
-        component={Link}
-        href='/front-pages/landing-page#contact-us'
-        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections['contact-us']
-        })}
-        color='text.primary'
-      >
-        Contact us
-      </Typography>
-      <DropdownMenu
-        mode={mode}
-        isBelowLgScreen={isBelowLgScreen}
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
-      <Typography
-        component={Link}
-        href='/'
-        target='_blank'
-        className='font-medium plb-3 pli-1.5 hover:text-primary'
-        color='text.primary'
-      >
-        Admin
-      </Typography>
-    </Wrapper>
-  )
+  return <div></div>
 }
 
 export default FrontMenu

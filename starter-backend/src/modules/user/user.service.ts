@@ -29,8 +29,6 @@ export class UserService {
         'Usuário não encontrado com email/username:',
         emailOrUsername,
       );
-    } else {
-      console.log('Usuário encontrado:', user);
     }
 
     return user;
@@ -51,7 +49,6 @@ export class UserService {
   async findAllUsers(): Promise<User[]> {
     const users = await this.userRepository.find();
     if (!users.length) {
-      console.log('Nenhum usuário encontrado');
       throw new NotFoundException('Nenhum usuário encontrado.');
     }
     return users;
