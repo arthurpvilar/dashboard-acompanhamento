@@ -1,7 +1,6 @@
 'use client'
 
 // React Imports
-import type { ChangeEvent } from 'react'
 import { useState, useEffect } from 'react'
 
 // Next Imports
@@ -11,58 +10,41 @@ import { useParams } from 'next/navigation'
 // MUI Imports
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Chip from '@mui/material/Chip'
-import FormControl from '@mui/material/FormControl'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import InputLabel from '@mui/material/InputLabel'
-import LinearProgress from '@mui/material/LinearProgress'
-import MenuItem from '@mui/material/MenuItem'
-import Pagination from '@mui/material/Pagination'
-import Select from '@mui/material/Select'
-import Switch from '@mui/material/Switch'
-import Typography from '@mui/material/Typography'
-import DOMPurify from 'dompurify'
 
 // Type Imports
-import { Button } from '@mui/material'
+import {
+  Button,
+  CardContent,
+  Chip,
+  FormControl,
+  InputLabel,
+  LinearProgress,
+  MenuItem,
+  Pagination,
+  Select,
+  Typography
+} from '@mui/material'
 
 import type { Locale } from '@configs/i18n'
-import type { ThemeColor } from '@core/types'
-
-// Component Imports
-// import DirectionalIcon from '@components/DirectionalIcon'
-
-// Util Imports
-import { getLocalizedUrl } from '@/utils/i18n'
 import type { UserQuizAttemptDto } from '@/types/apps/quizTypes'
 import DirectionalIcon from '@/components/DirectionalIcon'
 import type { BackEndUsersType } from '@/types/apps/userTypes'
 import { getUserQuizAttempts } from '@/app/server/actions'
-
-type ChipColorType = {
-  color: ThemeColor
-}
+import { getLocalizedUrl } from '@/utils/i18n'
+import DOMPurify from 'dompurify'
 
 type Props = {
-  quizData?: UserQuizAttemptDto[]
   searchValue: string
 }
 
-const chipColor: { [key: string]: ChipColorType } = {
-  Geral: { color: 'warning' },
-  'Start Lab': { color: 'primary' },
-  'Escola do Volante': { color: 'success' }
-}
-
 const MyQuizListTable = (props: Props) => {
-  // Props
-  const { quizData, searchValue } = props
+  const { searchValue } = props
 
   // States
   const [quiz, setQuiz] = useState<string>('Todos')
   const [hideCompleted, setHideCompleted] = useState(false)
   const [data, setData] = useState<UserQuizAttemptDto[]>([])
+  const [userAttempts, setUserAttempts] = useState<UserQuizAttemptDto[]>([])
   const [activePage, setActivePage] = useState(0)
 
   // Hooks
@@ -72,59 +54,38 @@ const MyQuizListTable = (props: Props) => {
   const getLoggedUser = (): BackEndUsersType | null => {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('user')
-
       return user ? JSON.parse(user) : null
     }
-
     return null
   }
 
   useEffect(() => {
-    // Função para buscar tentativas de quiz do usuário autenticado
     const fetchUserQuizAttempts = async () => {
       const user = getLoggedUser()
-
       if (user) {
         const accessToken = localStorage.getItem('accessToken') as string
         const userId = user.index as string
-
         const userAttempts: UserQuizAttemptDto[] = await getUserQuizAttempts(accessToken, userId)
-
         setData(userAttempts)
+        setUserAttempts(userAttempts)
       }
     }
-
     fetchUserQuizAttempts()
   }, [])
 
   useEffect(() => {
     let newData =
-      quizData?.filter(quizItem => {
+      userAttempts.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
-
         return (
-          ((quizItem.isCompleted && quiz === 'Completos') || (!quizItem.isCompleted && quiz === 'Incompleto')) &&
+          ((quizItem.isCompleted && quiz === 'Completo') || (!quizItem.isCompleted && quiz === 'Incompleto')) &&
           !hideCompleted
         )
       }) ?? []
 
-    if (searchValue) {
-      newData = newData.filter(
-        category =>
-          category.quizTitle.toLowerCase().includes(searchValue.toLowerCase()) ||
-          category.quizIdentifier.toLowerCase().includes(searchValue.toLowerCase())
-      )
-    }
-
     if (activePage > Math.ceil(newData.length / 6)) setActivePage(0)
-
     setData(newData)
-  }, [searchValue, activePage, quiz, hideCompleted, quizData])
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setHideCompleted(e.target.checked)
-    setActivePage(0)
-  }
+  }, [searchValue, activePage, quiz, hideCompleted, userAttempts])
 
   return (
     <Card>
@@ -149,12 +110,6 @@ const MyQuizListTable = (props: Props) => {
                 <MenuItem value='Incompleto'>Incompleto</MenuItem>
               </Select>
             </FormControl>
-            {false && (
-              <FormControlLabel
-                control={<Switch onChange={handleChange} checked={hideCompleted} />}
-                label='Esconder arquivados'
-              />
-            )}
           </div>
         </div>
         {data.length > 0 ? (
@@ -180,6 +135,7 @@ const MyQuizListTable = (props: Props) => {
                         alt={item.quizTitle}
                         className='is-full'
                         style={{
+                          minHeight: '135px',
                           borderTopLeftRadius: '12px',
                           borderTopRightRadius: '12px',
                           borderBottomLeftRadius: '12px',
@@ -192,10 +148,10 @@ const MyQuizListTable = (props: Props) => {
                   <div className='flex flex-col gap-4 p-5'>
                     <div className='flex items-center justify-between'>
                       <Chip
-                        label={item.quizCategory}
+                        label={item.isCompleted ? 'Concluído' : 'Incompleto'}
                         variant='tonal'
                         size='small'
-                        color={chipColor[item.quizCategory].color}
+                        color={item.isCompleted ? 'success' : 'warning'}
                       />
                       <div className='flex items-center'>
                         <Typography style={{ fontSize: '12px' }}>{item.quizIdentifier}</Typography>
@@ -226,41 +182,53 @@ const MyQuizListTable = (props: Props) => {
                       </div>
                     </div>
                     <div className='flex flex-col gap-1'>
-                      <div className='flex items-center gap-1'>
-                        <i className='ri-time-line text-xl' />
-                        <Typography>{`Média de conclusão`}</Typography>
+                      <div className='flex items-center justify-between'>
+                        <div className='flex items-center gap-1'>
+                          <i className='ri-time-line text-xl' />
+                          <Typography>{`Taxa de conclusão`}</Typography>
+                        </div>
+
+                        <Typography variant='body2' color='textSecondary'>
+                          [{item.answeredQuestions} / {item.totalQuestions}]
+                        </Typography>
                       </div>
                       <LinearProgress
-                        color='primary'
-                        value={Math.floor(0.7 * 100)}
+                        color={item.isCompleted ? 'primary' : 'warning'}
+                        value={item.completionRate}
                         variant='determinate'
                         className='is-full bs-2'
                       />
                     </div>
                     <div className='flex flex-wrap gap-4'>
-                      <Button
-                        fullWidth
-                        variant='outlined'
-                        color='secondary'
-                        startIcon={<i className='ri-refresh-line' />}
-                        component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
-                        className='is-auto flex-auto'
-                      >
-                        Relatório
-                      </Button>
-                      <Button
-                        fullWidth
-                        variant='outlined'
-                        endIcon={
-                          <DirectionalIcon ltrIconClass='ri-arrow-right-line' rtlIconClass='ri-arrow-left-line' />
-                        }
-                        component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
-                        className='is-auto flex-auto'
-                      >
-                        Detalhamento
-                      </Button>
+                      {item.isCompleted ? (
+                        <Button
+                          fullWidth
+                          variant='outlined'
+                          color='secondary'
+                          startIcon={<i className='ri-refresh-line' />}
+                          component={Link}
+                          href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
+                          className='is-auto flex-auto'
+                        >
+                          Relatório
+                        </Button>
+                      ) : (
+                        <Button
+                          fullWidth
+                          variant='outlined'
+                          endIcon={
+                            <DirectionalIcon ltrIconClass='ri-arrow-right-line' rtlIconClass='ri-arrow-left-line' />
+                          }
+                          component={Link}
+                          href={getLocalizedUrl(
+                            `/quiz-questions/${item.quizId}/${(getLoggedUser() as BackEndUsersType).index}`,
+                            locale as Locale
+                          )}
+                          className='is-auto flex-auto'
+                        >
+                          Continuar Avaliação
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>

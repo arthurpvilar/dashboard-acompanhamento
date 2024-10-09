@@ -132,7 +132,7 @@ export class UserService {
 
     return {
       students: studentCount,
-      teachers: teacherCount,
+      teachers: teacherCount + adminCount,
       administrators: adminCount,
       active: activeCount,
       pending: pendingCount,

@@ -33,7 +33,7 @@ import type { ThemeColor } from '@core/types'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
-import type { Quiz } from '@/types/apps/quizTypes'
+import type { BackendQuiz, Quiz } from '@/types/apps/quizTypes'
 import DirectionalIcon from '@/components/DirectionalIcon'
 
 type ChipColorType = {
@@ -41,7 +41,7 @@ type ChipColorType = {
 }
 
 type Props = {
-  quizData?: Quiz[]
+  quizData?: BackendQuiz[]
   searchValue: string
 }
 
@@ -56,19 +56,18 @@ const QuizListTable = (props: Props) => {
   const { quizData, searchValue } = props
 
   // States
-  const [quiz, setQuiz] = useState<Quiz['category']>('Start Lab')
+  const [quiz, setQuiz] = useState<BackendQuiz['category']>('Start Lab')
   const [hideCompleted, setHideCompleted] = useState(false)
-  const [data, setData] = useState<Quiz[]>([])
+  const [data, setData] = useState<BackendQuiz[]>([])
   const [activePage, setActivePage] = useState(0)
 
   // Hooks
   const { lang: locale } = useParams()
 
   useEffect(() => {
-    let newData =
+    let newData: BackendQuiz[] =
       quizData?.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
-        console.log(quizItem.category, quiz)
 
         return quizItem.category === quiz && !hideCompleted
       }) ?? []
@@ -151,7 +150,7 @@ const QuizListTable = (props: Props) => {
               >
                 <div className='border rounded bs-full'>
                   <div className='pli-2 pbs-2'>
-                    <Link href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)} className='flex'>
+                    <Link href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)} className='flex'>
                       <img
                         src={item.image?.imageUrl || ''}
                         alt={item.title}
@@ -179,7 +178,7 @@ const QuizListTable = (props: Props) => {
                         <Typography
                           variant='h6'
                           component={Link}
-                          href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)}
+                          href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
                           className='hover:text-primary'
                         >
                           {item.title}
@@ -199,13 +198,19 @@ const QuizListTable = (props: Props) => {
                       </div>
                     </div>
                     <div className='flex flex-col gap-1'>
-                      <div className='flex items-center gap-1'>
-                        <i className='ri-time-line text-xl' />
-                        <Typography>{`Média de conclusão`}</Typography>
+                      <div className='flex items-center justify-between'>
+                        <div className='flex items-center gap-1'>
+                          <i className='ri-time-line text-xl' />
+                          <Typography>{`Média de conclusão`}</Typography>
+                        </div>
+
+                        <Typography variant='body2' color='textSecondary'>
+                          {item.completionRate || 0}%
+                        </Typography>
                       </div>
                       <LinearProgress
                         color='primary'
-                        value={Math.floor(0.7 * 100)}
+                        value={item.completionRate || 0}
                         variant='determinate'
                         className='is-full bs-2'
                       />
@@ -217,7 +222,7 @@ const QuizListTable = (props: Props) => {
                         color='secondary'
                         startIcon={<i className='ri-refresh-line' />}
                         component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)}
+                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
                         className='is-auto flex-auto'
                       >
                         Relatório
@@ -229,7 +234,7 @@ const QuizListTable = (props: Props) => {
                           <DirectionalIcon ltrIconClass='ri-arrow-right-line' rtlIconClass='ri-arrow-left-line' />
                         }
                         component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)}
+                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
                         className='is-auto flex-auto'
                       >
                         Detalhamento

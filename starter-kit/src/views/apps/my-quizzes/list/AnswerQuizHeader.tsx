@@ -23,6 +23,7 @@ import { useImageVariant } from '@core/hooks/useImageVariant'
 
 // Server-side Data Import
 import { getQuizData } from '@/app/server/actions'
+import { BackEndUsersType } from '@/types/apps/userTypes'
 
 // Props Types
 type Props = {
@@ -48,22 +49,34 @@ const AnswerQuizHeader = (props: Props) => {
   const handleSearch = async () => {
     if (searchValue.trim()) {
       // Busca os dados dos quizzes
+      const loggedUser = getLoggedUser()
       const quizzes = await getQuizData()
 
       // Procura o quiz pelo título fornecido
-      const selectedQuiz = quizzes.find(
+      const selectedQuiz = quizzes.data.find(
         quiz =>
           quiz.title.toLowerCase() === searchValue.trim().toLowerCase() ||
           quiz.identifier.toLowerCase() === searchValue.trim().toLowerCase()
       )
 
       // Se encontrar o quiz, redireciona para a página com o ID correspondente
-      if (selectedQuiz) {
-        router.push(`/quiz-questions/${selectedQuiz.id}`)
+      if (selectedQuiz && loggedUser) {
+        router.push(`/quiz-questions/${selectedQuiz.index}/${loggedUser.index}`)
       } else {
         alert('Quiz não encontrado. Por favor, verifique o título e tente novamente.')
       }
     }
+  }
+
+  // Função para obter o usuário autenticado do localStorage
+  const getLoggedUser = (): BackEndUsersType | null => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user')
+
+      return user ? JSON.parse(user) : null
+    }
+
+    return null
   }
 
   return (

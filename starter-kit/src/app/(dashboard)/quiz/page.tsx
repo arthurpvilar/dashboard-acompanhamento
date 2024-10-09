@@ -12,11 +12,9 @@ import ServerQuizListPage from '@/views/apps/quiz/list'
 const QuizPage = async () => {
   // Vars
   const mode = getServerMode()
-  const data = await getQuizData()
+  const quizzes = await getQuizData()
 
-  //const data = await getQuizData()
-
-  return <ServerQuizListPage mode={mode} quizData={data} />
+  return <ServerQuizListPage mode={mode} quizData={quizzes.data} />
 }
 
 export default QuizPage

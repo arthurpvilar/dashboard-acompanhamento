@@ -20,7 +20,16 @@ import { db as pricingData } from '@/fake-db/pages/pricing'
 import { db as statisticsData } from '@/fake-db/pages/widget-examples'
 
 // Types to send to the server
-import type { CreateQuizDto, QuizDetailsDto, SimplifiedQuizListDto, UserQuizAttemptDto } from '@/types/apps/quizTypes'
+import type {
+  BackendAnswerDto,
+  BackendQuiz,
+  BackendQuizList,
+  CreateQuizDto,
+  Quiz,
+  QuizDetailsDto,
+  SimplifiedQuizListDto,
+  UserQuizAttemptDto
+} from '@/types/apps/quizTypes'
 import type { BackEndUsersType } from '@/types/apps/userTypes'
 
 // API URL
@@ -43,8 +52,7 @@ export const getUserQuizAttempts = async (accessToken: string, userId: string): 
     const response = await fetch(`${API_URL}/quiz-attempts/user-attempts/${userId}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}` // Caso utilize autenticação JWT, inclua o token aqui
+        'Content-Type': 'application/json'
       },
       cache: 'no-store'
     })
@@ -256,6 +264,58 @@ export const getUserStatistics = async (): Promise<RequestResponse> => {
   }
 }
 
+export const recordQuizAttempt = async (
+  userId: string | null,
+  email: string | null,
+  quizId: number,
+  answers: BackendAnswerDto[]
+): Promise<RequestResponse> => {
+  try {
+    const response = await fetch(`${API_URL}/quiz-attempts/record`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId,
+        email,
+        quizId,
+        answers
+      })
+    })
+
+    const statusCode = response.status
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      console.error('Erro ao registrar tentativa de quiz:', errorData.message)
+
+      return {
+        success: false,
+        message: errorData.message || 'Erro desconhecido ao registrar a tentativa de quiz.',
+        statusCode
+      }
+    }
+
+    const attemptData = await response.json()
+
+    return {
+      success: true,
+      message: 'Tentativa de quiz registrada com sucesso!',
+      statusCode,
+      data: attemptData
+    }
+  } catch (error: any) {
+    console.error('Erro ao registrar tentativa de quiz:', error.message)
+
+    return {
+      success: false,
+      message: error.message || 'Erro ao registrar a tentativa de quiz. Tente novamente.',
+      statusCode: 500
+    }
+  }
+}
+
 // Função para excluir o usuário no servidor
 export const deleteUserOnServer = async (token: string, userId: string): Promise<RequestResponse> => {
   try {
@@ -302,8 +362,44 @@ export const getQuizDetailedData = async (index: number) => {
   return quizDataDetailed.find(quiz => quiz.id === index)
 }
 
-export const getQuizData = async () => {
-  return quizData
+export const getQuizData = async (): Promise<BackendQuizList> => {
+  try {
+    const response = await fetch(`${API_URL}/quizzes`, {
+      cache: 'no-store',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const quizzes: BackendQuizList = await response.json()
+
+    return quizzes
+  } catch (error: any) {
+    console.error('Erro ao buscar retornar lista de quiz:', error.message)
+
+    return { data: [], total: 0 } as BackendQuizList
+  }
+}
+
+export const findQuizData = async (index: number): Promise<BackendQuiz | null> => {
+  try {
+    const response = await fetch(`${API_URL}/quizzes/${index}`, {
+      cache: 'no-store',
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    const quiz: BackendQuiz = await response.json()
+
+    return quiz
+  } catch (error: any) {
+    console.error('Erro ao buscar retornar quiz:', error.message)
+
+    return null
+  }
 }
 
 export const getAcademyData = async () => {

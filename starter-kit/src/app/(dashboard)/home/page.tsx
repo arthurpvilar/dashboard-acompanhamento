@@ -36,8 +36,6 @@ const HomePage = async () => {
   const dataSimplified = (await getAllQuizzesSimplified()) as SimplifiedQuizListDto[]
   const dataDetailed = (await getLatestQuizData()) as QuizDetailsDto
 
-  console.log('detailed data:', dataSimplified)
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} md={8} className='self-end'>

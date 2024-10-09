@@ -8,6 +8,7 @@ import {
   UseGuards,
   UsePipes,
   ValidationPipe,
+  Query,
 } from '@nestjs/common';
 import { QuizAttemptService } from './quiz-attempt.service';
 import { RecordAttemptDto } from './dto/record-attempt.dto';
@@ -47,9 +48,23 @@ export class QuizAttemptController {
     );
   }
 
-  @Get()
+  @Get('recover')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Recuperar tentativa de quiz incompleta' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tentativa de quiz recuperada com sucesso.',
+  })
+  findAttempt(
+    @Query('quizId', ParseIntPipe) quizId: number,
+    @Query('userId') userId?: string,
+    @Query('email') email?: string,
+  ): Promise<QuizAttempt> {
+    return this.quizAttemptService.findAttempt(quizId, userId, email);
+  }
+
+  @Get(':quizId')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Obter todas as tentativas de quiz' })
   @ApiResponse({
     status: 200,
@@ -62,7 +77,6 @@ export class QuizAttemptController {
 
   @Get('user-attempts/:userId')
   @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
   @ApiOperation({ summary: 'Obter todas as tentativas de quiz de um usuário' })
   @ApiResponse({
     status: 200,

@@ -196,34 +196,60 @@ export class QuizService {
     status?: 'draft' | 'published' | 'archived';
   }): Promise<{ data: Quiz[]; total: number }> {
     const { page, limit, search, status } = options;
-
+  
     const findOptions: FindManyOptions<Quiz> = {
       skip: (page - 1) * limit,
       take: limit,
-      relations: [
-        'questions',
-        'questions.options',
-        'sociologicalData' /*, 'owner'*/,
-      ],
+      relations: ['questions', 'questions.options', 'sociologicalData', 'owner', 'attempts'],
       where: {},
     };
-
+  
     if (search) {
       findOptions.where = [
         { title: Like(`%${search}%`) },
         { identifier: Like(`%${search}%`) },
       ];
     }
-
+  
     if (status) {
       findOptions.where = {
         ...findOptions.where,
         status,
       };
     }
-
-    const [data, total] = await this.quizRepository.findAndCount(findOptions);
-    return { data, total };
+  
+    const [quizzes, total] = await this.quizRepository.findAndCount(findOptions);
+  
+    // Iterar sobre cada quiz para calcular o completionRate
+    const quizDetailsList = quizzes.map((quiz) => {
+      // Calcular o número total de tentativas e as tentativas concluídas para este quiz
+      const totalAttempts = quiz.attempts.length;
+      const completedAttempts = quiz.attempts.filter(attempt => attempt.isCompleted).length;
+  
+      // Calcular a taxa de conclusão (completionRate) como porcentagem
+      const completionRate = totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
+  
+      // Montar o objeto `QuizWithDetails` com o campo completionRate
+      return {
+        index: quiz.index,
+        title: quiz.title,
+        identifier: quiz.identifier,
+        type: quiz.type,
+        description: quiz.description,
+        category: quiz.category,
+        image: quiz.image,
+        audio: quiz.audio,
+        status: quiz.status,
+        sociologicalData: quiz.sociologicalData,
+        questions: quiz.questions,
+        owner: quiz.owner,
+        attempts: quiz.attempts,
+        completionRate: parseFloat(completionRate.toFixed(2)),
+        createdAt: quiz.createdAt,
+      } as Quiz;
+    });
+  
+    return { data: quizDetailsList, total };
   }
 
   async findOne(id: number): Promise<Quiz> {

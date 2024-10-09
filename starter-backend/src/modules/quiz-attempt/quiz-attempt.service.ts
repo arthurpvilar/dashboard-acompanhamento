@@ -105,6 +105,43 @@ export class QuizAttemptService {
   }
 
   // Método para encontrar ou criar uma tentativa
+  async findAttempt(
+    quizId: number,
+    userId?: string,
+    email?: string,
+  ): Promise<QuizAttempt> {
+    if (!userId && !email) {
+      throw new BadRequestException(
+        'É necessário fornecer um userId ou email.',
+      );
+    }
+
+    const whereCondition: any = {
+      quiz: { index: quizId },
+      isCompleted: false,
+    };
+
+    if (userId) {
+      whereCondition.user = { index: userId };
+    } else if (email) {
+      whereCondition.email = email;
+    }
+
+    let attempt = await this.quizAttemptRepository.findOne({
+      where: whereCondition,
+      relations: ['quiz', 'answers'],
+    });
+
+    if (!attempt) {
+      throw new NotFoundException(
+        `Tentativa de quiz com ID ${quizId} não encontrada.`,
+      );
+    }
+
+    return attempt;
+  }
+
+  // Método para encontrar ou criar uma tentativa
   async findOrCreateAttempt(
     quizId: number,
     userId?: string,
@@ -195,6 +232,8 @@ export class QuizAttemptService {
         quizIdentifier: attempt.quiz.identifier,
         quizDescription: attempt.quiz.description,
         completionRate: parseFloat(completionRate.toFixed(2)),
+        totalQuestions,
+        answeredQuestions,
         isCompleted: attempt.isCompleted,
       };
     });

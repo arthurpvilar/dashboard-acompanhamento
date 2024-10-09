@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid'
 import type { Mode } from '@core/types'
 
 // Component Imports
-import type { Quiz } from '@/types/apps/quizTypes'
+import type { BackendQuiz } from '@/types/apps/quizTypes'
 
 //import ColoredCards from '../../academy/my-courses/ColoredCards'
 //import FreeCourses from '../../academy/my-courses/FreeCourses'
@@ -18,7 +18,7 @@ import QuizListTable from './QuizListTable'
 import SearchQuizHeader from './SearchQuizHeader'
 
 type Props = {
-  quizData: Quiz[]
+  quizData: BackendQuiz[]
   mode: Mode
 }
 

@@ -1,5 +1,7 @@
 import type { ThemeColor } from '@/@core/types'
 import type { BackEndUsersType } from './userTypes'
+import { title } from 'process'
+import { User } from 'next-auth'
 
 //export type Attempt = {
 //  userId: number;
@@ -82,6 +84,7 @@ export type QuizQuestion = {
 }
 
 export type QuizQuestionOption = {
+  index?: number
   title: string
   isChecked: boolean
   weight?: number // Question's weight in scoring
@@ -192,5 +195,79 @@ export type UserQuizAttemptDto = {
   quizDescription: string
   quizImage: QuizImageData
   isCompleted: boolean
+  totalQuestions: number
+  answeredQuestions: number
   completionRate: number
+}
+
+// Backend Types
+export type BackendQuizList = {
+  data: BackendQuiz[]
+  total: number
+}
+
+export type BackendQuiz = {
+  index: number
+  title: string
+  identifier: string
+  type: string
+  description: string
+  category: string
+  image: QuizImageData
+  audio: QuizAudioData
+  status: 'draft' | 'published' | 'archived'
+  sociologicalData: QuizSociologicalData[]
+  questions: BackendQuizQuestion[]
+  owner: BackEndUsersType
+  attempts: QuizAttempt[]
+  completionRate?: number
+  createdAt: Date
+}
+
+export type QuizAttempt = {
+  index: number
+  quiz: Quiz
+  user: User | null
+  email: string | null
+  answers: QuizQuestionAnswer[]
+  isCompleted: boolean
+  attemptedAt: Date
+  completedAt: Date
+}
+
+export type QuizQuestionAnswer = {
+  index: number
+  attempt: QuizAttempt
+  question: BackendQuizQuestion
+  option: BackendQuizQuestionOption
+  startedAt: Date
+  completedAt: Date
+}
+
+// Represents an individual question in a quiz
+export type BackendQuizQuestion = {
+  index: number // Unique identifier for the question
+  type: string // The question type
+  question?: string // The question text
+  options: BackendQuizQuestionOption[] // Array of possible answers
+  answer?: string // Correct answer
+  image: QuizImageData | null // Adiciona o campo de imagem
+  audio: QuizAudioData | null // Adiciona o campo de áudio
+  subQuestions?: BackendQuizQuestion[] // Nested sub-questions
+}
+
+export type BackendQuizQuestionOption = {
+  index: number
+  title: string
+  isChecked: boolean
+  weight?: number // Question's weight in scoring
+  sociological?: QuizSociologicalOptionData // Sociological data reference
+  image?: QuizImageData // Adiciona o campo de imagem à opção
+}
+
+export type BackendAnswerDto = {
+  questionId: number
+  optionId?: number
+  startedAt?: Date
+  completedAt?: Date
 }

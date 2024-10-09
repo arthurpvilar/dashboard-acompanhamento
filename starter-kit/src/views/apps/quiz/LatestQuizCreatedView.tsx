@@ -6,25 +6,17 @@ import dynamic from 'next/dynamic'
 // MUI Imports
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
+import { Card, CardMedia, CardContent, Divider, CardHeader, Grid, Box, Button } from '@mui/material'
 
 // Third-party Imports
 import type { ApexOptions } from 'apexcharts'
 
-import { Card, CardMedia, CardContent, Divider, CardHeader, Grid, Box, Button } from '@mui/material'
-
-import classnames from 'classnames'
-
-import type { Quiz, QuizDetailsDto } from '@/types/apps/quizTypes'
+import type { QuizDetailsDto } from '@/types/apps/quizTypes'
 import CustomAvatar from '@/@core/components/mui/Avatar'
-
 import OptionMenu from '@/@core/components/option-menu'
-
-// Styles Imports
-import styles from './styles.module.css'
 import { useState, useEffect } from 'react'
 
 // Styled Component Imports
-// eslint-disable-next-line import/no-unresolved
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
 type DataType = {
@@ -33,34 +25,32 @@ type DataType = {
   colorClass: string
 }
 
-// Vars
-const series = [
-  {
-    data: [35, 20, 14, 12, 10, 9]
-  }
-]
-
-const data1: DataType[] = [
-  { title: 'Interesse', value: 35, colorClass: 'text-primary' },
-  { title: 'Confiança', value: 20, colorClass: 'text-info' },
-  { title: 'Frustração', value: 14, colorClass: 'text-success' }
-]
-
-const data2: DataType[] = [
-  { title: 'Ansiedade', value: 12, colorClass: 'text-secondary' },
-  { title: 'Curiosidade', value: 10, colorClass: 'text-error' },
-  { title: 'Satisfação', value: 9, colorClass: 'text-warning' }
-]
-
-const labels = ['Interesse', 'Confiança', 'Frustração', 'Ansiedade', 'Curiosidade', 'Satisfação']
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
   // Hooks
   const theme = useTheme()
   const [richTextContent, setRichTextContent] = useState<string | null>(null)
+  const [seriesData, setSeriesData] = useState<number[]>([])
+  const [labels, setLabels] = useState<string[]>([])
+  const [chartColors, setChartColors] = useState<string[]>([])
 
-  // Vars
+  // Atualizando os dados do gráfico com base no sociologicalDataStatistics
+  useEffect(() => {
+    if (quizData?.description) {
+      setRichTextContent(quizData.description)
+    }
+
+    if (quizData?.sociologicalDataStatistics) {
+      const seriesValues = quizData.sociologicalDataStatistics.map(item => item.value || 0)
+      const labelValues = quizData.sociologicalDataStatistics.map(item => item.name)
+      const colorValues = quizData.sociologicalDataStatistics.map(item => item.color)
+
+      setSeriesData(seriesValues)
+      setLabels(labelValues)
+      setChartColors(colorValues)
+    }
+  }, [quizData])
+
+  // Configuração do gráfico ApexChart
   const options: ApexOptions = {
     chart: {
       parentHeightOffset: 0,
@@ -75,15 +65,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
         borderRadiusApplication: 'end'
       }
     },
-
-    colors: [
-      'var(--mui-palette-primary-main)',
-      'var(--mui-palette-info-main)',
-      'var(--mui-palette-success-main)',
-      'var(--mui-palette-secondary-main)',
-      'var(--mui-palette-error-main)',
-      'var(--mui-palette-warning-main)'
-    ],
+    colors: chartColors,
     grid: {
       strokeDashArray: 8,
       borderColor: 'var(--mui-palette-divider)',
@@ -133,7 +115,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: ['6', '5', '4', '3', '2', '1'],
+      categories: labels,
       labels: {
         formatter: val => `${val}%`,
         style: {
@@ -154,12 +136,6 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
       }
     }
   }
-
-  useEffect(() => {
-    if (quizData?.description) {
-      setRichTextContent(quizData.description)
-    }
-  }, [quizData])
 
   return (
     <Card>
@@ -225,28 +201,34 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
           <CardContent>
             <Grid container>
               <Grid item xs={12} sm={6} className='max-sm:mbe-6'>
-                <AppReactApexCharts type='bar' height={308} width='100%' series={series} options={options} />
+                <AppReactApexCharts
+                  type='bar'
+                  height={308}
+                  width='100%'
+                  series={[{ data: seriesData }]}
+                  options={options}
+                />
               </Grid>
               <Grid item xs={12} sm={6} alignSelf='center'>
                 <div className='flex justify-around items-start'>
                   <div className='flex flex-col gap-y-12'>
-                    {data1.map((item, i) => (
+                    {quizData.sociologicalDataStatistics?.slice(0, 3).map((item, i) => (
                       <div key={i} className='flex gap-2'>
-                        <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.colorClass }} />
+                        <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.color }} />
                         <div>
-                          <Typography>{item.title}</Typography>
-                          <Typography variant='h5'>{`${item.value}%`}</Typography>
+                          <Typography>{item.name}</Typography>
+                          <Typography variant='h5'>{`${item.value || 0}%`}</Typography>
                         </div>
                       </div>
                     ))}
                   </div>
                   <div className='flex flex-col gap-y-12'>
-                    {data2.map((item, i) => (
+                    {quizData.sociologicalDataStatistics?.slice(3).map((item, i) => (
                       <div key={i} className='flex gap-2'>
-                        <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.colorClass }} />
+                        <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.color }} />
                         <div>
-                          <Typography>{item.title}</Typography>
-                          <Typography variant='h5'>{`${item.value}%`}</Typography>
+                          <Typography>{item.name}</Typography>
+                          <Typography variant='h5'>{`${item.value || 0}%`}</Typography>
                         </div>
                       </div>
                     ))}
@@ -255,7 +237,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
               </Grid>
               <Button
                 variant='outlined'
-                sx={{ mt: 6, width: '90%', mx: 'auto' }} // Definindo o botão para ocupar toda a largura disponível
+                sx={{ mt: 6, width: '90%', mx: 'auto' }}
                 className='capitalize'
                 startIcon={<i className='ri-sticky-note-line' />}
               >

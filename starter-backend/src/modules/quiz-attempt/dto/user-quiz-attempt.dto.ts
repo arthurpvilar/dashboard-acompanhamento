@@ -50,6 +50,18 @@ export class UserQuizAttemptDto {
   isCompleted: boolean;
 
   @ApiProperty({
+    description: 'Total de questões respondidas pelo usuário',
+    example: 12,
+  })
+  answeredQuestions: number;
+
+  @ApiProperty({
+    description: 'Total de questões a serem respondidas',
+    example: 26,
+  })
+  totalQuestions: number;
+
+  @ApiProperty({
     description: 'Porcentagem de conclusão da tentativa de quiz',
     example: 75.5,
   })
