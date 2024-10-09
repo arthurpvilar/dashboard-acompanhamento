@@ -280,33 +280,33 @@ export class QuizService {
       .orderBy('quiz.createdAt', 'DESC')
       .take(1)
       .getOne();
-  
+
     if (!quiz) {
       throw new NotFoundException('Nenhum quiz encontrado.');
     }
-  
+
     // **Correção no cálculo de totalAttempts**
     const totalAttempts = await this.quizAttemptRepository.count({
       where: { quiz: { index: quiz.index } },
     });
-  
+
     // **Cálculo de completedAttempts e completionRate**
     const completedAttempts = await this.quizAttemptRepository.count({
       where: { quiz: { index: quiz.index }, isCompleted: true },
     });
-  
+
     const completionRate =
       totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
-  
+
     // **Cálculo de averageCompletionTime**
     const completedAttemptsData = await this.quizAttemptRepository.find({
       where: { quiz: { index: quiz.index }, isCompleted: true },
       select: ['attemptedAt', 'completedAt'],
     });
-  
+
     let totalCompletionTime = 0;
     const numberOfCompletedAttempts = completedAttemptsData.length;
-  
+
     for (const attempt of completedAttemptsData) {
       if (attempt.attemptedAt && attempt.completedAt) {
         const timeDiff =
@@ -314,33 +314,36 @@ export class QuizService {
         totalCompletionTime += timeDiff;
       }
     }
-  
+
     const averageCompletionTime =
       numberOfCompletedAttempts > 0
         ? totalCompletionTime / numberOfCompletedAttempts
         : 0;
-  
+
     // Obter todas as respostas para o quiz
     const answers = await this.quizQuestionAnswerRepository.find({
       where: { question: { quiz: { index: quiz.index } } },
       relations: ['option', 'option.sociologicalData'],
     });
-  
+
     // Inicializar variáveis para cálculos
     let totalWeight = 0;
     let totalResponses = 0;
-  
+
     // Mapa para armazenar os dados sociológicos e seus valores
-    const sociologicalDataMap = new Map<number, QuizStatisticalSociologicalDataDto>();
-  
+    const sociologicalDataMap = new Map<
+      number,
+      QuizStatisticalSociologicalDataDto
+    >();
+
     for (const answer of answers) {
       if (answer.option) {
         totalWeight += answer.option.weight;
         totalResponses++;
-  
+
         // Dados sociológicos associados à opção
         const sociologicalData = answer.option.sociologicalData;
-  
+
         if (sociologicalData) {
           let dataDto = sociologicalDataMap.get(sociologicalData.index);
           if (!dataDto) {
@@ -356,31 +359,34 @@ export class QuizService {
         }
       }
     }
-  
+
     const averageWeight = totalResponses > 0 ? totalWeight / totalResponses : 0;
-  
+
     const sociologicalDataStatistics = Array.from(sociologicalDataMap.values());
-  
+
     // Mapear as perguntas para QuizQuestionDto
     const questions: QuizQuestionDto[] = quiz.questions.map((question) => {
-      const options: QuizQuestionOptionDto[] = question.options.map((option) => {
-        const sociologicalData: QuizSociologicalDataDto = option.sociologicalData
-          ? {
-              id: option.sociologicalData.index,
-              name: option.sociologicalData.name,
-              color: option.sociologicalData.color,
-            }
-          : null;
-  
-        return {
-          id: option.index,
-          title: option.title,
-          isChecked: option.isChecked,
-          weight: option.weight,
-          sociologicalData,
-        } as QuizQuestionOptionDto;
-      });
-  
+      const options: QuizQuestionOptionDto[] = question.options.map(
+        (option) => {
+          const sociologicalData: QuizSociologicalDataDto =
+            option.sociologicalData
+              ? {
+                  id: option.sociologicalData.index,
+                  name: option.sociologicalData.name,
+                  color: option.sociologicalData.color,
+                }
+              : null;
+
+          return {
+            id: option.index,
+            title: option.title,
+            isChecked: option.isChecked,
+            weight: option.weight,
+            sociologicalData,
+          } as QuizQuestionOptionDto;
+        },
+      );
+
       return {
         id: question.index,
         type: question.type,
@@ -391,14 +397,14 @@ export class QuizService {
         options,
       } as QuizQuestionDto;
     });
-    
+
     const userDetails = {
       id: quiz.owner.index,
       email: quiz.owner.email,
       username: quiz.owner.username,
       fullName: quiz.owner.fullName,
     } as QuizUserDetailsDto;
-  
+
     // Montar o objeto QuizDetailsDto
     const quizDetails: QuizDetailsDto = {
       id: quiz.index,
@@ -417,10 +423,10 @@ export class QuizService {
       owner: userDetails,
       createdAt: quiz.createdAt,
     };
-  
+
     return quizDetails;
   }
-  
+
   async getAllQuizzesSimplified(): Promise<SimplifiedQuizListDto[]> {
     // Buscar os últimos quizzes adicionados
     const quizzes = await this.quizRepository
@@ -449,23 +455,23 @@ export class QuizService {
         const incompleteAttempts = totalAttempts - completedAttempts;
 
         // **Cálculo da média de conclusão (completionRate)**
-        const completionRate = totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
+        const completionRate =
+          totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
 
         // Retornar o objeto com os dados requisitados
         return {
-            index: quiz.index,
-            title: quiz.title,
-            identifier: quiz.identifier,
-            completion_rate: parseFloat(completionRate.toFixed(2)),
-            total_attempts: completedAttempts + incompleteAttempts,
-            owner_name: quiz.owner.fullName,
-          } as SimplifiedQuizListDto;
-        })
+          index: quiz.index,
+          title: quiz.title,
+          identifier: quiz.identifier,
+          completion_rate: parseFloat(completionRate.toFixed(2)),
+          total_attempts: completedAttempts + incompleteAttempts,
+          owner_name: quiz.owner.fullName,
+        } as SimplifiedQuizListDto;
+      }),
     );
 
     return quizDetailsList;
   }
-
 
   // Função para calcular as estatísticas do quiz
   async calculateQuizStatistics(quizId: number): Promise<QuizDetailsDto> {

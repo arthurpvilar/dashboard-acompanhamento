@@ -1,6 +1,5 @@
 import type { ThemeColor } from '@/@core/types'
 import type { BackEndUsersType } from './userTypes'
-import { type } from 'os'
 
 //export type Attempt = {
 //  userId: number;
@@ -182,4 +181,16 @@ export type SimplifiedQuizListDto = {
   completion_rate: number
   total_attempts: number
   owner_name: string
+}
+
+export type UserQuizAttemptDto = {
+  index: number
+  quizId: number
+  quizTitle: string
+  quizCategory: string
+  quizIdentifier: string
+  quizDescription: string
+  quizImage: QuizImageData
+  isCompleted: boolean
+  completionRate: number
 }

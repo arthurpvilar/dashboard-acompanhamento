@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 // MUI Imports
-import { useTheme } from '@mui/material/styles'
 import { useEffect, useState } from 'react'
+
+import { useTheme } from '@mui/material/styles'
 
 // Third-party Imports
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -21,7 +22,8 @@ import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNav
 // Style Imports
 import menuItemStyles from '@core/styles/vertical/menuItemStyles'
 import menuSectionStyles from '@core/styles/vertical/menuSectionStyles'
-import { BackEndUsersType, UserRole } from '@/types/apps/userTypes'
+import type { BackEndUsersType } from '@/types/apps/userTypes'
+import { UserRole } from '@/types/apps/userTypes'
 
 type RenderExpandIconProps = {
   open?: boolean
@@ -51,6 +53,7 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('user')
+
       setLoggedUser(user ? JSON.parse(user) : null)
     }
   }, [])

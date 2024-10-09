@@ -10,16 +10,14 @@ import Grid from '@mui/material/Grid'
 import type { Mode } from '@core/types'
 
 // Component Imports
-import type { Quiz } from '@/types/apps/quizTypes'
 import AnswerQuizHeader from './AnswerQuizHeader'
 import MyQuizListTable from './MyQuizListTable'
 
 type Props = {
-  quizData: Quiz[]
   mode: Mode
 }
 
-const ServerMyQuizListPage = ({ quizData, mode }: Props) => {
+const MyAttemptListPage = ({ mode }: Props) => {
   // States
   const [searchValue, setSearchValue] = useState('')
 
@@ -29,10 +27,10 @@ const ServerMyQuizListPage = ({ quizData, mode }: Props) => {
         <AnswerQuizHeader mode={mode} searchValue={searchValue} setSearchValue={setSearchValue} />
       </Grid>
       <Grid item xs={12}>
-        <MyQuizListTable quizData={quizData} searchValue={searchValue} />
+        <MyQuizListTable searchValue={searchValue} />
       </Grid>
     </Grid>
   )
 }
 
-export default ServerMyQuizListPage
+export default MyAttemptListPage

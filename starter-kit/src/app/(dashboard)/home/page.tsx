@@ -2,13 +2,12 @@
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
-import { getAllQuizzesSimplified, getLatestQuizData, getQuizData } from '@/app/server/actions'
+import { getAllQuizzesSimplified, getLatestQuizData } from '@/app/server/actions'
 import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
 import LatestQuizCreatedView from '@/views/apps/quiz/LatestQuizCreatedView'
 import UserWelcomeCard from '@/views/apps/dashboard/header/UserWelcomeCard'
 import DashboardCardVertical from '@/views/apps/dashboard/header/DashboardCardVertical'
-import { Quiz, QuizDetailsDto, SimplifiedQuizListDto } from '@/types/apps/quizTypes'
-import data from '@/views/react-table/data'
+import type { QuizDetailsDto, SimplifiedQuizListDto } from '@/types/apps/quizTypes'
 
 // Component Imports
 

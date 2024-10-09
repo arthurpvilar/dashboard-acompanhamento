@@ -20,7 +20,7 @@ import { db as pricingData } from '@/fake-db/pages/pricing'
 import { db as statisticsData } from '@/fake-db/pages/widget-examples'
 
 // Types to send to the server
-import type { CreateQuizDto, Quiz, QuizDetailsDto, SimplifiedQuizListDto } from '@/types/apps/quizTypes'
+import type { CreateQuizDto, QuizDetailsDto, SimplifiedQuizListDto, UserQuizAttemptDto } from '@/types/apps/quizTypes'
 import type { BackEndUsersType } from '@/types/apps/userTypes'
 
 // API URL
@@ -36,6 +36,35 @@ export type RequestResponse = {
 
 export const getEcommerceData = async () => {
   return eCommerceData
+}
+
+export const getUserQuizAttempts = async (accessToken: string, userId: string): Promise<UserQuizAttemptDto[]> => {
+  try {
+    const response = await fetch(`${API_URL}/quiz-attempts/user-attempts/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}` // Caso utilize autenticação JWT, inclua o token aqui
+      },
+      cache: 'no-store'
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+
+      console.error('Erro ao buscar tentativas de quiz:', errorData.message)
+
+      return []
+    }
+
+    const attempts: UserQuizAttemptDto[] = await response.json()
+
+    return attempts
+  } catch (error: any) {
+    console.error('Erro ao buscar tentativas de quiz:', error.message)
+
+    return []
+  }
 }
 
 // Função para salvar o quiz no servidor
@@ -125,6 +154,7 @@ export const getAllQuizzesSimplified = async (): Promise<SimplifiedQuizListDto[]
     const response = await fetch(`${API_URL}/quizzes/details/simplified`, {
       cache: 'no-store'
     })
+
     const quizzes: SimplifiedQuizListDto[] = await response.json()
 
     return quizzes

@@ -19,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { QuizAttempt } from './entities/quiz-attempt.entity';
+import { UserQuizAttemptDto } from './dto/user-quiz-attempt.dto';
 
 @ApiTags('Quiz Attempts')
 @Controller('quiz-attempts')
@@ -57,6 +58,21 @@ export class QuizAttemptController {
   })
   findAll() {
     return this.quizAttemptService.findAll();
+  }
+
+  @Get('user-attempts/:userId')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Obter todas as tentativas de quiz de um usuário' })
+  @ApiResponse({
+    status: 200,
+    description: 'Tentativas de quiz do usuário recuperadas com sucesso.',
+    type: [QuizAttempt],
+  })
+  async getUserAttempts(
+    @Param('userId') userId: string,
+  ): Promise<UserQuizAttemptDto[]> {
+    return this.quizAttemptService.getUserAttempts(userId);
   }
 
   @Get(':id')

@@ -1,7 +1,6 @@
 /* eslint-disable import/no-unresolved */
 // Server Action Imports
-import { getQuizData } from '@/app/server/actions'
-import ServerMyQuizListPage from '@/views/apps/my-quizzes/list'
+import MyAttemptListPage from '@/views/apps/my-quizzes/list'
 import { getServerMode } from '@core/utils/serverHelpers'
 
 // Component Imports
@@ -9,9 +8,8 @@ import { getServerMode } from '@core/utils/serverHelpers'
 const QuizPage = async () => {
   // Vars
   const mode = getServerMode()
-  const data = await getQuizData()
 
-  return <ServerMyQuizListPage mode={mode} quizData={data} />
+  return <MyAttemptListPage mode={mode} />
 }
 
 export default QuizPage

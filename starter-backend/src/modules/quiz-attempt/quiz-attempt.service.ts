@@ -12,6 +12,7 @@ import { QuizQuestionAnswer } from '../quiz-question-answer/entities/quiz-questi
 import { QuizQuestion } from '../quiz-question/entities/quiz-question.entity';
 import { QuizQuestionOption } from '../quiz-question-option/entities/quiz-question-option.entity';
 import { AnswerDto } from './dto/record-attempt.dto';
+import { UserQuizAttemptDto } from './dto/user-quiz-attempt.dto';
 
 @Injectable()
 export class QuizAttemptService {
@@ -164,6 +165,41 @@ export class QuizAttemptService {
     }
 
     return attempt;
+  }
+
+  // Função para obter todas as tentativas de quiz de um usuário específico
+  async getUserAttempts(
+    userId: string,
+    email: string | null = null,
+  ): Promise<UserQuizAttemptDto[]> {
+    const whereCondition: any = email ? { email } : { user: { index: userId } };
+
+    const attempts = await this.quizAttemptRepository.find({
+      where: whereCondition,
+      relations: ['quiz', 'quiz.questions', 'answers'],
+    });
+
+    // Mapeia cada tentativa para incluir os detalhes do quiz e a porcentagem de conclusão
+    const attemptsDetails: UserQuizAttemptDto[] = attempts.map((attempt) => {
+      const totalQuestions = attempt.quiz.questions.length;
+      const answeredQuestions = attempt.answers.length;
+      const completionRate =
+        totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+
+      return {
+        index: attempt.index,
+        quizTitle: attempt.quiz.title,
+        quizId: attempt.quiz.index,
+        quizImage: attempt.quiz.image,
+        quizCategory: attempt.quiz.category,
+        quizIdentifier: attempt.quiz.identifier,
+        quizDescription: attempt.quiz.description,
+        completionRate: parseFloat(completionRate.toFixed(2)),
+        isCompleted: attempt.isCompleted,
+      };
+    });
+
+    return attemptsDetails;
   }
 
   // Método para verificar se a tentativa foi concluída

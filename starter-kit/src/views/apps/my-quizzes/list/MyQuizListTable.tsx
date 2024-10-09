@@ -1,3 +1,5 @@
+'use client'
+
 // React Imports
 import type { ChangeEvent } from 'react'
 import { useState, useEffect } from 'react'
@@ -33,15 +35,17 @@ import type { ThemeColor } from '@core/types'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
-import type { Quiz } from '@/types/apps/quizTypes'
+import type { UserQuizAttemptDto } from '@/types/apps/quizTypes'
 import DirectionalIcon from '@/components/DirectionalIcon'
+import type { BackEndUsersType } from '@/types/apps/userTypes'
+import { getUserQuizAttempts } from '@/app/server/actions'
 
 type ChipColorType = {
   color: ThemeColor
 }
 
 type Props = {
-  quizData?: Quiz[]
+  quizData?: UserQuizAttemptDto[]
   searchValue: string
 }
 
@@ -56,29 +60,59 @@ const MyQuizListTable = (props: Props) => {
   const { quizData, searchValue } = props
 
   // States
-  const [quiz, setQuiz] = useState<Quiz['type']>('Todos')
+  const [quiz, setQuiz] = useState<string>('Todos')
   const [hideCompleted, setHideCompleted] = useState(false)
-  const [data, setData] = useState<Quiz[]>([])
+  const [data, setData] = useState<UserQuizAttemptDto[]>([])
   const [activePage, setActivePage] = useState(0)
 
   // Hooks
   const { lang: locale } = useParams()
 
+  // Função para obter o usuário autenticado do localStorage
+  const getLoggedUser = (): BackEndUsersType | null => {
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user')
+
+      return user ? JSON.parse(user) : null
+    }
+
+    return null
+  }
+
+  useEffect(() => {
+    // Função para buscar tentativas de quiz do usuário autenticado
+    const fetchUserQuizAttempts = async () => {
+      const user = getLoggedUser()
+
+      if (user) {
+        const accessToken = localStorage.getItem('accessToken') as string
+        const userId = user.index as string
+
+        const userAttempts: UserQuizAttemptDto[] = await getUserQuizAttempts(accessToken, userId)
+
+        setData(userAttempts)
+      }
+    }
+
+    fetchUserQuizAttempts()
+  }, [])
+
   useEffect(() => {
     let newData =
       quizData?.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
-        console.log(quizItem.type, quiz)
 
-        return quizItem.type === quiz && !hideCompleted
+        return (
+          ((quizItem.isCompleted && quiz === 'Completos') || (!quizItem.isCompleted && quiz === 'Incompleto')) &&
+          !hideCompleted
+        )
       }) ?? []
 
     if (searchValue) {
       newData = newData.filter(
         category =>
-          category.title.toLowerCase().includes(searchValue.toLowerCase()) ||
-          category.identifier.toLowerCase().includes(searchValue.toLowerCase()) ||
-          category.category.toLowerCase().includes(searchValue.toLowerCase())
+          category.quizTitle.toLowerCase().includes(searchValue.toLowerCase()) ||
+          category.quizIdentifier.toLowerCase().includes(searchValue.toLowerCase())
       )
     }
 
@@ -111,10 +145,8 @@ const MyQuizListTable = (props: Props) => {
                 labelId='quiz-select'
               >
                 <MenuItem value='Todos'>Todos</MenuItem>
-                <MenuItem value='Pergunta e Resposta Dissertativa'>Pergunta e Resposta Dissertativa</MenuItem>
-                <MenuItem value='Pergunta Auditiva e Resposta Dissertativa'>
-                  Pergunta Auditiva e Resposta Dissertativa
-                </MenuItem>
+                <MenuItem value='Completo'>Completo</MenuItem>
+                <MenuItem value='Incompleto'>Incompleto</MenuItem>
               </Select>
             </FormControl>
             {false && (
@@ -142,10 +174,10 @@ const MyQuizListTable = (props: Props) => {
               >
                 <div className='border rounded bs-full'>
                   <div className='pli-2 pbs-2'>
-                    <Link href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)} className='flex'>
+                    <Link href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)} className='flex'>
                       <img
-                        src={item.image?.imageUrl || ''}
-                        alt={item.title}
+                        src={item.quizImage?.imageUrl || ''}
+                        alt={item.quizTitle}
                         className='is-full'
                         style={{
                           borderTopLeftRadius: '12px',
@@ -159,9 +191,14 @@ const MyQuizListTable = (props: Props) => {
                   </div>
                   <div className='flex flex-col gap-4 p-5'>
                     <div className='flex items-center justify-between'>
-                      <Chip label={item.category} variant='tonal' size='small' color={chipColor[item.category].color} />
+                      <Chip
+                        label={item.quizCategory}
+                        variant='tonal'
+                        size='small'
+                        color={chipColor[item.quizCategory].color}
+                      />
                       <div className='flex items-center'>
-                        <Typography style={{ fontSize: '12px' }}>{item.identifier}</Typography>
+                        <Typography style={{ fontSize: '12px' }}>{item.quizIdentifier}</Typography>
                       </div>
                     </div>
                     <div className='flex flex-col gap-1'>
@@ -169,10 +206,10 @@ const MyQuizListTable = (props: Props) => {
                         <Typography
                           variant='h6'
                           component={Link}
-                          href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)}
+                          href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
                           className='hover:text-primary'
                         >
-                          {item.title}
+                          {item.quizTitle}
                         </Typography>
                       </div>
 
@@ -180,9 +217,9 @@ const MyQuizListTable = (props: Props) => {
                         <Typography
                           dangerouslySetInnerHTML={{
                             __html: DOMPurify.sanitize(
-                              item.description.length > 185
-                                ? item.description.substring(0, 185) + '...'
-                                : item.description
+                              item.quizDescription.length > 185
+                                ? item.quizDescription.substring(0, 185) + '...'
+                                : item.quizDescription
                             )
                           }}
                         />
@@ -207,7 +244,7 @@ const MyQuizListTable = (props: Props) => {
                         color='secondary'
                         startIcon={<i className='ri-refresh-line' />}
                         component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)}
+                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
                         className='is-auto flex-auto'
                       >
                         Relatório
@@ -219,7 +256,7 @@ const MyQuizListTable = (props: Props) => {
                           <DirectionalIcon ltrIconClass='ri-arrow-right-line' rtlIconClass='ri-arrow-left-line' />
                         }
                         component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.id}`, locale as Locale)}
+                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
                         className='is-auto flex-auto'
                       >
                         Detalhamento
@@ -231,7 +268,7 @@ const MyQuizListTable = (props: Props) => {
             ))}
           </Grid>
         ) : (
-          <Typography className='text-center'>No courses found</Typography>
+          <Typography className='text-center'>Nenhum questionário relacionado ao usuário foi encontrado</Typography>
         )}
         <div className='flex justify-center'>
           <Pagination

@@ -1,4 +1,6 @@
 // MUI Imports
+import { useState, useEffect } from 'react'
+
 import { useTheme } from '@mui/material/styles'
 
 // Type Imports
@@ -23,8 +25,8 @@ import verticalMenuItemStyles from '@core/styles/vertical/menuItemStyles'
 import verticalMenuSectionStyles from '@core/styles/vertical/menuSectionStyles'
 
 import VerticalNavContent from './VerticalNavContent'
-import { BackEndUsersType, UserRole } from '@/types/apps/userTypes'
-import { useState, useEffect } from 'react'
+import type { BackEndUsersType } from '@/types/apps/userTypes'
+import { UserRole } from '@/types/apps/userTypes'
 
 type RenderExpandIconProps = {
   level?: number
@@ -64,6 +66,7 @@ const HorizontalMenu = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('user')
+
       setLoggedUser(user ? JSON.parse(user) : null)
     }
   }, [])
