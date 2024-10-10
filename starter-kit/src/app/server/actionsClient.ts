@@ -1,7 +1,7 @@
 'use client'
 
 // API URL
-const API_URL = 'http://31.220.22.205:4000'
+const API_URL = 'https://jogosparacampanha.com.br:4000'
 
 // Custom response type
 export type RequestResponse = {

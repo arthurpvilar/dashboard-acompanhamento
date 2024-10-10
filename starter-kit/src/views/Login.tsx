@@ -53,8 +53,6 @@ const LoginV2 = ({ mode }: LoginV2Props) => {
       // URL completa apontando para o backend rodando localmente na porta 4000
       const response = await loginUser(email, password)
 
-      console.log('Resposta da API:', response)
-
       if (response.user) {
         localStorage.setItem('accessToken', response.access_token)
         localStorage.setItem('user', JSON.stringify(response.user))
