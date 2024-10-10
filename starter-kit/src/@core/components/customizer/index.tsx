@@ -119,14 +119,18 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
   useEffect(() => {
     if (!hasLoadedFromStorage.current) {
       const savedSettings = localStorage.getItem(LOCAL_STORAGE_KEY)
+
       if (savedSettings) {
         const parsedSettings = JSON.parse(savedSettings)
+
         // Verifica se os settings armazenados são diferentes dos atuais antes de atualizá-los
         if (JSON.stringify(parsedSettings) !== JSON.stringify(settings)) {
           updateSettings(parsedSettings)
-          console.log('Settings loaded from localStorage:', JSON.stringify(parsedSettings), JSON.stringify(settings))
+
+          //console.log('Settings loaded from localStorage:', JSON.stringify(parsedSettings), JSON.stringify(settings))
         }
       }
+
       hasLoadedFromStorage.current = true // Marca que o carregamento já ocorreu
     }
   }, [updateSettings])
@@ -136,7 +140,8 @@ const Customizer = ({ breakpoint = 'lg', dir = 'ltr', disableDirection = false }
     if (!isFirstLoad) {
       // Só salva se não for a primeira execução
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(settings))
-      console.log('Settings saved to localStorage:', JSON.stringify(settings))
+
+      //console.log('Settings saved to localStorage:', JSON.stringify(settings))
     } else {
       setIsFirstLoad(false) // Marca que a primeira execução foi concluída
     }

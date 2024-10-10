@@ -100,6 +100,24 @@ export class QuizQuestionDto {
   options?: QuizQuestionOptionDto[];
 }
 
+export class QuizUserDetailsDto {
+  @ApiProperty({ description: 'Identificador do usuário' })
+  @IsString()
+  id: string;
+
+  @ApiProperty({ description: 'Email do usuário' })
+  @IsString()
+  email: string;
+
+  @ApiProperty({ description: 'Username do usuário' })
+  @IsString()
+  username: string;
+
+  @ApiProperty({ description: 'Nome  completo do usuário' })
+  @IsString()
+  fullName: string;
+}
+
 export class QuizDetailsDto {
   @ApiProperty({ description: 'ID do quiz' })
   @IsNumber()
@@ -177,22 +195,4 @@ export class QuizDetailsDto {
 
   @ApiPropertyOptional({ description: 'Data de criação do quiz' })
   createdAt?: Date;
-}
-
-export class QuizUserDetailsDto {
-  @ApiProperty({ description: 'Identificador do usuário' })
-  @IsString()
-  id: string;
-
-  @ApiProperty({ description: 'Email do usuário' })
-  @IsString()
-  email: string;
-
-  @ApiProperty({ description: 'Username do usuário' })
-  @IsString()
-  username: string;
-
-  @ApiProperty({ description: 'Nome  completo do usuário' })
-  @IsString()
-  fullName: string;
 }

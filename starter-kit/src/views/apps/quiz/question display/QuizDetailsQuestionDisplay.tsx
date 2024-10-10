@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+
 import { Typography, Box, Alert, Card, CardContent, Grid, Divider } from '@mui/material'
 import DOMPurify from 'dompurify'
-import { BackendAnswerDto, BackendQuiz, QuizAttempt } from '@/types/apps/quizTypes'
+
+import type { BackendAnswerDto, BackendQuiz, QuizAttempt } from '@/types/apps/quizTypes'
 import { recordQuizAttempt } from '@/app/server/actions'
 import { findQuizAttempt } from '@/app/server/actionsClient'
 
@@ -17,9 +19,12 @@ const QuizDetailsQuestionDisplay: React.FC<QuizDetailsQuestionDisplayProps> = ({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [isQuizComplete, setIsQuizComplete] = useState(false)
   const [showResultToStudent, setShowResultToStudent] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [attempt, setAttempt] = useState<QuizAttempt | null>(null)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(false)
 
   const questions = quiz?.questions || []
 
@@ -34,6 +39,7 @@ const QuizDetailsQuestionDisplay: React.FC<QuizDetailsQuestionDisplayProps> = ({
         setAttempt(result)
 
         const answeredQuestionsCount = result.answers.length
+
         setCurrentQuestionIndex(answeredQuestionsCount)
 
         // Verifica se todas as perguntas foram respondidas e marca o quiz como completo, se for o caso
@@ -42,7 +48,7 @@ const QuizDetailsQuestionDisplay: React.FC<QuizDetailsQuestionDisplayProps> = ({
         }
       } else {
         // Se não encontrar uma tentativa, o fluxo continuará normalmente
-        console.log('Nenhuma tentativa existente foi encontrada, criando uma nova tentativa ao enviar a resposta.')
+        // console.log('Nenhuma tentativa existente foi encontrada, criando uma nova tentativa ao enviar a resposta.')
         setAttempt(null)
       }
     } catch (error) {
@@ -56,6 +62,7 @@ const QuizDetailsQuestionDisplay: React.FC<QuizDetailsQuestionDisplayProps> = ({
     //console.log('Quiz ID:', quiz.index)
     //console.log('Usuário ID:', userId)
     initializeAttempt()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quiz, userId, email])
 
   const handleNextQuestion = async (selectedOptionId: number) => {

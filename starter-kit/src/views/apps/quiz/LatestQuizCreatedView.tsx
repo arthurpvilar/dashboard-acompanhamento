@@ -1,9 +1,10 @@
 'use client'
 
 // Next Imports
+import { useState, useEffect } from 'react'
+
 import dynamic from 'next/dynamic'
 
-// MUI Imports
 import Typography from '@mui/material/Typography'
 import { useTheme } from '@mui/material/styles'
 import { Card, CardMedia, CardContent, Divider, CardHeader, Grid, Box, Button } from '@mui/material'
@@ -14,16 +15,10 @@ import type { ApexOptions } from 'apexcharts'
 import type { QuizDetailsDto } from '@/types/apps/quizTypes'
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import OptionMenu from '@/@core/components/option-menu'
-import { useState, useEffect } from 'react'
+import { getLocalizedUrl } from '@/utils/i18n'
 
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
-
-type DataType = {
-  title: string
-  value: number
-  colorClass: string
-}
 
 const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
   // Hooks
@@ -32,6 +27,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
   const [seriesData, setSeriesData] = useState<number[]>([])
   const [labels, setLabels] = useState<string[]>([])
   const [chartColors, setChartColors] = useState<string[]>([])
+  const [quantities, setQuantities] = useState<number[]>([])
 
   // Atualizando os dados do gráfico com base no sociologicalDataStatistics
   useEffect(() => {
@@ -39,12 +35,19 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
       setRichTextContent(quizData.description)
     }
 
-    if (quizData?.sociologicalDataStatistics) {
-      const seriesValues = quizData.sociologicalDataStatistics.map(item => item.value || 0)
-      const labelValues = quizData.sociologicalDataStatistics.map(item => item.name)
-      const colorValues = quizData.sociologicalDataStatistics.map(item => item.color)
+    if (quizData?.sociologicalDataStatistics.length > 0) {
+      const totalValue = quizData?.sociologicalDataStatistics.reduce((acc, data) => acc + (data.value || 0), 0)
 
-      setSeriesData(seriesValues)
+      const seriesPercentages = quizData?.sociologicalDataStatistics.map(data =>
+        totalValue > 0 ? parseFloat((((data?.value as number) / totalValue) * 100).toFixed(2)) : 0
+      )
+
+      const seriesQuantities = quizData?.sociologicalDataStatistics.map(data => data.value || 0)
+      const labelValues = quizData?.sociologicalDataStatistics.map(data => data.name)
+      const colorValues = quizData?.sociologicalDataStatistics.map(data => data.color)
+
+      setSeriesData(seriesPercentages)
+      setQuantities(seriesQuantities) // Armazena os valores reais
       setLabels(labelValues)
       setChartColors(colorValues)
     }
@@ -59,7 +62,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
     plotOptions: {
       bar: {
         horizontal: true,
-        barHeight: '70%',
+        barHeight: '30%',
         distributed: true,
         borderRadius: 7,
         borderRadiusApplication: 'end'
@@ -101,6 +104,11 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
       },
       onDatasetHover: {
         highlightDataSeries: false
+      },
+      y: {
+        formatter: function (value, { dataPointIndex }) {
+          return `${quantities[dataPointIndex]} indicadores` // Mostra a quantidade real
+        }
       }
     },
     legend: { show: false },
@@ -142,7 +150,19 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
       <CardHeader
         title='Último questionário cadastrado no sistema'
         className='flex-wrap gap-4'
-        action={<OptionMenu iconClassName='text-textPrimary' options={['Detalhamento']} />}
+        action={
+          <OptionMenu
+            iconClassName='text-textPrimary'
+            options={[
+              {
+                text: 'Detalhamento',
+                icon: 'ri-eye-line',
+                href: getLocalizedUrl(`/quiz-details/${quizData.id}`),
+                linkProps: { className: 'flex items-center gap-2 is-full plb-1.5 pli-4' }
+              }
+            ]}
+          />
+        }
       />
       <Grid container>
         <Grid item xs={12} sm={5} spacing={3}>
@@ -212,26 +232,48 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
               <Grid item xs={12} sm={6} alignSelf='center'>
                 <div className='flex justify-around items-start'>
                   <div className='flex flex-col gap-y-12'>
-                    {quizData.sociologicalDataStatistics?.slice(0, 3).map((item, i) => (
-                      <div key={i} className='flex gap-2'>
-                        <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.color }} />
-                        <div>
-                          <Typography>{item.name}</Typography>
-                          <Typography variant='h5'>{`${item.value || 0}%`}</Typography>
-                        </div>
-                      </div>
-                    ))}
+                    {quizData?.sociologicalDataStatistics
+                      .slice(0, Math.ceil(quizData?.sociologicalDataStatistics.length / 2))
+                      .map((item, i) => {
+                        const totalValue = quizData?.sociologicalDataStatistics.reduce(
+                          (sum, data) => sum + (data.value || 0),
+                          0
+                        )
+                        
+                        const percentage = totalValue > 0 ? ((item.value || 0) / totalValue) * 100 : 0
+
+                        return (
+                          <div key={i} className='flex gap-2'>
+                            <i className={'ri-circle-fill text-xs m-[5px]'} style={{ color: item.color }} />
+                            <div>
+                              <Typography>{item.name}</Typography>
+                              <Typography variant='h5'>{`${percentage.toFixed(2)}%`}</Typography>
+                            </div>
+                          </div>
+                        )
+                      })}
                   </div>
                   <div className='flex flex-col gap-y-12'>
-                    {quizData.sociologicalDataStatistics?.slice(3).map((item, i) => (
-                      <div key={i} className='flex gap-2'>
-                        <i className='ri-circle-fill text-xs m-[5px]' style={{ color: item.color }} />
-                        <div>
-                          <Typography>{item.name}</Typography>
-                          <Typography variant='h5'>{`${item.value || 0}%`}</Typography>
-                        </div>
-                      </div>
-                    ))}
+                    {quizData?.sociologicalDataStatistics
+                      .slice(Math.ceil(quizData?.sociologicalDataStatistics.length / 2))
+                      .map((item, i) => {
+                        const totalValue = quizData?.sociologicalDataStatistics.reduce(
+                          (sum, data) => sum + (data.value || 0),
+                          0
+                        )
+
+                        const percentage = totalValue > 0 ? ((item.value || 0) / totalValue) * 100 : 0
+
+                        return (
+                          <div key={i} className='flex gap-2'>
+                            <i className={'ri-circle-fill text-xs m-[5px]'} style={{ color: item.color }} />
+                            <div>
+                              <Typography>{item.name}</Typography>
+                              <Typography variant='h5'>{`${percentage.toFixed(2)}%`}</Typography>
+                            </div>
+                          </div>
+                        )
+                      })}
                   </div>
                 </div>
               </Grid>

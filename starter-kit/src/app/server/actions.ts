@@ -8,7 +8,8 @@
 
 // Data Imports
 import { db as eCommerceData } from '@/fake-db/apps/ecommerce'
-import { db as quizData, dbDetailed as quizDataDetailed } from '@/fake-db/apps/quiz'
+
+//import { db as quizData, dbDetailed as quizDataDetailed } from '@/fake-db/apps/quiz'
 import { db as academyData } from '@/fake-db/apps/academy'
 import { db as vehicleData } from '@/fake-db/apps/logistics'
 import { db as invoiceData } from '@/fake-db/apps/invoice'
@@ -25,7 +26,7 @@ import type {
   BackendQuiz,
   BackendQuizList,
   CreateQuizDto,
-  Quiz,
+  QuizAttemptDetailsDto,
   QuizDetailsDto,
   SimplifiedQuizListDto,
   UserQuizAttemptDto
@@ -103,12 +104,13 @@ export const saveQuizToServer = async (accessToken: string, quizData: CreateQuiz
 
     const data = await response.json()
 
-    console.log('Quiz publicado com sucesso:', data)
+    //console.log('Quiz publicado com sucesso:', data)
 
     return {
       success: true,
       message: 'Quiz publicado com sucesso!',
-      statusCode
+      statusCode,
+      data
     }
   } catch (error: any) {
     console.error('Erro ao publicar o quiz:', error.message)
@@ -119,6 +121,22 @@ export const saveQuizToServer = async (accessToken: string, quizData: CreateQuiz
       statusCode: 500
     }
   }
+}
+
+export const getAttemptDetailedData = async (index: number): Promise<QuizAttemptDetailsDto> => {
+  const response = await fetch(`${API_URL}/quiz-attempts/details/${index}`, {
+    cache: 'no-store'
+  })
+
+  return await response.json()
+}
+
+export const getQuizDetailedData = async (index: number): Promise<QuizDetailsDto> => {
+  const response = await fetch(`${API_URL}/quizzes/${index}/details`, {
+    cache: 'no-store'
+  })
+
+  return await response.json()
 }
 
 export const getLatestQuizData = async (): Promise<QuizDetailsDto> => {
@@ -202,7 +220,7 @@ export const createUserOnServer = async (
 
     const data = await response.json()
 
-    console.log('Usuário criado com sucesso:', data)
+    //console.log('Usuário criado com sucesso:', data)
 
     return {
       success: true,
@@ -288,6 +306,7 @@ export const recordQuizAttempt = async (
 
     if (!response.ok) {
       const errorData = await response.json()
+
       console.error('Erro ao registrar tentativa de quiz:', errorData.message)
 
       return {
@@ -358,9 +377,9 @@ export const deleteUserOnServer = async (token: string, userId: string): Promise
   }
 }
 
-export const getQuizDetailedData = async (index: number) => {
-  return quizDataDetailed.find(quiz => quiz.id === index)
-}
+//export const getQuizDetailedData = async (index: number) => {
+//  return quizDataDetailed.find(quiz => quiz.id === index)
+//}
 
 export const getQuizData = async (): Promise<BackendQuizList> => {
   try {

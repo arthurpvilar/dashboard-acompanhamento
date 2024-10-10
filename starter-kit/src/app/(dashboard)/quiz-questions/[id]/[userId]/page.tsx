@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation'
-import { findQuizData } from '@/app/server/actions'
-import type { BackendQuiz, Quiz } from '@/types/apps/quizTypes'
-import QuizDetailsQuestionDisplay from '@/views/apps/quiz/question display/QuizDetailsQuestionDisplay'
+
 import { Grid } from '@mui/material'
-import console from 'console'
+
+import { findQuizData } from '@/app/server/actions'
+import type { BackendQuiz } from '@/types/apps/quizTypes'
+import QuizDetailsQuestionDisplay from '@/views/apps/quiz/question display/QuizDetailsQuestionDisplay'
 
 interface QuizQuestionServerPageParams {
   params: {

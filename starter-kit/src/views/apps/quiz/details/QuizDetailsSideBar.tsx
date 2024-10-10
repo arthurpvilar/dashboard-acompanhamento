@@ -11,7 +11,6 @@ import MuiAccordionSummary from '@mui/material/AccordionSummary'
 import MuiAccordionDetails from '@mui/material/AccordionDetails'
 import Typography from '@mui/material/Typography'
 
-// Type Imports
 import type { QuizDetailsDto } from '@/types/apps/quizTypes'
 
 // Styled component for Accordion component
@@ -71,6 +70,20 @@ const QuizDetailsSideBar = ({ quizData }: { quizData?: QuizDetailsDto }) => {
     setExpanded(isExpanded ? panel : false)
   }
 
+  function formatTime(milliseconds: number): string {
+    const seconds = Math.floor((milliseconds / 1000) % 60)
+    const minutes = Math.floor((milliseconds / (1000 * 60)) % 60)
+    const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24)
+
+    if (hours > 0) {
+      return `${hours}:${minutes}:${seconds} Horas`
+    } else if (minutes > 0) {
+      return `${minutes}:${seconds} Minutos`
+    } else {
+      return `${seconds} Segundos`
+    }
+  }
+
   return (
     <>
       {/* Accordion for general statistics */}
@@ -88,7 +101,7 @@ const QuizDetailsSideBar = ({ quizData }: { quizData?: QuizDetailsDto }) => {
           <div className='flex flex-col gap-4'>
             <Typography>Total de Tentativas: {quizData?.totalAttempts}</Typography>
             <Typography>Taxa de Conclusão: {quizData?.completionRate}%</Typography>
-            <Typography>Tempo Médio de Conclusão: {quizData?.averageCompletionTime} minutos</Typography>
+            <Typography>Tempo Médio de Conclusão: {formatTime(quizData?.averageCompletionTime as number)}</Typography>
             <Typography>Peso Médio: {quizData?.averageWeight}</Typography>
           </div>
         </AccordionDetails>

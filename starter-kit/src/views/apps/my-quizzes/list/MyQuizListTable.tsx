@@ -25,13 +25,14 @@ import {
   Typography
 } from '@mui/material'
 
+import DOMPurify from 'dompurify'
+
 import type { Locale } from '@configs/i18n'
 import type { UserQuizAttemptDto } from '@/types/apps/quizTypes'
 import DirectionalIcon from '@/components/DirectionalIcon'
 import type { BackEndUsersType } from '@/types/apps/userTypes'
 import { getUserQuizAttempts } from '@/app/server/actions'
 import { getLocalizedUrl } from '@/utils/i18n'
-import DOMPurify from 'dompurify'
 
 type Props = {
   searchValue: string
@@ -42,6 +43,7 @@ const MyQuizListTable = (props: Props) => {
 
   // States
   const [quiz, setQuiz] = useState<string>('Todos')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hideCompleted, setHideCompleted] = useState(false)
   const [data, setData] = useState<UserQuizAttemptDto[]>([])
   const [userAttempts, setUserAttempts] = useState<UserQuizAttemptDto[]>([])
@@ -54,29 +56,35 @@ const MyQuizListTable = (props: Props) => {
   const getLoggedUser = (): BackEndUsersType | null => {
     if (typeof window !== 'undefined') {
       const user = localStorage.getItem('user')
+
       return user ? JSON.parse(user) : null
     }
+
     return null
   }
 
   useEffect(() => {
     const fetchUserQuizAttempts = async () => {
       const user = getLoggedUser()
+
       if (user) {
         const accessToken = localStorage.getItem('accessToken') as string
         const userId = user.index as string
         const userAttempts: UserQuizAttemptDto[] = await getUserQuizAttempts(accessToken, userId)
+
         setData(userAttempts)
         setUserAttempts(userAttempts)
       }
     }
+
     fetchUserQuizAttempts()
   }, [])
 
   useEffect(() => {
-    let newData =
+    const newData =
       userAttempts.filter(quizItem => {
         if (quiz === 'Todos') return !hideCompleted
+
         return (
           ((quizItem.isCompleted && quiz === 'Completo') || (!quizItem.isCompleted && quiz === 'Incompleto')) &&
           !hideCompleted
@@ -207,7 +215,7 @@ const MyQuizListTable = (props: Props) => {
                           color='secondary'
                           startIcon={<i className='ri-refresh-line' />}
                           component={Link}
-                          href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
+                          href={getLocalizedUrl(`/my-attempt-report/${item.index}`, locale as Locale)}
                           className='is-auto flex-auto'
                         >
                           Relatório

@@ -73,7 +73,7 @@ const QuizHeader = () => {
         color: data.color
       }))
 
-    console.log('Dados sociológicos validados:', validSociologicalData)
+    //console.log('Dados sociológicos validados:', validSociologicalData)
 
     // Verificar se algum dado sociológico está incompleto
     if (validSociologicalData.length !== sociologicalData.length) {
@@ -96,8 +96,8 @@ const QuizHeader = () => {
       userId: loggedUser.index
     } as CreateQuizDto
 
-    console.log('Publicando quiz com os seguintes dados:')
-    console.log(quizData)
+    //console.log('Publicando quiz com os seguintes dados:')
+    //console.log(quizData)
 
     // Pegar access token do localStorage
     const accessToken = localStorage.getItem('accessToken') as string

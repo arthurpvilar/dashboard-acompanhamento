@@ -21,6 +21,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { QuizAttempt } from './entities/quiz-attempt.entity';
 import { UserQuizAttemptDto } from './dto/user-quiz-attempt.dto';
+import { QuizAttemptDetailsDto } from './dto/quiz-attempt-details.dto';
 
 @ApiTags('Quiz Attempts')
 @Controller('quiz-attempts')
@@ -61,6 +62,21 @@ export class QuizAttemptController {
     @Query('email') email?: string,
   ): Promise<QuizAttempt> {
     return this.quizAttemptService.findAttempt(quizId, userId, email);
+  }
+
+  // Nova rota para obter detalhes de uma tentativa de quiz
+  @Get('details/:attemptId')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Obter detalhes de uma tentativa de quiz pelo ID' })
+  @ApiResponse({
+    status: 200,
+    description: 'Detalhes da tentativa de quiz recuperados com sucesso.',
+    type: QuizAttemptDetailsDto,
+  })
+  async getQuizAttemptDetails(
+    @Param('attemptId', ParseIntPipe) attemptId: number,
+  ): Promise<QuizAttemptDetailsDto> {
+    return this.quizAttemptService.getQuizAttemptDetails(attemptId);
   }
 
   @Get(':quizId')

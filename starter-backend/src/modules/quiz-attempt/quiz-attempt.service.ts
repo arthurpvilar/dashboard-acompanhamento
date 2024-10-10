@@ -13,6 +13,9 @@ import { QuizQuestion } from '../quiz-question/entities/quiz-question.entity';
 import { QuizQuestionOption } from '../quiz-question-option/entities/quiz-question-option.entity';
 import { AnswerDto } from './dto/record-attempt.dto';
 import { UserQuizAttemptDto } from './dto/user-quiz-attempt.dto';
+import { QuizQuestionDto } from '../quiz/dto/quiz-details.dto';
+import { QuizStatisticalSociologicalDataDto } from '../quiz/dto/quiz-statistical-sociological-data.dto';
+import { QuizAttemptDetailsDto } from './dto/quiz-attempt-details.dto';
 
 @Injectable()
 export class QuizAttemptService {
@@ -127,7 +130,7 @@ export class QuizAttemptService {
       whereCondition.email = email;
     }
 
-    let attempt = await this.quizAttemptRepository.findOne({
+    const attempt = await this.quizAttemptRepository.findOne({
       where: whereCondition,
       relations: ['quiz', 'answers'],
     });
@@ -239,6 +242,101 @@ export class QuizAttemptService {
     });
 
     return attemptsDetails;
+  }
+
+  // Método para obter os detalhes de uma tentativa de quiz
+  async getQuizAttemptDetails(
+    attemptId: number,
+  ): Promise<QuizAttemptDetailsDto> {
+    const attempt = await this.quizAttemptRepository.findOne({
+      where: { index: attemptId },
+      relations: [
+        'quiz',
+        'quiz.owner',
+        'quiz.questions',
+        'quiz.questions.options',
+        'quiz.questions.options.sociologicalData', // Adicionando esta relação para garantir que os dados sociológicos sejam carregados
+        'answers',
+        'answers.option',
+        'answers.option.sociologicalData',
+        'answers.question',
+      ],
+    });
+
+    if (!attempt) {
+      throw new NotFoundException(
+        `Tentativa de quiz com ID ${attemptId} não encontrada.`,
+      );
+    }
+
+    // Criar um mapa para as respostas dadas pelo usuário
+    const answerMap = new Map<number, number>(); // questionId -> selectedOptionId
+    for (const answer of attempt.answers) {
+      if (answer.option) {
+        answerMap.set(answer.question.index, answer.option.index);
+      }
+    }
+
+    // Mapear as perguntas e respostas da tentativa de quiz para QuizQuestionDto
+    const questions: QuizQuestionDto[] = attempt.quiz.questions.map(
+      (question) => {
+        const options = question.options.map((option) => ({
+          id: option.index,
+          title: option.title,
+          isChecked: answerMap.get(question.index) === option.index, // Verifica se a opção foi selecionada pelo usuário
+          weight: option.weight,
+          sociologicalData: option.sociologicalData
+            ? {
+                id: option.sociologicalData.index,
+                name: option.sociologicalData.name,
+                color: option.sociologicalData.color,
+              }
+            : null,
+        }));
+
+        return {
+          id: question.index,
+          type: question.type,
+          question: question.question,
+          answer: question.answer,
+          options,
+        };
+      },
+    );
+
+    // Coletar os dados sociológicos para a tentativa de quiz
+    const sociologicalDataMap = new Map<
+      number,
+      QuizStatisticalSociologicalDataDto
+    >();
+    for (const answer of attempt.answers) {
+      if (answer.option?.sociologicalData) {
+        const data = answer.option.sociologicalData;
+        if (!sociologicalDataMap.has(data.index)) {
+          sociologicalDataMap.set(data.index, {
+            id: data.index,
+            name: data.name,
+            color: data.color,
+            value: 0,
+          });
+        }
+        const dataDto = sociologicalDataMap.get(data.index);
+        dataDto.value += answer.option.weight;
+      }
+    }
+
+    const sociologicalDataStatistics = Array.from(sociologicalDataMap.values());
+
+    return {
+      attemptId: attempt.index,
+      quizTitle: attempt.quiz.title,
+      quizDescription: attempt.quiz.description,
+      quizOwnerFullName: attempt.quiz.owner.fullName,
+      quizCategory: attempt.quiz.category,
+      quizImage: attempt.quiz.image,
+      questions,
+      sociologicalDataStatistics,
+    } as QuizAttemptDetailsDto;
   }
 
   // Método para verificar se a tentativa foi concluída

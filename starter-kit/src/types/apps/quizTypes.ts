@@ -1,7 +1,7 @@
+import type { User } from 'next-auth'
+
 import type { ThemeColor } from '@/@core/types'
 import type { BackEndUsersType } from './userTypes'
-import { title } from 'process'
-import { User } from 'next-auth'
 
 //export type Attempt = {
 //  userId: number;
@@ -168,6 +168,17 @@ export type QuizDetailsDto = {
   owner: BackEndUsersType
   questions: QuizQuestionDto[]
   createdAt: Date
+}
+
+export type QuizAttemptDetailsDto = {
+  attemptId: number
+  quizTitle: string
+  quizDescription: string
+  quizOwnerFullName: string
+  quizCategory: string
+  quizImage?: QuizImageData
+  questions: QuizQuestionDto[]
+  sociologicalDataStatistics: QuizStatisticalSociologicalDataDto[]
 }
 
 export type QuizStatisticalSociologicalDataDto = {

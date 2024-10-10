@@ -1,6 +1,8 @@
 'use client'
 
 // Next Imports
+import { useState, useEffect } from 'react'
+
 import dynamic from 'next/dynamic'
 
 // MUI Imports
@@ -12,30 +14,44 @@ import { useTheme } from '@mui/material/styles'
 import classnames from 'classnames'
 import type { ApexOptions } from 'apexcharts'
 
+import type { QuizStatisticalSociologicalDataDto } from '@/types/apps/quizTypes'
+
 // Styled Component Imports
 const AppReactApexCharts = dynamic(() => import('@/libs/styles/AppReactApexCharts'))
 
-type DataType = {
-  title: string
-  value: number
-  colorClass: string
-}
-
 type SociologicalTopicsProps = {
-  sociologicalData: DataType[]
+  sociologicalData: QuizStatisticalSociologicalDataDto[]
 }
 
 const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) => {
   const theme = useTheme()
 
-  const series = [
-    {
-      data: sociologicalData.map(data => data.value)
+  // State para armazenar os dados do gráfico
+  const [seriesData, setSeriesData] = useState<number[]>([])
+  const [labels, setLabels] = useState<string[]>([])
+  const [chartColors, setChartColors] = useState<string[]>([])
+  const [quantities, setQuantities] = useState<number[]>([])
+
+  useEffect(() => {
+    if (sociologicalData.length > 0) {
+      const totalValue = sociologicalData.reduce((acc, data) => acc + (data.value || 0), 0)
+
+      const seriesPercentages = sociologicalData.map(data =>
+        totalValue > 0 ? parseFloat((((data?.value as number) / totalValue) * 100).toFixed(2)) : 0
+      )
+
+      const seriesQuantities = sociologicalData.map(data => data.value || 0)
+      const labelValues = sociologicalData.map(data => data.name)
+      const colorValues = sociologicalData.map(data => data.color)
+
+      setSeriesData(seriesPercentages)
+      setQuantities(seriesQuantities) // Armazena os valores reais
+      setLabels(labelValues)
+      setChartColors(colorValues)
     }
-  ]
+  }, [sociologicalData])
 
-  const labels = sociologicalData.map(data => data.title)
-
+  // Configuração do gráfico ApexChart
   const options: ApexOptions = {
     chart: {
       parentHeightOffset: 0,
@@ -44,14 +60,13 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
     plotOptions: {
       bar: {
         horizontal: true,
-        barHeight: '70%',
+        barHeight: '30%',
         distributed: true,
         borderRadius: 7,
         borderRadiusApplication: 'end'
       }
     },
-
-    colors: sociologicalData.map(data => `var(--mui-palette-${data.colorClass}-main)`),
+    colors: chartColors,
     grid: {
       strokeDashArray: 8,
       borderColor: 'var(--mui-palette-divider)',
@@ -85,8 +100,10 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
       style: {
         fontSize: '0.75rem'
       },
-      onDatasetHover: {
-        highlightDataSeries: false
+      y: {
+        formatter: function (value, { dataPointIndex }) {
+          return `${quantities[dataPointIndex]} indicadores` // Mostra a quantidade real
+        }
       }
     },
     legend: { show: false },
@@ -101,14 +118,15 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { show: false },
-      categories: sociologicalData.map((_, index) => `${index + 1}`),
+      categories: labels,
       labels: {
         formatter: val => `${val}%`,
         style: {
           fontSize: '0.8125rem',
           colors: 'var(--mui-palette-text-disabled)'
         }
-      }
+      },
+      max: 100
     },
     yaxis: {
       labels: {
@@ -126,31 +144,41 @@ const SociologicalTopics = ({ sociologicalData = [] }: SociologicalTopicsProps) 
   return (
     <Grid container>
       <Grid item xs={12} sm={6} className='max-sm:mbe-6'>
-        <AppReactApexCharts type='bar' height={308} width='100%' series={series} options={options} />
+        <AppReactApexCharts type='bar' height={308} width='100%' series={[{ data: seriesData }]} options={options} />
       </Grid>
       <Grid item xs={12} sm={6} alignSelf='center'>
         <div className='flex justify-around items-start'>
           <div className='flex flex-col gap-y-12'>
-            {sociologicalData.slice(0, Math.ceil(sociologicalData.length / 2)).map((item, i) => (
-              <div key={i} className='flex gap-2'>
-                <i className={classnames('ri-circle-fill text-xs m-[5px]', item.colorClass)} />
-                <div>
-                  <Typography>{item.title}</Typography>
-                  <Typography variant='h5'>{`${item.value}%`}</Typography>
+            {sociologicalData.slice(0, Math.ceil(sociologicalData.length / 2)).map((item, i) => {
+              const totalValue = sociologicalData.reduce((sum, data) => sum + (data.value || 0), 0)
+              const percentage = totalValue > 0 ? ((item.value || 0) / totalValue) * 100 : 0
+
+              return (
+                <div key={i} className='flex gap-2'>
+                  <i className={classnames('ri-circle-fill text-xs m-[5px]')} style={{ color: item.color }} />
+                  <div>
+                    <Typography>{item.name}</Typography>
+                    <Typography variant='h5'>{`${percentage.toFixed(2)}%`}</Typography>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
           <div className='flex flex-col gap-y-12'>
-            {sociologicalData.slice(Math.ceil(sociologicalData.length / 2)).map((item, i) => (
-              <div key={i} className='flex gap-2'>
-                <i className={classnames('ri-circle-fill text-xs m-[5px]', item.colorClass)} />
-                <div>
-                  <Typography>{item.title}</Typography>
-                  <Typography variant='h5'>{`${item.value}%`}</Typography>
+            {sociologicalData.slice(Math.ceil(sociologicalData.length / 2)).map((item, i) => {
+              const totalValue = sociologicalData.reduce((sum, data) => sum + (data.value || 0), 0)
+              const percentage = totalValue > 0 ? ((item.value || 0) / totalValue) * 100 : 0
+
+              return (
+                <div key={i} className='flex gap-2'>
+                  <i className={classnames('ri-circle-fill text-xs m-[5px]')} style={{ color: item.color }} />
+                  <div>
+                    <Typography>{item.name}</Typography>
+                    <Typography variant='h5'>{`${percentage.toFixed(2)}%`}</Typography>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </Grid>

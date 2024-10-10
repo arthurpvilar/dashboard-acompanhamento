@@ -33,7 +33,7 @@ import type { ThemeColor } from '@core/types'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
-import type { BackendQuiz, Quiz } from '@/types/apps/quizTypes'
+import type { BackendQuiz } from '@/types/apps/quizTypes'
 import DirectionalIcon from '@/components/DirectionalIcon'
 
 type ChipColorType = {
@@ -216,17 +216,19 @@ const QuizListTable = (props: Props) => {
                       />
                     </div>
                     <div className='flex flex-wrap gap-4'>
-                      <Button
-                        fullWidth
-                        variant='outlined'
-                        color='secondary'
-                        startIcon={<i className='ri-refresh-line' />}
-                        component={Link}
-                        href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
-                        className='is-auto flex-auto'
-                      >
-                        Relatório
-                      </Button>
+                      {false && (
+                        <Button
+                          fullWidth
+                          variant='outlined'
+                          color='secondary'
+                          startIcon={<i className='ri-refresh-line' />}
+                          component={Link}
+                          href={getLocalizedUrl(`/quiz-details/${item.index}`, locale as Locale)}
+                          className='is-auto flex-auto'
+                        >
+                          Relatório
+                        </Button>
+                      )}
                       <Button
                         fullWidth
                         variant='outlined'

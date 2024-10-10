@@ -6,8 +6,6 @@ import { useState, useEffect } from 'react'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Divider from '@mui/material/Divider'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useTheme } from '@mui/material/styles'
@@ -15,9 +13,9 @@ import { useTheme } from '@mui/material/styles'
 // Type Imports
 import { Chip } from '@mui/material'
 
-import type { QuizDetailsDto } from '@/types/apps/quizTypes'
-import SociologicalTopics from './SociologicalTopics'
-import QuizDetailsQuestionDisplay from './QuizDetailsQuestionDisplay'
+import type { QuizAttemptDetailsDto } from '@/types/apps/quizTypes'
+import SociologicalTopics from '../../quiz/details/SociologicalTopics'
+import QuizDetailsQuestionDisplay from '../../quiz/details/QuizDetailsQuestionDisplay'
 
 type ThemeColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' | 'default'
 
@@ -27,7 +25,7 @@ const chipColor: { [key: string]: ThemeColor } = {
 }
 
 // Components
-const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
+const QuizAttemptReport = ({ attemptData }: { attemptData?: QuizAttemptDetailsDto }) => {
   // Hooks
   const theme = useTheme()
   const [isMounted, setIsMounted] = useState(false)
@@ -46,17 +44,17 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
     <Card>
       <CardContent className='flex flex-wrap items-center justify-between gap-4 pbe-6'>
         <div>
-          <Typography variant='h5'>{quizData?.title}</Typography>
+          <Typography variant='h5'>Relatório do {attemptData?.quizTitle}</Typography>
           <Typography>
-            Por: <span className='font-medium text-textPrimary'>{quizData?.owner.fullName}</span>
+            Por: <span className='font-medium text-textPrimary'>{attemptData?.quizOwnerFullName}</span>
           </Typography>
         </div>
         <div className='flex items-center gap-4'>
           <Chip
-            label={quizData?.category || 'primary'}
+            label={attemptData?.quizCategory || 'primary'}
             variant='tonal'
             size='small'
-            color={chipColor[quizData?.category || 'default']}
+            color={chipColor[attemptData?.quizCategory || 'default']}
           />
           <i className='ri-bookmark-line cursor-pointer' />
         </div>
@@ -75,7 +73,7 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
               }}
             >
               <img
-                src={quizData?.image?.imageUrl || ''}
+                src={attemptData?.quizImage?.imageUrl || ''}
                 alt='Thumbnail'
                 style={{
                   width: '100%',
@@ -93,29 +91,8 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
               <Typography variant='h5'>Descrição do Questionário</Typography>
               <Typography
                 sx={{ textAlign: 'justify' }}
-                dangerouslySetInnerHTML={{ __html: quizData?.description || '' }}
+                dangerouslySetInnerHTML={{ __html: attemptData?.quizDescription || '' }}
               ></Typography>
-            </div>
-
-            <Divider />
-
-            {/* Estatísticas */}
-            <div className='flex flex-col gap-4'>
-              <Typography variant='h5'>Estatísticas</Typography>
-              <div className='flex flex-wrap gap-x-12 gap-y-2'>
-                <List role='list' component='div' className='flex flex-col gap-2 plb-0'>
-                  <ListItem role='listitem' className='flex items-center gap-2 p-0'>
-                    <i className='ri-group-line text-xl text-textSecondary' />
-                    <Typography>Qtd. Usuários que Responderam: {quizData?.totalAttempts}</Typography>
-                  </ListItem>
-                </List>
-                <List role='list' component='div' className='flex flex-col gap-2 plb-0'>
-                  <ListItem role='listitem' className='flex items-center gap-2 p-0'>
-                    <i className='ri-time-line text-xl text-textSecondary' />
-                    <Typography>Tempo médio: {quizData?.averageCompletionTime}</Typography>
-                  </ListItem>
-                </List>
-              </div>
             </div>
 
             <Divider />
@@ -123,7 +100,7 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
             <div className='flex flex-col gap-4'>
               <Typography variant='h5'>Estatísticas Sociológicas</Typography>
               <div className='flex flex-wrap gap-x-12 gap-y-2'>
-                <SociologicalTopics sociologicalData={quizData?.sociologicalDataStatistics || []} />
+                <SociologicalTopics sociologicalData={attemptData?.sociologicalDataStatistics || []} />
               </div>
             </div>
 
@@ -131,7 +108,7 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
 
             <div className='flex flex-col gap-4'>
               <Typography variant='h5'>Perguntas</Typography>
-              <QuizDetailsQuestionDisplay questions={quizData?.questions || []} />
+              <QuizDetailsQuestionDisplay questions={attemptData?.questions || []} />
             </div>
           </div>
         </div>
@@ -140,4 +117,4 @@ const QuizDetails = ({ quizData }: { quizData?: QuizDetailsDto }) => {
   )
 }
 
-export default QuizDetails
+export default QuizAttemptReport

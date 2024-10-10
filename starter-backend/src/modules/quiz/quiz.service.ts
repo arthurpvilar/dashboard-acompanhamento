@@ -196,39 +196,49 @@ export class QuizService {
     status?: 'draft' | 'published' | 'archived';
   }): Promise<{ data: Quiz[]; total: number }> {
     const { page, limit, search, status } = options;
-  
+
     const findOptions: FindManyOptions<Quiz> = {
       skip: (page - 1) * limit,
       take: limit,
-      relations: ['questions', 'questions.options', 'sociologicalData', 'owner', 'attempts'],
+      relations: [
+        'questions',
+        'questions.options',
+        'sociologicalData',
+        'owner',
+        'attempts',
+      ],
       where: {},
     };
-  
+
     if (search) {
       findOptions.where = [
         { title: Like(`%${search}%`) },
         { identifier: Like(`%${search}%`) },
       ];
     }
-  
+
     if (status) {
       findOptions.where = {
         ...findOptions.where,
         status,
       };
     }
-  
-    const [quizzes, total] = await this.quizRepository.findAndCount(findOptions);
-  
+
+    const [quizzes, total] =
+      await this.quizRepository.findAndCount(findOptions);
+
     // Iterar sobre cada quiz para calcular o completionRate
     const quizDetailsList = quizzes.map((quiz) => {
       // Calcular o número total de tentativas e as tentativas concluídas para este quiz
       const totalAttempts = quiz.attempts.length;
-      const completedAttempts = quiz.attempts.filter(attempt => attempt.isCompleted).length;
-  
+      const completedAttempts = quiz.attempts.filter(
+        (attempt) => attempt.isCompleted,
+      ).length;
+
       // Calcular a taxa de conclusão (completionRate) como porcentagem
-      const completionRate = totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
-  
+      const completionRate =
+        totalAttempts > 0 ? (completedAttempts / totalAttempts) * 100 : 0;
+
       // Montar o objeto `QuizWithDetails` com o campo completionRate
       return {
         index: quiz.index,
@@ -248,7 +258,7 @@ export class QuizService {
         createdAt: quiz.createdAt,
       } as Quiz;
     });
-  
+
     return { data: quizDetailsList, total };
   }
 
