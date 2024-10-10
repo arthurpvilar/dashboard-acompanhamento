@@ -239,7 +239,7 @@ const LatestQuizCreatedView = ({ quizData }: { quizData: QuizDetailsDto }) => {
                           (sum, data) => sum + (data.value || 0),
                           0
                         )
-                        
+
                         const percentage = totalValue > 0 ? ((item.value || 0) / totalValue) * 100 : 0
 
                         return (

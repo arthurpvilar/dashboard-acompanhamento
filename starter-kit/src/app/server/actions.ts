@@ -139,12 +139,29 @@ export const getQuizDetailedData = async (index: number): Promise<QuizDetailsDto
   return await response.json()
 }
 
-export const getLatestQuizData = async (): Promise<QuizDetailsDto> => {
-  const response = await fetch(`${API_URL}/quizzes/latest`, {
-    cache: 'no-store'
-  })
+export const getLatestQuizData = async (): Promise<RequestResponse> => {
+  try {
+    const response = await fetch(`${API_URL}/quizzes/latest`, {
+      cache: 'no-store'
+    })
 
-  return await response.json()
+    const data = await response.json()
+
+    return {
+      success: data.statusCode !== 404,
+      message: 'Quiz retornado com sucesso!',
+      statusCode: data.statusCode,
+      data: data
+    }
+  } catch (error: any) {
+    console.error('Erro ao retornar o latest quiz details:', error.message)
+
+    return {
+      success: false,
+      message: error.message,
+      statusCode: 500
+    }
+  }
 }
 
 export const getUsersDataFromServer = async (): Promise<BackEndUsersType[]> => {

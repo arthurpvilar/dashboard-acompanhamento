@@ -2,6 +2,7 @@
 // MUI Imports
 import Grid from '@mui/material/Grid'
 
+import type { RequestResponse } from '@/app/server/actions'
 import { getAllQuizzesSimplified, getLatestQuizData } from '@/app/server/actions'
 import SimpleQuizListTable from '@/views/apps/quiz/SimpleQuizListTable'
 import LatestQuizCreatedView from '@/views/apps/quiz/LatestQuizCreatedView'
@@ -34,8 +35,9 @@ import type { QuizDetailsDto, SimplifiedQuizListDto } from '@/types/apps/quizTyp
 const HomePage = async () => {
   // Vars
   const dataSimplified = (await getAllQuizzesSimplified()) as SimplifiedQuizListDto[]
-  const dataDetailed = (await getLatestQuizData()) as QuizDetailsDto
+  const dataDetailed = (await getLatestQuizData()) as RequestResponse
 
+  console.log('==================================')
   console.log(dataDetailed)
 
   return (
@@ -63,9 +65,11 @@ const HomePage = async () => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <LatestQuizCreatedView quizData={dataDetailed} />
-      </Grid>
+      {dataDetailed.success && (
+        <Grid item xs={12}>
+          <LatestQuizCreatedView quizData={dataDetailed.data as QuizDetailsDto} />
+        </Grid>
+      )}
       <Grid item xs={12}>
         <SimpleQuizListTable dataSimplified={dataSimplified} />
       </Grid>

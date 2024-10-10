@@ -22,6 +22,7 @@ import { useSettings } from '@core/hooks/useSettings'
 
 // Definição do tipo Mode
 import type { Mode } from '@core/types'
+import { loginUser } from '@/app/server/actionsClient'
 
 interface LoginV2Props {
   mode: Mode
@@ -50,19 +51,13 @@ const LoginV2 = ({ mode }: LoginV2Props) => {
 
     try {
       // URL completa apontando para o backend rodando localmente na porta 4000
-      const response = await fetch('http://localhost:4000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password }) // Dados de login
-      })
+      const response = await loginUser(email, password)
 
-      if (response.ok) {
-        const data = await response.json()
+      console.log('Resposta da API:', response)
 
-        localStorage.setItem('accessToken', data.access_token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+      if (response.user) {
+        localStorage.setItem('accessToken', response.access_token)
+        localStorage.setItem('user', JSON.stringify(response.user))
         router.push('/home')
       } else {
         setError('Credenciais inválidas. Tente novamente.')
