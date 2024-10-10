@@ -119,6 +119,7 @@ const LoginV2 = ({ mode }: LoginV2Props) => {
                 )
               }}
             />
+
             <div className='flex justify-between items-center flex-wrap gap-x-3 gap-y-1'>
               <FormControlLabel control={<Checkbox />} label='Remember me' />
               <Typography className='text-end' color='primary' component={Link}>
@@ -128,12 +129,16 @@ const LoginV2 = ({ mode }: LoginV2Props) => {
             <Button fullWidth variant='contained' type='submit'>
               Entrar
             </Button>
-            <div className='flex justify-center items-center flex-wrap gap-2'>
-              <Typography>Novo na plataforma?</Typography>
-              <Typography component={Link} color='primary'>
-                Criar Conta
-              </Typography>
-            </div>
+            {false && (
+              <>
+                <div className='flex justify-center items-center flex-wrap gap-2'>
+                  <Typography>Novo na plataforma?</Typography>
+                  <Typography component={Link} color='primary'>
+                    Criar Conta
+                  </Typography>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>

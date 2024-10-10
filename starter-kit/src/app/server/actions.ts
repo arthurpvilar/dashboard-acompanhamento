@@ -34,7 +34,7 @@ import type {
 import type { BackEndUsersType } from '@/types/apps/userTypes'
 
 // API URL
-const API_URL = 'http://localhost:4000'
+const API_URL = 'http://31.220.22.205:4000'
 
 // Custom response type
 export type RequestResponse = {
