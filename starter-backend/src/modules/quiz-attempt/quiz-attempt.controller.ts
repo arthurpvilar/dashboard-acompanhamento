@@ -9,6 +9,7 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { QuizAttemptService } from './quiz-attempt.service';
 import { RecordAttemptDto } from './dto/record-attempt.dto';
@@ -120,5 +121,21 @@ export class QuizAttemptController {
   })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.quizAttemptService.findOne(id);
+  }
+
+  // Nova rota para deletar uma tentativa de quiz pelo ID
+  @Delete(':id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Deletar uma tentativa de quiz pelo ID' })
+  @ApiResponse({
+    status: 204,
+    description: 'Tentativa de quiz deletada com sucesso.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Tentativa de quiz não encontrada.',
+  })
+  async deleteAttempt(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.quizAttemptService.deleteAttempt(id);
   }
 }

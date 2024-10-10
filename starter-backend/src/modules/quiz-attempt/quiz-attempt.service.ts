@@ -381,4 +381,19 @@ export class QuizAttemptService {
 
     return attempt;
   }
+
+  // Método para deletar uma tentativa de quiz pelo ID
+  async deleteAttempt(id: number): Promise<void> {
+    const attempt = await this.quizAttemptRepository.findOne({
+      where: { index: id },
+    });
+
+    if (!attempt) {
+      throw new NotFoundException(
+        `Tentativa de quiz com ID ${id} não encontrada.`,
+      );
+    }
+
+    await this.quizAttemptRepository.remove(attempt);
+  }
 }
